@@ -2,37 +2,60 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
 
-public class TalkableNPC : MonoBehaviour
+public class TalkableNPC : InteractiblePropject
 {
-    [SerializeField]
-    Transform m_dialogueBoxAnchor = null;
-
-    [SerializeField]
-    Camera m_activeCamera = null;
-
-    [SerializeField]
-    UISpeechBubble m_testUiElement = null;
+    const string ANIM_TRIG_TALK_START = "talkStart";
+    const string ANIM_TRIG_TALK_END = "talkEnd";
+    const string ANIM_TRIG_ENTER_RADIUS = "enterRadius";
+    const string ANIM_TRIG_EXIT_RADIUS = "exitRadius";
 
     [SerializeField]
     string m_dialogueNodeName = "";
 
+    Animator m_animator = null;
+
+    public Transform DialogueBoxAnchor { get { return m_dialogueBoxAnchor; } }
+
     public string DialogueNodeName { get { return m_dialogueNodeName; } }
 
-    // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+        m_animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetTalkAnim(bool start)
     {
-        m_testUiElement.ScreenPos =
-            m_activeCamera.WorldToViewportPoint(m_dialogueBoxAnchor.position);
+        if (start)
+        {
+            m_animator.SetTrigger(ANIM_TRIG_TALK_START);
+        }
+        else
+        {
+            m_animator.SetTrigger(ANIM_TRIG_TALK_END);
+        }
     }
 
-    public void SetInteractable(bool isInteractable)
+    public void SetInteractable(bool isInteractable, bool triggerAnim = true)
     {
-        //interactbleText_.text = isInteractable ? "!" : "?";
+        if (isInteractable)
+        {
+            m_uimanager.SetCurrInteractAnchor(m_dialogueBoxAnchor, m_interactText);
+        }
+        else m_uimanager.SetCurrInteractAnchor(null);
+
+        if (!triggerAnim)
+            return;
+
+        if (isInteractable)
+        {
+            m_animator.SetTrigger(ANIM_TRIG_ENTER_RADIUS);
+        }
+        else
+        {
+            m_animator.SetTrigger(ANIM_TRIG_EXIT_RADIUS);
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 public class PlayerTalk : MonoBehaviour
 {
@@ -18,15 +19,26 @@ public class PlayerTalk : MonoBehaviour
 
     PlayerMovement m_playerMovement = null;
 
+    UIManager m_uiManager = null;
+    EventManager m_eventManager = null;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        m_dialogueRunner = DialogueManager.Instance.DialogueRunner;
+        m_uiManager = UIManager.Instance;
+        m_eventManager = EventManager.Instance;
+        m_eventManager.AddDialogueCompletedListener(OnDialogueCompletion);
+
+        m_dialogueRunner = DialogueManager.DialogueRunner;
         m_playerControls = GetComponent<PlayerController>().PlayerControls;
         m_playerInput = GetComponent<PlayerInput>();
         m_playerMovement = GetComponent<PlayerMovement>();
 
         m_playerControls.Player.Interact.performed += TriggerDialogue;
+        m_playerControls.UI.Disable();
+
+
     }
 
     private void OnDestroy()
@@ -40,6 +52,23 @@ public class PlayerTalk : MonoBehaviour
 
     }
 
+    public void OnDialogueCompletion()
+    {
+        m_playerMovement.SetFrozen(false);
+        if (m_currTalkableNPC == null)
+        {
+            return;
+        }
+        if (!m_currTalkableNPC.gameObject.activeSelf)
+        {
+            m_currTalkableNPC = null;
+            return;
+        }
+
+        m_currTalkableNPC.SetTalkAnim(false);
+        m_currTalkableNPC.SetInteractable(true, false);
+    }
+
     public void TriggerDialogue(InputAction.CallbackContext context)
     {
         if (m_currTalkableNPC == null)
@@ -49,6 +78,14 @@ public class PlayerTalk : MonoBehaviour
 
         m_dialogueRunner.StartDialogue(m_currTalkableNPC.DialogueNodeName);
         m_playerMovement.StopMovement();
+        m_uiManager.SetCurrTalkingPerson(m_currTalkableNPC.DialogueBoxAnchor);
+        m_currTalkableNPC.SetInteractable(false, false);
+        m_currTalkableNPC.SetTalkAnim(true);
+
+        m_playerControls.Player.Disable();
+        m_playerInput.SwitchCurrentActionMap("UI");
+        m_uiManager.ToggleInstructions("Dialogue");
+        m_playerControls.UI.Enable();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -100,6 +137,9 @@ public class PlayerTalk : MonoBehaviour
                 Debug.LogWarning("Exiting NPC range of an NPC you weren't in range of.");
                 npc.SetInteractable(false);
             }
+
+            if (m_currTalkableNPC == null)
+                return;
 
             m_currTalkableNPC.SetInteractable(false);
             m_currTalkableNPC = null;

@@ -2,14 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogueManager : Singleton<DialogueManager>
+[RequireComponent(typeof(Yarn.Unity.DialogueRunner))]
+public class DialogueManager : MonoBehaviour
 {
-    public Yarn.Unity.DialogueRunner DialogueRunner { get; private set; }
+    private static Yarn.Unity.DialogueRunner dialogueRunner_ = null;
+    public static Yarn.Unity.DialogueRunner DialogueRunner
+    {
+        get
+        {
+            if (dialogueRunner_ != null)
+            {
+                return dialogueRunner_;
+            }
+
+            dialogueRunner_ = FindObjectOfType<Yarn.Unity.DialogueRunner>();
+            return dialogueRunner_;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        DialogueRunner = GetComponent<Yarn.Unity.DialogueRunner>();
     }
 
     // Update is called once per frame

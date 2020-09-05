@@ -60,3 +60,5 @@ crashlytics-build.properties
 
 # Ignore specific files I can't upload to github
 /[Aa]ssets/[Gg]itIgnore*
+/[Aa]ssets/[Ss]amples*
+/[Aa]ssets/[Nn]avMeshComponents/Examples/*

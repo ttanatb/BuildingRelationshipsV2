@@ -78,8 +78,7 @@ public class FollowPlayerCam : AutonomousAgent
         m_camera = m_cameraTransform.GetComponent<Camera>();
         //m_cameraAgent = m_cameraTransform.GetComponent<AutonomousAgent>();
 
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = false;
+
 
         m_targetPosition = transform.position;
         m_targetRotation = transform.rotation;
@@ -146,7 +145,7 @@ public class FollowPlayerCam : AutonomousAgent
     {
         UpdateLookRotation();
         m_targetPosition = m_playerTransform.position;
-        Seek(m_targetPosition, 1.0f, m_slowingDistanceSqr);
+        //Seek(m_targetPosition, 1.0f, m_slowingDistanceSqr);
 
         // Update position.
         /*

@@ -10,6 +10,7 @@ public class PlayerInputSingleton : Singleton<PlayerInputSingleton>
     void Start()
     {
         PlayerInput = GetComponent<PlayerInput>();
+
     }
 
     // Update is called once per frame

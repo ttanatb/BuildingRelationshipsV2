@@ -1,0 +1,19 @@
+0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17
+id	name	namePlural	desc	sprite	decayDuration	completionDuration	jumpIntervalSec	fishLerpDuration	minJumpDistX	maxJumpDistX	minJumpDistY	maxJumpDistY	minBoundsX	maxBoundsX	minBoundsY	maxBoundsY	
+1	TestTato	TestTatos	How did you get this? It's a test item! No wait, this was intentional -- you've discovered a secret!!	potato													
+2	Flamia Rowania	Flamia Rowanias	I'm not really sure who came up with this name? And why is it covered in flames? It feels like an inside joke that I just don't get...	racefish	5.0	10.0	1	1	0.025	0.05	0.1	0.15	0	1	0	2	
+3	Barrelcuda	Barrelcudas	Discovered by Prof Des Pierre, this fish uniquely hunts down other barrelcudas. This phenomenon is known as cannonballism.	cannonfish	6.0	8.0	3	2	0.1	0.2	0.2	0.25	0	1	0	1	
+4	Clown Fish		It's so tiny, but I'm not really sure why it's funny? If someone could explain the joke to me, that'd be such a nice jester.	sedanfish	8.0	6.5	2	1	0	0	0.05	0.07	0	0	0	2	
+5	Farm-raised Fish		There's a theory that ancient civilizations used to raise these fish for ingestion? Just the thought of ingesting fish makes me shudder...	tractorfish	9.0	6.0	2	2	0	0	0.05	0.1	0	0	0	1	
+6	Bottom Feeder	Bottom Feeders	It cleans the bottom of our oceans which is filled to the brim with trash.	trashfish	9.5	5.75	2.5	1	0	0	0.075	0.1	0	0	0	1	
+7	Nurse Shark	Nurse Sharks	Some say this fish got it's name from its caring nature. Others will tell you that a shark is not a fish.	ambufish	10.0	10.0	3	8	0	0	0.6	0.8	0	0	0	1	
+8	Fire Goby	Fire Gobies	I have mad respect for this fish.	firefish	10.5	4.50	5	4	0	0	0.4	0.5	0	0	0	1	
+9	Cabezon	Cabezons	Hey, I'm walking here! Did I do that right? I honestly don't know where it's from, but people keeping saying it like it's funny, so I thought I'd try.	taxifish	11.0	5.0	5	6	0	0	0.5	0.6	0	0	0	1	
+10	Boxfish		It's unique swimming style makes use of its rigid shape, making it surprisingly aerodynamic! You could say that it's thinking outside of its angled shape.	deliveryfish	11.5	4.5	4	2	0	0	0.3	0.4	0	0	0	1	
+11	Sea Bass		Something, something, something... at least a C+? I don't quite remember the joke.	jeepfish	12.5	4.0	3	3	0	0	0.2	0.25	0	0	0	1	
+12	Common Carp	Common Carps	It's just such an incredibly common and sadly average... Why would anyone want this?	vanfish	15.0	3.5	3	2	0	0	0.2	0.25	0	0	0	1	
+13	Weird Shoe	Weird Shoes	Huh? What am I supposed to do with this -- put it on my roof? Somehow holding it gives me the ability to jump...	boots													
+14	Fishing Rod		Well, now you can fish to your heart's content.	fishingrod													
+15	Special Ticket	Special Tickets	A special ticket only accepted by the most special being.	pettingticket													
+16	Curious Feather	Curious Feathers	Holding it just makes you feel lighter! 	feather													
+17	Weird Socks	Weird Socks	Am I supposed to put this on my door handle? No, no, no that doesn't seem right...	socks													
