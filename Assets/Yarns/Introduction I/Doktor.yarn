@@ -1,0 +1,77 @@
+﻿title: Doktor_Intro
+tags:
+---
+<<declare $Doktor_Intro_Pleasing = false>>
+<<fireEvent YarnEventManager "cam_transition_cut">>
+<<fireEvent YarnEventManager "cam_doktor_intro">>
+Doktor: Hey, how are you?
+    -> Pretty good, how about you?
+        Doktor: That's good.
+    -> Pretty bad, actually
+        Doktor: Oh, okay.
+<<fireEvent YarnEventManager "cam_doktor_intro_alt">>
+I'm doing okay.
+<<fireEvent YarnEventManager "cam_doktor_intro_full">>
+Kinda stuck here.
+    -> Oh, <small>okay then</small>
+        ...
+    -> How'd you get stuck?
+        That's confidential, actually.
+Doktor: Listen, I have a request for you.
+    -> Are you one of the Bach-Pads?
+        Doktor: I am.
+        But you're not my type.
+        <<fireEvent YarnEventManager "cam_player_close_up_left">>
+        I see you as less of an adjoining structure...
+        And more of a... research assistant!
+    -> Sure thing, I love pleasing others
+        <<fireEvent YarnEventManager "cam_transition_slow">>
+        <<fireEvent YarnEventManager "cam_doktor_closeup_extreme">>
+        Doktor: Wow, <small>uh...</small>
+        Thanks for sharing, I guess?
+        <<fireEvent YarnEventManager "cam_transition_fast">>
+        <<fireEvent YarnEventManager "cam_doktor_closeup">>
+        Listen, I'm looking for a research assistant.
+        <<set $Doktor_Intro_Pleasing = true>>
+    -> No thanks, I'm good
+        <<fireEvent YarnEventManager "cam_transition_fast">>
+        <<fireEvent YarnEventManager "cam_doktor_closeup_extreme">>
+        Doktor: Wow, that's kinda rude.
+        But guess what?
+        <<fireEvent YarnEventManager "cam_doktor_closeup">>
+        I'm even more rude, so I'll tell you anyways.
+        I'm looking for a research assistant.
+<<fireEvent YarnEventManager "cam_doktor_closeup">>
+Doktor: Take this fishing rod.
+<<fireEvent YarnEventManager "cam_player_close_up_left">>
+<<if $Doktor_Intro_Pleasing is true>>
+Be a <seductive>good little building</seductive>, and find all the types of fish for me.
+<<else>>
+Go out there and find all the types of fish for me.
+<<endif>>>
+And I'll pay you with uh....
+<<fireEvent YarnEventManager "cam_doktor_closeup">>
+This gift card <small>I found on my kitchen countertop</small>
+I'll also include your name in the research paper... <small>maybe.</small>
+<<setActiveNode YarnEventManager "doktor" "Doktor_Intro_Loop">>
+<<jump Doktor_Intro_Loop>>
+===
+title: Doktor_Intro_Loop
+tags:
+---
+<<declare $Doktor_Intro_Loop_Good_Building = false>>
+<<fireEvent YarnEventManager "cam_doktor_closeup">>
+Doktor: Any questions?
+    -> Why don't you do it yourself?
+        Doktor: Because I'm stuck in this pond.
+        <<jump Doktor_Intro_Loop>>
+    -> Where can I find the fish?
+        Doktor: Figure that out for yourself.
+        <<jump Doktor_Intro_Loop>>
+    -> Can you call me a good building again? <<if $Doktor_Intro_Loop_Good_Building is false and $Doktor_Intro_Pleasing is true>>
+        <<set $Doktor_Intro_Loop_Good_Building = true>>
+        Doktor: No.
+        <<jump Doktor_Intro_Loop>>
+    -> I'm good
+Doktor: Go on now, building.
+===

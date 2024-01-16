@@ -1,0 +1,138 @@
+﻿title: Reference
+tags:
+---
+<<fireEvent YarnEventManager "text_align_center_left">>
+<<fireEvent YarnEventManager "text_align_top_left">>
+<<fireEvent YarnEventManager "text_align_top_center">>
+<<fireEvent YarnEventManager "text_align_top_right">>
+<<fireEvent YarnEventManager "text_align_center">>
+<<fireEvent YarnEventManager "text_align_center_right">>
+<<fireEvent YarnEventManager "text_align_bot_left">>
+<<fireEvent YarnEventManager "text_align_bot_center">>
+<<fireEvent YarnEventManager "text_align_bot_right">>
+===
+title: Introduction_Cutscene
+tags:
+---
+<<fireEvent YarnEventManager "text_align_center_left">>
+???: Hey!
+
+<<fireEvent YarnEventManager "cam_transition_slow">>
+<<fireEvent YarnEventManager "cam_intro_mint_full">>
+<<blockOnCameraMovement YarnEventManager>>
+Mint: How long are you going to stand around like that?
+C'mon, I'm waiting.
+
+<<fireEvent YarnEventManager "cam_intro_player_from_start_menu">>
+<<blockOnCameraMovement YarnEventManager>>
+<<fireEvent YarnEventManager "show_movement_tutorial">>  
+===
+title: Introduction_Mint
+tags:
+---
+<<declare $Introduction_Mint_Loop_Bach_Pad = false>>
+<<fireEvent YarnEventManager "cam_intro_mint_full">>
+<<fireEvent YarnEventManager "text_align_top_left">>
+Mint: Nice moves, <laugh>ha ha!</laugh>
+I know you've always got <swank>swanking</swank> moves!
+<<fireEvent YarnEventManager "cam_transition_cut">>
+<<fireEvent YarnEventManager "cam_intro_mint_close_up">>
+Now, are you ready for a day of fun and vulnerability?
+<<fireEvent YarnEventManager "cam_intro_mint_over_shoulder">>
+    -> I'm always ready for some <swank>swanking</swank>!
+        <<fireEvent YarnEventManager "cam_intro_mint_close_up">>
+        Let's get this vacation started!
+        Welcome to Resort Island!
+    -> What's happening, again?
+        <<fireEvent YarnEventManager "cam_intro_mint_close_up">>
+        How can you forget about our vacation plans?
+        You've finally made it to Resort Island!
+
+<<fireEvent YarnEventManager "cam_transition_cut">>
+<<fireEvent YarnEventManager "cam_intro_beach">>
+<<fireEvent YarnEventManager "text_align_top_left">>
+The only island filled to the brim with "extra natural beauty".
+
+<<fireEvent YarnEventManager "cam_intro_meadow">>
+With unique fauna you've never seen before.
+
+<<fireEvent YarnEventManager "cam_intro_forest">>
+Wow, you can just <slide>feeeel</slide> the quality of the air here.
+
+<<fireEvent YarnEventManager "cam_intro_mountain">>
+And look! Such wildly different micro climates to explore!
+
+<<fireEvent YarnEventManager "text_align_top_left">>
+<<fireEvent YarnEventManager "cam_intro_mint_close_up">>
+Makes me feel less like an Apartment and more like an exotic Resort.
+
+Anyways, are you ready to meet the <red>Bach-Pads</red>?
+<<fireEvent YarnEventManager "cam_intro_mint_over_shoulder">>
+    -> The what now?
+        <<fireEvent YarnEventManager "cam_intro_mint_close_up">>
+        It's why you came here!
+    -> As long as they're <swank>swanking</swank>!
+        <<fireEvent YarnEventManager "cam_intro_mint_close_up">>
+        <laugh>Ha ha,</laugh> you bet we're all <swank>swanking</swank>!
+
+<<fireEvent YarnEventManager "cam_intro_mint_close_up">>
+Because it's time for you to meet the love of your life.
+
+<<fireEvent YarnEventManager "text_align_top_right">>
+<<fireEvent YarnEventManager "cam_intro_mint_close_up_alt">>
+Resort Island is known for bringing out who you truly are.
+
+<<fireEvent YarnEventManager "cam_intro_mint_full">>
+And the <red>Bach-Pads</red> around the island are eager to know you.
+
+<<fireEvent YarnEventManager "cam_transition_fast">>
+<<fireEvent YarnEventManager "cam_intro_beach_path">>
+<<fireEvent YarnEventManager "text_align_bot_center">>
+In fact, I think there's one waiting by the beach.
+
+<<setActiveNode YarnEventManager "mint" "Introduction_Mint_Loop">>
+<<jump Introduction_Mint_Loop>>
+===
+title: Introduction_Mint_Loop
+tags:
+---
+<<fireEvent YarnEventManager "cam_intro_mint_full">>
+<<fireEvent YarnEventManager "text_align_top_left">>
+Mint: Now, do you have any questions for me?
+<<fireEvent YarnEventManager "cam_transition_cut">>
+<<fireEvent YarnEventManager "cam_intro_mint_over_shoulder">>
+    -> Nope, all good!
+        <<fireEvent YarnEventManager "cam_intro_mint_close_up">>
+        Perfect, now go out there and have a <swank>swanking</swank> good time!
+    -> What am I supposed to be doing again?
+        <<fireEvent YarnEventManager "cam_intro_mint_close_up">>
+        That's up to you!
+        <<fireEvent YarnEventManager "cam_transition_slow">>
+        <<fireEvent YarnEventManager "cam_doktor_intro_full">>
+        <<fireEvent YarnEventManager "text_align_bot_center">>
+        I heard that fishing here can yield... unexpected results?
+        <<fireEvent YarnEventManager "cam_intro_mint_full">>
+        Otherwise...
+        <<fireEvent YarnEventManager "cam_intro_beach_path">>
+        It also seems like a <red>Bach-Pad</red> is waiting for you.
+        <<fireEvent YarnEventManager "cam_transition_cut">>
+        <<jump Introduction_Mint_Loop>>
+    -> Are you also one of the <red>Bach-Pads</red>? <<if $Introduction_Mint_Loop_Bach_Pad is false>>
+        <<fireEvent YarnEventManager "text_align_bot_center">>
+        <<fireEvent YarnEventManager "cam_intro_mint_close_up">>
+        Maybe?
+        <<fireEvent YarnEventManager "cam_transition_cut">>
+        <<fireEvent YarnEventManager "cam_intro_mint_close_up_alt">>
+        ... Unless??
+        <<fireEvent YarnEventManager "text_align_bot_right">>
+        <<fireEvent YarnEventManager "cam_player_close_up_left">>
+        pause (TODO)
+        <<fireEvent YarnEventManager "text_align_bot_center">>
+        <<fireEvent YarnEventManager "cam_intro_mint_close_up_extreme">>
+        pause (TODO)
+        <<fireEvent YarnEventManager "cam_transition_fast">>
+        <<fireEvent YarnEventManager "cam_intro_mint_close_up">>
+        Uh.. Anyways...
+        <<set $Introduction_Mint_Loop_Bach_Pad = true>>
+        <<jump Introduction_Mint_Loop>>
+===

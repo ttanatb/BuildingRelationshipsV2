@@ -2,40 +2,42 @@
 using UnityEngine;
 using Yarn.Unity;
 using System.Collections.Generic;
+using GameEvents;
+using Input.SO;
+using NaughtyAttributes;
 using UnityEngine.InputSystem;
+using Utilr.SoGameEvents;
 
 public class PlayerFishing : MonoBehaviour
 {
-    [SerializeField]
-    FishingSign m_currFishingSign = null;
+    [SerializeField] private FishingSign m_currFishingSign = null;
 
-    [SerializeField]
-    LayerMask m_fishingSignLayerMask = 1 << 12;
+    [SerializeField] private LayerMask m_fishingSignLayerMask = 1 << 12;
+    [SerializeField] private LayerMask m_waterLayerMask = 1 << 4;
 
-    [SerializeField]
-    LayerMask m_waterLayerMask = 1 << 4;
+    [SerializeField] private float m_waterMaxDist = 20.0f;
 
-    [SerializeField]
-    float m_waterMaxDist = 20.0f;
+    [SerializeField] private float m_reticleSpeed = 10.0f;
 
-    [SerializeField]
-    float m_reticleSpeed = 10.0f;
+    private CinemachineVirtualCamera m_fishingCamera = null;
 
-    CinemachineVirtualCamera m_fishingCamera = null;
+    [SerializeField] private FishingReticle m_fishingReticle = null;
 
-    [SerializeField]
-    FishingReticle m_fishingReticle = null;
+    [SerializeField] private FishingRod m_fishingRod = null;
 
-    [SerializeField]
-    FishingRod m_fishingRod = null;
+    private PlayerMovement m_playerMovement = null;
+    private EventManager m_eventManager = null;
+    private FishingController m_fishingController = null;
+    private UIManager m_uiManager = null;
 
-    PlayerControls m_playerControls = null;
-    PlayerInput m_playerInput = null;
-    PlayerMovement m_playerMovement = null;
-    EventManager m_eventManager = null;
-    FishingController m_fishingController = null;
-    UIManager m_uiManager = null;
+    [SerializeField] private InputActionReference m_playerInteract = null;
+    [SerializeField] private InputActionReference m_fishingInteract = null;
+    [SerializeField] private InputActionReference m_fishingCancel = null;
+    [SerializeField] private InputActionReference m_fishingAim = null;
 
+    [SerializeField] private SwitchInputActionMapEvent m_switchToFishing = null;
+    [SerializeField] private SwitchInputActionMapEvent m_switchToPlayer = null;
+    
     enum FishingState
     {
         NotFishing,
@@ -50,7 +52,7 @@ public class PlayerFishing : MonoBehaviour
 
     HashSet<CollectibleItem.ItemID> m_caughFish = null;
 
-    int m_currFishingSkillLevel = 0;
+    int m_currFishingSkillLevel = 1;
 
     private void UpdateFishingCapability(PlayerSkill skill)
     {
@@ -61,24 +63,19 @@ public class PlayerFishing : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_playerControls = GetComponent<PlayerController>().PlayerControls;
         m_eventManager = EventManager.Instance;
-        m_playerInput = GetComponent<PlayerInput>();
         m_playerMovement = GetComponent<PlayerMovement>();
         m_fishingController = FishingController.Instance;
         m_uiManager = UIManager.Instance;
         m_caughFish = new HashSet<CollectibleItem.ItemID>();
         m_variableStorage = FindObjectOfType<InMemoryVariableStorage>();
 
-        m_playerControls.Player.Interact.started += SwitchToFishing;
-        m_playerControls.Fishing.Interact.started += FishingInteract;
-        m_playerControls.Fishing.Cancel.started += FishingCancel;
-        m_playerControls.Fishing.Vertical.started += AimFishingReticleVert;
-        m_playerControls.Fishing.Vertical.canceled += AimFishingReticleVert;
-        m_playerControls.Fishing.Horizontal.started += AimFishingReticleHori;
-        m_playerControls.Fishing.Horizontal.canceled += AimFishingReticleHori;
+        m_playerInteract.action.performed += SwitchToFishing;
+        m_fishingInteract.action.performed += FishingInteract;
+        m_fishingCancel.action.performed += FishingCancel;
+        m_fishingAim.action.performed += AimFishingReticle;
+        m_fishingAim.action.canceled += AimFishingReticle;
 
-        m_playerControls.Fishing.Disable();
         m_fishingReticle.SetActive(false);
         m_fishingRod.SetActive(false);
 
@@ -90,13 +87,11 @@ public class PlayerFishing : MonoBehaviour
 
     private void OnDestroy()
     {
-        m_playerControls.Player.Interact.started -= SwitchToFishing;
-        m_playerControls.Fishing.Interact.started += FishingInteract;
-        m_playerControls.Fishing.Cancel.started -= FishingCancel;
-        m_playerControls.Fishing.Vertical.started -= AimFishingReticleVert;
-        m_playerControls.Fishing.Vertical.canceled -= AimFishingReticleVert;
-        m_playerControls.Fishing.Horizontal.started -= AimFishingReticleHori;
-        m_playerControls.Fishing.Horizontal.canceled -= AimFishingReticleHori;
+        m_playerInteract.action.performed -= SwitchToFishing;
+        m_fishingInteract.action.performed -= FishingInteract;
+        m_fishingCancel.action.performed -= FishingCancel;
+        m_fishingAim.action.performed -= AimFishingReticle;
+        m_fishingAim.action.canceled -= AimFishingReticle;
     }
 
     // Update is called once per frame
@@ -141,34 +136,21 @@ public class PlayerFishing : MonoBehaviour
         ChangeState(FishingState.Aiming);
     }
 
-    void AimFishingReticleVert(InputAction.CallbackContext context)
+    void AimFishingReticle(InputAction.CallbackContext context)
     {
-        var pointerVel = context.ReadValue<float>();
-        //Debug.Log("verti: " + context);
+        var pointerVel = context.ReadValue<Vector2>();
+        Debug.Log($"Move input triggered with: {pointerVel}, performed {context.performed}, canceled {context.canceled}");
+
         if (m_currState == FishingState.Aiming)
         {
-            m_fishingReticle.SetVelocityY(pointerVel * m_reticleSpeed);
+            m_fishingReticle.SetVelocityY(pointerVel.y * m_reticleSpeed);
+            m_fishingReticle.SetVelocityX(pointerVel.x * m_reticleSpeed);
         }
         else if (m_currState == FishingState.Reeling)
         {
-            m_fishingController.AdjustPosVert(pointerVel);
+            m_fishingController.AdjustPosVert(pointerVel.y);
+            m_fishingController.AdjustPosHori(pointerVel.x);
         }
-    }
-
-    void AimFishingReticleHori(InputAction.CallbackContext context)
-    {
-        var pointerVel = context.ReadValue<float>();
-        //Debug.Log("hori: " + context);
-        if (m_currState == FishingState.Aiming)
-        {
-            m_fishingReticle.SetVelocityX(pointerVel * m_reticleSpeed);
-
-        }
-        else if (m_currState == FishingState.Reeling)
-        {
-            m_fishingController.AdjustPosHori(pointerVel);
-        }
-
     }
 
     void SwitchToFishing(InputAction.CallbackContext context)
@@ -176,9 +158,7 @@ public class PlayerFishing : MonoBehaviour
         if (m_currFishingSign == null) return;
 
         m_currFishingSign.SetInteractable(false);
-        m_playerControls.Player.Disable();
-        m_playerInput.SwitchCurrentActionMap("Fishing");
-        m_playerControls.Fishing.Enable();
+        m_switchToFishing.Invoke();
 
         m_playerMovement.StopMovement();
         m_playerMovement.SetPosition(m_currFishingSign.PlayerAnchor);
@@ -186,6 +166,7 @@ public class PlayerFishing : MonoBehaviour
         m_fishingReticle.SetActive(true);
         m_fishingRod.SetActive(true);
         m_fishingRod.FishingAreaTransform = m_currFishingSign.FishingArea.transform;
+        m_currFishingSign.ActivateCamEvent.Invoke();
         var fishingCam = m_currFishingSign.FishingCamera;
         Ray ray = new Ray(fishingCam.position, fishingCam.forward);
 
@@ -233,9 +214,7 @@ public class PlayerFishing : MonoBehaviour
                 m_playerMovement.SetFrozen(false);
                 m_fishingReticle.SetActive(false);
                 m_fishingRod.SetActive(false);
-                m_playerControls.Fishing.Disable();
-                m_playerInput.SwitchCurrentActionMap("Player");
-                m_playerControls.Player.Enable();
+                m_switchToPlayer.Invoke();
 
                 m_uiManager.ToggleInstructions("");
                 ChangeState(FishingState.NotFishing);

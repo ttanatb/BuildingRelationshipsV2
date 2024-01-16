@@ -1,61 +1,121 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using Dialogue.SO;
 using UnityEngine;
-using UnityEngine.UI;
-using Cinemachine;
+using Dialogue.Struct;
+using NaughtyAttributes;
+using UnityEditor.Experimental.GraphView;
+using Utilr;
+using Utilr.Attributes;
 
 public class TalkableNPC : InteractiblePropject
 {
-    const string ANIM_TRIG_TALK_START = "talkStart";
-    const string ANIM_TRIG_TALK_END = "talkEnd";
-    const string ANIM_TRIG_ENTER_RADIUS = "enterRadius";
-    const string ANIM_TRIG_EXIT_RADIUS = "exitRadius";
-
+    [IncludeAllAssetsWithType]
+    [SerializeField] private SetActiveNodeEvent[] m_setActiveNodeEvents = null;
+    
+    [SerializeField] private string m_actorId = "";
+    [SerializeField] private string m_dialogueNodeName = "";
+    [SerializeField] private LayerMask m_playerLayer = 1 << 10;
+    
     [SerializeField]
-    string m_dialogueNodeName = "";
+    private Animator m_animator = null;
 
-    Animator m_animator = null;
+    [SerializeField] [AnimatorParam("m_animator")]
+    private int m_animTriggerTalkStart = 1;
 
-    public Transform DialogueBoxAnchor { get { return m_dialogueBoxAnchor; } }
+    [SerializeField] [AnimatorParam("m_animator")]
+    private int m_animTriggerTalkEnd = 1;
 
-    public string DialogueNodeName { get { return m_dialogueNodeName; } }
+    [SerializeField] [AnimatorParam("m_animator")]
+    private int m_animTriggerInRadius = 1;
+
+    [SerializeField] [AnimatorParam("m_animator")]
+    private int m_animTriggerExitRadius = 1;
+
+    public Transform DialogueBoxAnchor => m_dialogueBoxAnchor;
+
+    public StartDialogueData DialogueData =>
+        new()
+        {
+            NodeName = m_dialogueNodeName,
+        };
 
     protected override void Start()
     {
         base.Start();
         m_animator = GetComponent<Animator>();
+
+        foreach (var evt in m_setActiveNodeEvents)
+        {
+            evt.Event.AddListener(OnActiveNodeSet);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var evt in m_setActiveNodeEvents)
+        {
+            evt.Event.RemoveListener(OnActiveNodeSet);
+        }
+    }
+
+    private void OnActiveNodeSet(SetActiveNodeData data)
+    {
+        if (data.ActorId != m_actorId)
+            return;
+
+        m_dialogueNodeName = data.NodeName;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var otherGameObj = other.gameObject;
+        if (!m_playerLayer.ContainsLayer(otherGameObj.layer))
+            return;
+        
+        m_uimanager.SetCurrInteractAnchor(m_dialogueBoxAnchor, m_interactText);
+        m_animator.SetTrigger(m_animTriggerInRadius);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var otherGameObj = other.gameObject;
+        if (!m_playerLayer.ContainsLayer(otherGameObj.layer))
+            return;
+        
+        m_animator.SetTrigger(m_animTriggerExitRadius);
+        m_uimanager.SetCurrInteractAnchor(null);
     }
 
     public void SetTalkAnim(bool start)
     {
-        if (start)
-        {
-            m_animator.SetTrigger(ANIM_TRIG_TALK_START);
-        }
-        else
-        {
-            m_animator.SetTrigger(ANIM_TRIG_TALK_END);
-        }
+        // if (start)
+        // {
+        //     m_animator.SetTrigger(m_animTriggerTalkStart);
+        // }
+        // else
+        // {
+        //     m_animator.SetTrigger(m_animTriggerTalkEnd);
+        // }
     }
 
     public void SetInteractable(bool isInteractable, bool triggerAnim = true)
     {
-        if (isInteractable)
-        {
-            m_uimanager.SetCurrInteractAnchor(m_dialogueBoxAnchor, m_interactText);
-        }
-        else m_uimanager.SetCurrInteractAnchor(null);
-
-        if (!triggerAnim)
-            return;
-
-        if (isInteractable)
-        {
-            m_animator.SetTrigger(ANIM_TRIG_ENTER_RADIUS);
-        }
-        else
-        {
-            m_animator.SetTrigger(ANIM_TRIG_EXIT_RADIUS);
-        }
+        // if (isInteractable)
+        // {
+        //     m_uimanager.SetCurrInteractAnchor(m_dialogueBoxAnchor, m_interactText);
+        // }
+        // else m_uimanager.SetCurrInteractAnchor(null);
+        //
+        // if (!triggerAnim)
+        //     return;
+        //
+        // if (isInteractable)
+        // {
+        //     m_animator.SetTrigger(m_animTriggerInRadius);
+        // }
+        // else
+        // {
+        //     m_animator.SetTrigger(m_animTriggerExitRadius);
+        // }
     }
 }

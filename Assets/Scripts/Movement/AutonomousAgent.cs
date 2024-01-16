@@ -50,12 +50,12 @@ public class AutonomousAgent : MonoBehaviour
     protected virtual void LateUpdate()
     {
         // Clamp X/Z velocity, keep Y-velocity.
-        var vel = m_rigidbody.velocity;
-        float yVel = vel.y;
-        vel.y = 0.0f;
-        vel = Vector3.ClampMagnitude(vel, m_maxSpeed);
-        vel.y = yVel;
-        m_rigidbody.velocity = vel;
+        // var vel = m_rigidbody.velocity;
+        // float yVel = vel.y;
+        // vel.y = 0.0f;
+        // vel = Vector3.ClampMagnitude(vel, m_maxSpeed);
+        // vel.y = yVel;
+        // m_rigidbody.velocity = vel;
     }
 
 #if UNITY_EDITOR

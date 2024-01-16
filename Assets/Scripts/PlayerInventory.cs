@@ -1,65 +1,60 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GameEvents;
+using Input.SO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInventory : MonoBehaviour
 {
+    [SerializeField] private SoSetUiActiveStateEvent m_setInventoryUiActiveStateEvent = null;
+    [SerializeField] private SwitchInputActionMapEvent m_switchInputToUiEvent = null;
+    [SerializeField] private SwitchInputActionMapEvent m_switchInputToGameplayEvent = null;
 
-    PlayerControls m_playerControls = null;
+    [SerializeField] private InputActionReference m_showInventory = null;
+    [SerializeField] private InputActionReference m_hideInventory = null;
+    
     UIManager m_uiManager = null;
     PlayerMovement m_movement = null;
-    PlayerInput m_playerInput = null;
 
     bool isShowingInv = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        m_playerControls = GetComponent<PlayerController>().PlayerControls;
-        m_movement = GetComponent<PlayerMovement>();
-        m_playerInput = GetComponent<PlayerInput>();
+        TryGetComponent(out m_movement);
 
-        m_playerControls.Player.ShowInventory.started += DisplayInventory;
-        m_playerControls.UI.Cancel.started += HideInventory;
+        m_showInventory.action.performed += DisplayInventory;
+        m_hideInventory.action.performed += HideInventory;
 
         m_uiManager = UIManager.Instance;
     }
 
     private void OnDestroy()
     {
-        m_playerControls.Player.ShowInventory.started -= DisplayInventory;
-        m_playerControls.UI.Cancel.started -= HideInventory;
-
+        m_showInventory.action.performed -= DisplayInventory;
+        m_hideInventory.action.performed -= HideInventory;
     }
 
-    void DisplayInventory(InputAction.CallbackContext context)
+    private void DisplayInventory(InputAction.CallbackContext context)
     {
+        if (isShowingInv) return;
+
         isShowingInv = true;
-        m_uiManager.SetInventoryActive(true);
+        m_setInventoryUiActiveStateEvent.Invoke(true);
         m_uiManager.ToggleInstructions("Inventory");
         m_movement.StopMovement();
-        m_playerControls.Player.Disable();
-        m_playerInput.SwitchCurrentActionMap("UI");
-        m_playerControls.UI.Enable();
-
+        m_switchInputToUiEvent.Invoke();
     }
 
-    void HideInventory(InputAction.CallbackContext context)
+    private void HideInventory(InputAction.CallbackContext context)
     {
         if (!isShowingInv) return;
+        
         isShowingInv = false;
-        m_uiManager.SetInventoryActive(false);
+        m_setInventoryUiActiveStateEvent.Invoke(false);
         m_uiManager.ToggleInstructions("");
         m_movement.SetFrozen(false);
-        m_playerControls.UI.Disable();
-        m_playerInput.SwitchCurrentActionMap("UI");
-        m_playerControls.Player.Enable();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        m_switchInputToGameplayEvent.Invoke();
     }
 }

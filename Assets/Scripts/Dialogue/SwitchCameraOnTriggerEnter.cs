@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Utilr.SoGameEvents;
 
 public class SwitchCameraOnTriggerEnter : MonoBehaviour
 {
@@ -11,10 +12,10 @@ public class SwitchCameraOnTriggerEnter : MonoBehaviour
     [SerializeField]
     CinemachineVirtualCamera m_camera = null;
 
-    [SerializeField]
-    int m_targetPrioirty = 15;
-
     Transform m_cameraTarget = null;
+
+    [SerializeField] private SoGameEvent m_activateFishCamEvent = null;
+    [SerializeField] private SoGameEvent m_activatePlayerCamEvent = null;
 
     // Start is called before the first frame update
     void Start()
@@ -34,19 +35,21 @@ public class SwitchCameraOnTriggerEnter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (m_playerLayerMask == (m_playerLayerMask | (1 << other.gameObject.layer)))
-        {
-            SetWithinProximity(true);
-        }
+        if (m_playerLayerMask != (m_playerLayerMask | (1 << other.gameObject.layer)))
+            return;
+        if (m_activateFishCamEvent)
+            m_activateFishCamEvent.Invoke();
+        SetWithinProximity(true);
     }
 
 
     private void OnTriggerExit(Collider other)
     {
-        if (m_playerLayerMask == (m_playerLayerMask | (1 << other.gameObject.layer)))
-        {
-            SetWithinProximity(false);
-        }
+        if (m_playerLayerMask != (m_playerLayerMask | (1 << other.gameObject.layer)))
+            return;
+        if (m_activatePlayerCamEvent)
+            m_activatePlayerCamEvent.Invoke();
+        SetWithinProximity(false);
     }
 
     public void ResetLookat()
@@ -60,6 +63,5 @@ public class SwitchCameraOnTriggerEnter : MonoBehaviour
             m_camera.LookAt = isWithinProximity ? m_cameraTarget : null;
 
         m_camera.enabled = isWithinProximity;
-        m_camera.Priority = isWithinProximity ? m_targetPrioirty : 0;
     }
 }

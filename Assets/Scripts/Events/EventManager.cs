@@ -28,6 +28,11 @@ public class EventManager : Singleton<EventManager>
     [SerializeField]
     int m_testSkillLevel = 1;
 
+    void Start()
+    {
+        Invoke(nameof(TestUnlockAllSkills), 5.0f);
+    }
+
     public void FireTestItemEvent()
     {
         TriggerItemEvent(m_testItem, m_testItemAmt);
@@ -41,7 +46,7 @@ public class EventManager : Singleton<EventManager>
     {
         TriggerSkillUnlockedEvent(new PlayerSkill() { type = PlayerSkill.Type.Dash, level = 5 });
         TriggerSkillUnlockedEvent(new PlayerSkill() { type = PlayerSkill.Type.JumpCount, level = 5 });
-        TriggerSkillUnlockedEvent(new PlayerSkill() { type = PlayerSkill.Type.JumpDist, level = 5 });
+        TriggerSkillUnlockedEvent(new PlayerSkill() { type = PlayerSkill.Type.JumpDist, level = 1 });
     }
 
     public void AddOneOfEachItem()

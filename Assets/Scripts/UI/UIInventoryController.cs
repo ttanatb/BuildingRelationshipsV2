@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using GameEvents;
+using UI;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class UIInventoryController : MonoBehaviour
+public class UIInventoryController : UiBase
 {
     [SerializeField]
     UIInventorySlotView[] m_inventoryslots = null;
@@ -118,10 +118,10 @@ public class UIInventoryController : MonoBehaviour
         UpdateDisplay();
     }
 
-    public void SetDisplay(bool shouldShow)
+    protected override void SetActiveState(bool isActive)
     {
-        m_isCurrentlyShowing = shouldShow;
-        if (shouldShow) SetCollectibleAmount(m_inventorySystem.Inventory);
+        m_isCurrentlyShowing = isActive;
+        if (isActive) SetCollectibleAmount(m_inventorySystem.Inventory);
         else
         {
             for (int i = 0; i < m_inventoryslots.Length; i++)
@@ -135,11 +135,13 @@ public class UIInventoryController : MonoBehaviour
         }
 
         foreach (var slot in m_inventoryslots)
-            slot.SetInteractibility(shouldShow);
+            slot.SetInteractibility(isActive);
 
-        if (shouldShow) m_inventoryslots[m_lastSelectedIndex].SetSelected();
+        if (isActive) m_inventoryslots[m_lastSelectedIndex].SetSelected();
 
-        m_rectTransform.anchoredPosition = shouldShow ? m_anchoredPos : m_outOfScreenPos;
+        m_rectTransform.anchoredPosition = isActive ? m_anchoredPos : m_outOfScreenPos;
+        
+        base.SetActiveState(isActive);
     }
 
     public void UpdateDisplay(List<(CollectibleItem.ItemID, int)> inventory)
@@ -150,7 +152,7 @@ public class UIInventoryController : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected override void  Start()
     {
         m_inventoryslots = GetComponentsInChildren<UIInventorySlotView>();
         m_rectTransform = GetComponent<RectTransform>();
@@ -160,11 +162,14 @@ public class UIInventoryController : MonoBehaviour
         m_inventorySystem = InventorySystem.Instance;
 
         m_itemDatabase = m_inventorySystem.ItemDatabase;
-        m_inventorySystem.ChangeItemAmtFinishedCb = UpdateDisplay;
+        // Replace this with event if i want to resurrect
+        // m_inventorySystem.ChangeItemAmtFinishedCb = UpdateDisplay;
 
         m_pageLeftButton.onClick.AddListener(PageLeft);
         m_pageRightButton.onClick.AddListener(PageRight);
+        
+        base.Start();
 
-        SetDisplay(false);
+        m_canvasGroup.alpha = 0.0f;
     }
 }

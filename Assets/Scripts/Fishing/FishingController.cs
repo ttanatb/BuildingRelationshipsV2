@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using GameEvents;
+using GameEvents.Fishing;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class FishingController : Singleton<FishingController>
 {
     const float STARTING_COMPLETION_RATIO = 0.35f;
     const float START_DECAY_THRESHOLD = 0.10f;
+
+    [SerializeField] private SoSetUiActiveStateEvent m_fishingUiActiveEvent = null;
+    [SerializeField] private SoUpdateFishingCompletionRatioEvent m_updateFishingCompletionRatioEvent = null;
 
     FishStats m_currFishStats = new FishStats();
     Fish m_currFish = null;
@@ -31,7 +37,7 @@ public class FishingController : Singleton<FishingController>
     {
         m_currFishStats = stats;
         m_currFish = fish;
-        m_uiManager.DisplayFishingUI(true);
+        m_fishingUiActiveEvent.Invoke(true);
 
         m_ui.FishIconLerpRate = stats.FishLerpRate;
         m_completionRatio = STARTING_COMPLETION_RATIO;
@@ -50,7 +56,7 @@ public class FishingController : Singleton<FishingController>
     {
         m_uiManager = UIManager.Instance;
         m_ui = m_uiManager.FishingControllerUI;
-        m_uiManager.DisplayFishingUI(false);
+        m_fishingUiActiveEvent.Invoke(false);
         m_eventManager = EventManager.Instance;
     }
 
@@ -77,19 +83,19 @@ public class FishingController : Singleton<FishingController>
         }
         else if (m_shouldDecay)
             m_completionRatio -= m_currFishStats.DecayRate * Time.deltaTime;
-        m_ui.SetCompletionRatio(m_completionRatio);
+        m_updateFishingCompletionRatioEvent.Invoke(m_completionRatio);
 
         if (m_completionRatio <= 0)
         {
             m_eventManager.TriggerFishReelEndedEvent(false, m_currFishStats.id, m_currFish);
-            m_uiManager.DisplayFishingUI(false);
+            m_fishingUiActiveEvent.Invoke(false);
             m_currFish.FishingFailedReeling();
             m_isActive = false;
         }
         else if (m_completionRatio >= 1)
         {
             m_isActive = false;
-            m_uiManager.DisplayFishingUI(false);
+            m_fishingUiActiveEvent.Invoke(false);
             m_eventManager.TriggerFishReelEndedEvent(true, m_currFishStats.id, m_currFish);
         }
 

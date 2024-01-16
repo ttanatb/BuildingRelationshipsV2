@@ -1,0 +1,48 @@
+title: Chester_Intro
+tags:
+---
+Chester: Howdy-doo there!
+How are you doin'?
+    -> I'm <roll>rootin' tootin'</roll>!
+        Chester: I love that for you.
+    -> I'm <roll>scootin' bootin'</roll>!
+        Chester: Darn, that's just too bad.
+Chester: Look, I'll be honest.
+I need to find the rest of my <roll>hootin' wootin'</roll> cohort.
+In return, I'll give you one of my <roll>lootin' gootin'</roll> treasures.
+Chester: How does that sound?
+<<setActiveNode YarnEventManager "chester" "Chester_Intro_Gifted_Loop">>
+<<jump Chester_Intro_Loop>>
+
+===
+title: Chester_Intro_Loop
+tags:
+---
+<<declare $Chester_Intro_Loop_BachPad = false>>
+    -> Consider it a yee-haw!
+        Chester: Well, <roll>yeeeee-haw</roll> indeed!!
+        <<fireEvent YarnEventManager "item_jump">>
+        Keep your windows peeled for my cohort, they look just like me!
+    -> But are you a Bach-Pad? <<if $Chester_Intro_Loop_BachPad is false>>
+        Chester: I'm flattered but...
+        I'm in a loving polycule with the rest of my cohort.
+        Took a lot of schedulin' to get everyone here.
+        Our calendars are too full to fit anyone else.
+        <<set $Chester_Intro_Loop_BachPad = true>>
+        <<jump Chester_Intro_Loop_Intro>>
+    -> Maybe later?
+        Chester: Alrighty, but take this gift anyways.
+        <<fireEvent YarnEventManager "item_jump">>
+        And do keep an open attic and an open window for my cohort!
+===
+title: Chester_Intro_Loop_Intro
+tags:
+---
+Chester: How about that <roll>rootin' tootin'</roll> favor?
+<<jump Chester_Intro_Loop>>
+===
+title: Chester_Intro_Gifted_Loop
+tags:
+---
+Chester: My cohort has a bunch more <roll>lootin' gootin'</roll> treasures.
+===

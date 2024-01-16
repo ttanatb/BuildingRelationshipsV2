@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Dialogue.SO;
+using Dialogue.Struct;
 using UnityEngine;
 using UnityEngine.UI;
+using Utilr.Attributes;
 
 [Serializable]
 public struct StringInstructionPanelPair
@@ -23,22 +26,18 @@ public class UIManager : Singleton<UIManager>
     private UIFishingController m_fishingController = null;
 
     [SerializeField]
-    private UIInventoryController m_inventoryUI = null;
-
-    [SerializeField]
     private StringInstructionPanelPair[] m_instructionPanels = null;
 
     private RectTransform m_interactTextTransform = null;
 
     private Transform m_interactMarker = null;
 
-    public void DisplayFishingUI(bool toDisplay)
-    {
-        m_fishingController.gameObject.SetActive(toDisplay);
-    }
-
     private Transform m_currTalker = null;
     private Camera m_mainCamera = null;
+    
+    [IncludeAllAssetsWithType]
+    [SerializeField] private StartDialogueEvent[] m_startDialogueEvents = null;
+    [SerializeField] private StopDialogueEvent m_stopDialogueEvent = null;
 
     public UIFishingController FishingControllerUI { get { return m_fishingController; } }
 
@@ -77,31 +76,47 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    public void SetCurrTalkingPerson(Transform currTalker)
-    {
-        m_currTalker = currTalker;
-    }
-
-    public void SetInventoryActive(bool active)
-    {
-        m_inventoryUI.SetDisplay(active);
-    }
-
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         m_mainCamera = Camera.main;
         m_interactTextTransform = m_interactText.GetComponent<RectTransform>();
         SetCurrInteractAnchor(null);
         ToggleInstructions("");
+        
+        foreach (var e in m_startDialogueEvents)
+        {
+            e.Event.AddListener(StartDialogue);
+        }
+        m_stopDialogueEvent.Event.AddListener(StopDialogue);
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var e in m_startDialogueEvents)
+        {
+            e.Event.RemoveListener(StartDialogue);
+        }
+        m_stopDialogueEvent.Event.RemoveListener(StopDialogue);
+    }
+    
+    private void StartDialogue(StartDialogueData data)
+    {
+        // m_currTalker = data.DialogueBoxAnchor;
+        ToggleInstructions("Dialogue");
+    }
+    
+    private void StopDialogue()
+    {
+        m_currTalker = null;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (m_currTalker != null)
-            m_speechBubble.ScreenPos =
-                m_mainCamera.WorldToViewportPoint(m_currTalker.position);
+        // if (m_currTalker != null)
+            // m_speechBubble.ScreenPos =
+                // m_mainCamera.WorldToViewportPoint(m_currTalker.position);
 
         if (m_interactMarker != null)
             m_interactText.ScreenPos =

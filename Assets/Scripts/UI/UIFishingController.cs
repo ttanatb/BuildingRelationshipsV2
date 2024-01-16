@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GameEvents.Fishing;
+using UI;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class UIFishingController : MonoBehaviour
+public class UIFishingController : UiBase
 {
+    [SerializeField]
+    private SoUpdateFishingCompletionRatioEvent m_updateFishingCompletionRatioEvent = null;
+    
     [SerializeField]
     RectTransform m_fishIcon = null;
 
@@ -84,11 +89,14 @@ public class UIFishingController : MonoBehaviour
             m_usableWidth,
             fishingBarHeight - m_topOffset - m_bottomOffset);
     }
-    void Start()
+    
+    protected override void Start()
     {
+        m_updateFishingCompletionRatioEvent.Event.AddListener(SetCompletionRatio);
+        base.Start();
     }
 
-    public void SetCompletionRatio(float ratio)
+    private void SetCompletionRatio(float ratio)
     {
         m_completionRatio = ratio;
         m_completionRatio = Mathf.Clamp(m_completionRatio, completionBounds.x, completionBounds.y);

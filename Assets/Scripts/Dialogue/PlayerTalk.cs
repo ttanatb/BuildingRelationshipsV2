@@ -1,49 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using Cinemachine;
+using Dialogue.SO;
+using Input.SO;
 
 public class PlayerTalk : MonoBehaviour
 {
-    [SerializeField]
-    LayerMask m_npcLayerMask = 0;
+    [SerializeField] private LayerMask m_npcLayerMask = 0;
 
-    [SerializeField]
-    TalkableNPC m_currTalkableNPC = null;
+    [SerializeField] private TalkableNPC m_currTalkableNPC = null;
 
-    Yarn.Unity.DialogueRunner m_dialogueRunner = null;
+    [SerializeField] private InputActionReference m_interactInput = null;
 
-    PlayerInput m_playerInput = null;
-    PlayerControls m_playerControls = null;
+    [SerializeField] private StartDialogueEvent m_startDialogueEvent = null;
+    [SerializeField] private StopDialogueEvent m_stopDialogueEvent = null;
 
-    PlayerMovement m_playerMovement = null;
-
-    UIManager m_uiManager = null;
-    EventManager m_eventManager = null;
-
+    private EventManager m_eventManager = null;
 
     // Start is called before the first frame update
     void Start()
     {
-        m_uiManager = UIManager.Instance;
         m_eventManager = EventManager.Instance;
         m_eventManager.AddDialogueCompletedListener(OnDialogueCompletion);
 
-        m_dialogueRunner = DialogueManager.DialogueRunner;
-        m_playerControls = GetComponent<PlayerController>().PlayerControls;
-        m_playerInput = GetComponent<PlayerInput>();
-        m_playerMovement = GetComponent<PlayerMovement>();
-
-        m_playerControls.Player.Interact.performed += TriggerDialogue;
-        m_playerControls.UI.Disable();
-
-
+        m_interactInput.action.performed += TriggerDialogue;
+        
+        m_stopDialogueEvent.Event.AddListener(OnDialogueCompletion);
     }
 
     private void OnDestroy()
     {
-        m_playerControls.Player.Interact.performed -= TriggerDialogue;
+        m_interactInput.action.performed -= TriggerDialogue;
+
+        m_stopDialogueEvent.Event.RemoveListener(OnDialogueCompletion);
     }
 
     // Update is called once per frame
@@ -54,7 +42,6 @@ public class PlayerTalk : MonoBehaviour
 
     public void OnDialogueCompletion()
     {
-        m_playerMovement.SetFrozen(false);
         if (m_currTalkableNPC == null)
         {
             return;
@@ -75,74 +62,59 @@ public class PlayerTalk : MonoBehaviour
         {
             return;
         }
-
-        m_dialogueRunner.StartDialogue(m_currTalkableNPC.DialogueNodeName);
-        m_playerMovement.StopMovement();
-        m_uiManager.SetCurrTalkingPerson(m_currTalkableNPC.DialogueBoxAnchor);
+        
+        m_startDialogueEvent.Invoke(m_currTalkableNPC.DialogueData);
         m_currTalkableNPC.SetInteractable(false, false);
         m_currTalkableNPC.SetTalkAnim(true);
-
-        m_playerControls.Player.Disable();
-        m_playerInput.SwitchCurrentActionMap("UI");
-        m_uiManager.ToggleInstructions("Dialogue");
-        m_playerControls.UI.Enable();
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (m_npcLayerMask == (m_npcLayerMask | (1 << other.gameObject.layer)))
+        if (m_npcLayerMask != (m_npcLayerMask | (1 << other.gameObject.layer)))
+            return;
+        
+        other.TryGetComponent(out TalkableNPC npc);
+        if (npc == null)
         {
-            TalkableNPC npc = other.GetComponent<TalkableNPC>();
-            if (npc == null)
-            {
-                Debug.LogError("Entered trigger of chracter who is not NPC.");
-                return;
-            }
-
-            if (m_currTalkableNPC != null)
-            {
-                Debug.LogWarning("Overriding current NPC to talk to.");
-                m_currTalkableNPC.SetInteractable(false);
-            }
-
-            string dialogueNodeName = npc.DialogueNodeName;
-
-            // Check NodeExists
-            if (!m_dialogueRunner.NodeExists(dialogueNodeName))
-            {
-                Debug.LogError(string.Format(
-                    "Dialogue node with name ({0}) does not exist.", dialogueNodeName));
-                m_currTalkableNPC = null;
-                return;
-            }
-
-            m_currTalkableNPC = npc;
-            m_currTalkableNPC.SetInteractable(true);
+            Debug.LogError($"Entered trigger of character who is not NPC: {other.gameObject}");
+            return;
         }
+
+        if (npc != m_currTalkableNPC && m_currTalkableNPC != null)
+        {
+            Debug.LogWarning($"Overriding current NPC ({m_currTalkableNPC.gameObject}) with ({npc.gameObject}).");
+            m_currTalkableNPC.SetInteractable(false);
+        }
+
+        m_currTalkableNPC = npc;
+        m_currTalkableNPC.SetInteractable(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (m_npcLayerMask == (m_npcLayerMask | (1 << other.gameObject.layer)))
+        if (m_npcLayerMask != (m_npcLayerMask | (1 << other.gameObject.layer)))
+            return;
+
+        other.TryGetComponent(out TalkableNPC npc);
+        if (npc == null)
         {
-            TalkableNPC npc = other.GetComponent<TalkableNPC>();
-            if (npc == null)
-            {
-                Debug.LogError("Exited trigger of chracter who is not NPC.");
-                return;
-            }
-
-            if (m_currTalkableNPC != npc)
-            {
-                Debug.LogWarning("Exiting NPC range of an NPC you weren't in range of.");
-                npc.SetInteractable(false);
-            }
-
-            if (m_currTalkableNPC == null)
-                return;
-
-            m_currTalkableNPC.SetInteractable(false);
-            m_currTalkableNPC = null;
+            Debug.LogError("Exited trigger of character who is not NPC.");
+            return;
         }
+
+        if (m_currTalkableNPC != npc && m_currTalkableNPC != null)
+        {
+            Debug.LogWarning($"Exiting NPC range of {other.gameObject},"
+                + $" last cached was {m_currTalkableNPC.gameObject}.");
+        }
+        
+        npc.SetInteractable(false);
+
+        if (m_currTalkableNPC == null)
+            return;
+
+        m_currTalkableNPC.SetInteractable(false);
+        m_currTalkableNPC = null;
     }
 }

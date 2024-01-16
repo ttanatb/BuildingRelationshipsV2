@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
+using Dialogue.SO;
+using Dialogue.Struct;
+using Utilr.Attributes;
+using Random = UnityEngine.Random;
 
 public class PlayerMovement : AutonomousAgent
 {
@@ -14,6 +19,8 @@ public class PlayerMovement : AutonomousAgent
 
     [SerializeField]
     Vector2 m_accToApplyFromInput = new Vector2(0.5f, 2.0f);
+
+    [SerializeField] private float m_multiplierSpeedImpulse = 100.0f;
 
     [SerializeField]
     float m_currForwardPushForce = 0.0f;
@@ -31,10 +38,22 @@ public class PlayerMovement : AutonomousAgent
     [SerializeField]
     float m_jumpSpeed = 50.0f;
 
+    [SerializeField] private float m_jumpRollModifier = 10.0f;
+    [SerializeField] private float m_jumpSpinRate = 0.20f;
+    [SerializeField] private float m_jumpSpinModifier = 500.0f;
+
+    [SerializeField] private PlayJumpSoundEvent m_playJumpSoundEvent = null;
+
     [SerializeField]
     float m_noRollJumpSpeed = 50.0f;
 
-    PlayerControls m_playerControls = null;
+    [SerializeField] private InputActionReference m_dashInput = null;
+    [SerializeField] private InputActionReference m_jumpInput = null;
+    [SerializeField] private InputActionReference m_freezePosInput = null;
+    [SerializeField] private InputActionReference m_moveInput = null;
+
+    [SerializeField]
+    CinemachineVirtualCamera m_cinematicCam = null;
 
     Vector3 m_totalMovementForce = Vector3.zero;
 
@@ -48,11 +67,12 @@ public class PlayerMovement : AutonomousAgent
 
     EventManager m_eventManager = null;
 
-    static readonly int[] JUMP_COUNT = { 0, 1, 2, int.MaxValue };
-    static readonly float[] JUMP_DIST_MODIFIER = { 0.6f, 0.8f, 1.0f, 1.25f };
+    static readonly int[] JUMP_COUNT = { 0, 1, 2, 3, int.MaxValue };
+    static readonly float[] JUMP_DIST_MODIFIER = { 0.7f, 1.0f, 1.3f };
     static readonly float[] DASH_TIMER = { float.PositiveInfinity, 2.0f, 1.0f, 0.0f };
     static readonly RigidbodyConstraints[] CONSTRAINTS = {
-        RigidbodyConstraints.FreezeRotationZ,
+        // RigidbodyConstraints.FreezeRotationZ,
+        RigidbodyConstraints.None,
         RigidbodyConstraints.None,
     };
 
@@ -66,6 +86,10 @@ public class PlayerMovement : AutonomousAgent
 
     [SerializeField]
     LayerMask m_jumpRegainLayerMask = 1;
+    
+    [IncludeAllAssetsWithType]
+    [SerializeField] private StartDialogueEvent[] m_startDialogueEvents = null;
+    [SerializeField] private StopDialogueEvent m_stopDialogueEvent = null;
 
 
     private void UpdateSkillLevel(PlayerSkill skill)
@@ -98,6 +122,8 @@ public class PlayerMovement : AutonomousAgent
         }
     }
 
+
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -112,51 +138,63 @@ public class PlayerMovement : AutonomousAgent
         m_dashCooldownTimer = m_baseDashTimer;
         m_jumpCount = m_baseJumpCount;
 
-        m_playerControls = GetComponent<PlayerController>().PlayerControls;
         m_eventManager = EventManager.Instance;
 
         if (m_cameraTransform == null)
             m_cameraTransform = Camera.main.transform;
 
-        m_playerControls.Player.Dash.started += Dash;
-        m_playerControls.Player.Jump.started += Jump;
-        m_playerControls.Player.Horizontal.started += UpdateMovementHorizontal;
-        m_playerControls.Player.Vertical.started += UpdateMovementVertical;
 
-        m_playerControls.Player.Horizontal.canceled += UpdateMovementHorizontal;
-        m_playerControls.Player.Vertical.canceled += UpdateMovementVertical;
+        m_dashInput.action.performed += Dash;
+        m_jumpInput.action.performed += Jump;
+        m_freezePosInput.action.performed += FreezePosition;
+        m_moveInput.action.started += StartMove;
+        m_moveInput.action.performed += Move;
+        m_moveInput.action.canceled += Move;
+        
         m_eventManager.AddSkillUnlockedListener(UpdateSkillLevel);
+        
+        foreach (var e in m_startDialogueEvents)
+        {
+            e.Event.AddListener(StopMovement);
+        }
+        m_stopDialogueEvent.Event.AddListener(EnableMovement);
     }
 
     private void OnDestroy()
     {
-        m_playerControls.Player.Dash.started -= Dash;
-        m_playerControls.Player.Jump.started -= Jump;
-        m_playerControls.Player.Horizontal.started -= UpdateMovementHorizontal;
-        m_playerControls.Player.Vertical.started -= UpdateMovementVertical;
+        m_dashInput.action.performed -= Dash;
+        m_jumpInput.action.performed -= Jump;
+        m_freezePosInput.action.performed -= FreezePosition;
+        m_moveInput.action.started -= StartMove;
+        m_moveInput.action.performed -= Move;
+        m_moveInput.action.canceled -= Move;
 
-        m_playerControls.Player.Horizontal.canceled -= UpdateMovementHorizontal;
-        m_playerControls.Player.Vertical.canceled -= UpdateMovementVertical;
+        foreach (var e in m_startDialogueEvents)
+        {
+            e.Event.RemoveListener(StopMovement);
+        }
+        m_stopDialogueEvent.Event.RemoveListener(EnableMovement);
     }
 
     // Update is called once per frame
     void Update()
     {
         m_dashCooldownTimer -= Time.deltaTime;
-        Quaternion rot = Quaternion.AngleAxis(m_cameraTransform.eulerAngles.y, Vector3.up);
-        Vector3 forward = rot * Vector3.forward;
-        Vector3 right = rot * Vector3.right;
+        
+        var rot = Quaternion.AngleAxis(m_cameraTransform.eulerAngles.y, Vector3.up);
+        var forward = rot * Vector3.forward;
+        var right = rot * Vector3.right;
         m_totalMovementForce = right * m_currRightPushForce + forward * m_currForwardPushForce;
         if (m_baseConstraints == RigidbodyConstraints.FreezeRotation)
         {
-            m_totalMovementForce += Vector3.up * m_noRollJumpSpeed;
-            if (m_rigidbody.velocity.sqrMagnitude > float.Epsilon)
-            {
-                Vector3 norm = m_rigidbody.velocity.normalized;
-                Vector3 normProj = Vector3.ProjectOnPlane(norm, Vector3.up);
-                if (normProj.sqrMagnitude > float.Epsilon)
-                    transform.forward = normProj;
-            }
+            //m_totalMovementForce += Vector3.up * m_noRollJumpSpeed;
+            //if (m_rigidbody.velocity.sqrMagnitude > float.Epsilon)
+            //{
+            //    Vector3 norm = m_rigidbody.velocity.normalized;
+            //    Vector3 normProj = Vector3.ProjectOnPlane(norm, Vector3.up);
+            //    if (normProj.sqrMagnitude > float.Epsilon)
+            //        transform.forward = normProj;
+            //}
         }
         // update max speed based off of dash speed
 
@@ -183,6 +221,23 @@ public class PlayerMovement : AutonomousAgent
         base.LateUpdate();
     }
 
+    private void FreezePosition(InputAction.CallbackContext context)
+    {
+        if (m_baseConstraints == m_rigidbody.constraints)
+        {
+            SetFrozen(true);
+            transform.up = Vector3.up;
+            
+            transform.position -= Vector3.up * 100.0f;
+            m_cinematicCam.Priority = 10000;
+        } 
+        else
+        {
+            SetFrozen(false);
+            m_cinematicCam.Priority = 0;
+        }
+    }
+
     public void Dash(InputAction.CallbackContext context)
     {
         if (m_dashCooldownTimer > 0.0f) return;
@@ -195,25 +250,57 @@ public class PlayerMovement : AutonomousAgent
 
     public void Jump(InputAction.CallbackContext context)
     {
-
         if (m_jumpCount < 1) { return; }
 
-
         m_rigidbody.AddForce(Vector3.up * m_jumpSpeed * m_jumpModifier);
+        m_rigidbody.AddTorque(transform.right * m_jumpRollModifier);
+        if (Random.value <  m_jumpSpinRate) 
+            m_rigidbody.AddTorque(transform.up * m_jumpSpinModifier);
         m_jumpCount--;
+        m_playJumpSoundEvent.Invoke();
     }
 
-    public void UpdateMovementVertical(InputAction.CallbackContext context)
+    private void StartMove(InputAction.CallbackContext ctx) {
+        var input = ctx.ReadValue<Vector2>();
+        
+        var rot = Quaternion.AngleAxis(m_cameraTransform.eulerAngles.y, Vector3.up);
+        var forward = rot * Vector3.forward;
+        var right = rot * Vector3.right;
+        var impulseMovement = right * input.x + forward * input.y;
+        
+        m_rigidbody.AddForce(impulseMovement * m_multiplierSpeedImpulse);
+    }
+    
+    private void Move(InputAction.CallbackContext ctx)
     {
-        m_currForwardPushForce = UpdateMovementCommon(context, m_accToApplyFromInput.y);
+        var input = ctx.ReadValue<Vector2>();
+        Debug.Log($"Move input triggered with: {input}, performed {ctx.performed}, canceled {ctx.canceled}");
+
+        m_currRightPushForce = input.x * m_accToApplyFromInput.x;
+        m_currForwardPushForce = input.y * m_accToApplyFromInput.y;
+        
     }
 
-    public void UpdateMovementHorizontal(InputAction.CallbackContext context)
-    {
-        m_currRightPushForce = UpdateMovementCommon(context, m_accToApplyFromInput.y);
-    }
+    // public void UpdateMovementVertical(InputAction.CallbackContext context)
+    // {
+    //     m_currForwardPushForce = UpdateMovementCommon(context, m_accToApplyFromInput.y);
+    // }
+    //
+    // public void UpdateMovementHorizontal(InputAction.CallbackContext context)
+    // {
+    //     if (m_rigidbody.constraints == RigidbodyConstraints.FreezeAll)
+    //     {
+    //         transform.rotation *= Quaternion.AngleAxis(context.ReadValue<float>() * 10.0f, Vector3.up);
+    //     }
+    //
+    //     m_currRightPushForce = UpdateMovementCommon(context, m_accToApplyFromInput.y);
+    // }
 
-    public void StopMovement()
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="_">Unused, hack to quickly pass as listener to event</param>
+    public void StopMovement(StartDialogueData _ = new StartDialogueData())
     {
         m_rigidbody.velocity = Vector3.zero;
         m_rigidbody.angularVelocity = Vector3.zero;
@@ -222,6 +309,11 @@ public class PlayerMovement : AutonomousAgent
         m_totalMovementForce = Vector3.zero;
 
         SetFrozen(true);
+    }
+
+    private void EnableMovement()
+    {
+        SetFrozen(false);
     }
 
     public void SetFrozen(bool isFrozen)
@@ -236,21 +328,21 @@ public class PlayerMovement : AutonomousAgent
         transform.forward = playerAnchor.forward;
     }
 
-    private float UpdateMovementCommon(InputAction.CallbackContext context, float updateRate)
-    {
-        if (context.phase == InputActionPhase.Canceled)
-        {
-            return 0.0f;
-        }
-
-        float input = context.ReadValue<float>();
-        //Debug.Log(string.Format("Vertical: {0} Phase: {1}", input, context.phase));
-
-        if (context.phase != InputActionPhase.Started && context.phase != InputActionPhase.Performed)
-            Debug.LogWarning(string.Format("Unexpectedly got input phase ({0}) for UpdateMovementVertical", context.phase));
-
-        return input * updateRate;
-    }
+    // private float UpdateMovementCommon(InputAction.CallbackContext context, float updateRate)
+    // {
+    //     if (context.phase == InputActionPhase.Canceled)
+    //     {
+    //         return 0.0f;
+    //     }
+    //
+    //     var input = context.ReadValue<Vector2>();
+    //     //Debug.Log(string.Format("Vertical: {0} Phase: {1}", input, context.phase));
+    //
+    //     if (context.phase != InputActionPhase.Started && context.phase != InputActionPhase.Performed)
+    //         Debug.LogWarning(string.Format("Unexpectedly got input phase ({0}) for UpdateMovementVertical", context.phase));
+    //
+    //     return input * updateRate;
+    // }
 
     private void OnCollisionEnter(Collision collision)
     {

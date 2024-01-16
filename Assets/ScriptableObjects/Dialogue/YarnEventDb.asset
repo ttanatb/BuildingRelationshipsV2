@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 295972fe26254c2199044573e90093f8, type: 3}
+  m_Name: YarnEventDb
+  m_EditorClassIdentifier: 
+  m_yarnInterfaceName: YarnEventManager
+  m_eventCommandString: fireEvent
+  m_camEventPrefix: cam_
+  m_folderFormat: ScriptableObjects/Cutscenes/{0}
+  m_folderSearch:
+  - ScriptableObjects/Cutscenes
+  <YarnEventNameToGameEventDict>k__BackingField:
+    m_keys:
+    - cam_doktor_closeup
+    - cam_doktor_closeup_extreme
+    - cam_doktor_intro
+    - cam_doktor_intro_alt
+    - cam_doktor_intro_full
+    - cam_intro_beach
+    - cam_intro_beach_path
+    - cam_intro_forest
+    - cam_intro_meadow
+    - cam_intro_mint_close_up
+    - cam_intro_mint_close_up_alt
+    - cam_intro_mint_close_up_extreme
+    - cam_intro_mint_full
+    - cam_intro_mint_over_shoulder
+    - cam_intro_mountain
+    - cam_intro_player_from_start_menu
+    - cam_player_close_up_left
+    - cam_player_full_left
+    - cam_transition_cut
+    - cam_transition_fast
+    - cam_transition_slow
+    - item_jump
+    - show_movement_tutorial
+    - text_align_bot_center
+    - text_align_bot_left
+    - text_align_bot_right
+    - text_align_center
+    - text_align_center_left
+    - text_align_center_right
+    - text_align_top_center
+    - text_align_top_left
+    - text_align_top_right
+    m_values:
+    - {fileID: 11400000, guid: 011cbd17adfd7e345b9e8241129d9b95, type: 2}
+    - {fileID: 11400000, guid: 5b93e3e95eb52bc4a9827b5da8f43dc6, type: 2}
+    - {fileID: 11400000, guid: 4820316f16d33ac47bab61633d40f134, type: 2}
+    - {fileID: 11400000, guid: 64e653133c618b347a566d8b8b992cb4, type: 2}
+    - {fileID: 11400000, guid: b7cfb0a9236666f42ab0a7d85664c987, type: 2}
+    - {fileID: 11400000, guid: 222128aee8fdfbf48a4d021bef63408a, type: 2}
+    - {fileID: 11400000, guid: c693a85dc39de544b85207dbb0b6da91, type: 2}
+    - {fileID: 11400000, guid: 957db25082aace54c85db6e8af3114e8, type: 2}
+    - {fileID: 11400000, guid: b4432161808ecf1479f03f6aa791f618, type: 2}
+    - {fileID: 11400000, guid: 386004bfc0a287b42ad43d14cd863dfc, type: 2}
+    - {fileID: 11400000, guid: 57211a5ae2555d14caa2b5e1c54825d6, type: 2}
+    - {fileID: 11400000, guid: 40b02cca7b1a2c24395039544e55a648, type: 2}
+    - {fileID: 11400000, guid: 2bc976b8216e99844b1aa659d373c450, type: 2}
+    - {fileID: 11400000, guid: e4af287e486bd5e4ea67e57d145acff4, type: 2}
+    - {fileID: 11400000, guid: 236e5361027dcb74d9b3edaca4699bca, type: 2}
+    - {fileID: 11400000, guid: 0f0442c489dc4544786a4dc2651b3d23, type: 2}
+    - {fileID: 11400000, guid: e851ad11eedcb30468ed8a2b2cd92e55, type: 2}
+    - {fileID: 11400000, guid: e35c70fe6a557974691961ebc8adb0a4, type: 2}
+    - {fileID: 11400000, guid: c14b7cd176ea6084db90430dae12454d, type: 2}
+    - {fileID: 11400000, guid: c486641eb167f5d40bf2697dd9d2ed59, type: 2}
+    - {fileID: 11400000, guid: 8560285ac3f52e04ba5e13b9723cdf7c, type: 2}
+    - {fileID: 0}
+    - {fileID: 11400000, guid: 5eecf0d9a2ac1b94391920ad3bcaca21, type: 2}
+    - {fileID: 11400000, guid: b5e6fb8844d22bd4b903cac217504220, type: 2}
+    - {fileID: 11400000, guid: eade6902c78b1074897b0fdc1faee5cf, type: 2}
+    - {fileID: 11400000, guid: aed0af959dc219241b0ccb4cda15eaff, type: 2}
+    - {fileID: 11400000, guid: d4f3a159f453db546a85bdaa9835fd7e, type: 2}
+    - {fileID: 11400000, guid: ff2892759564049419e31d789b0a563d, type: 2}
+    - {fileID: 11400000, guid: b17076b519318b847996a41c8673fac1, type: 2}
+    - {fileID: 11400000, guid: 25cced7540d6d294c89f717667fd38bc, type: 2}
+    - {fileID: 11400000, guid: f319a3d87a72843418b62bcfe7612518, type: 2}
+    - {fileID: 11400000, guid: d98df7de7649fe94e93946d857f43bab, type: 2}

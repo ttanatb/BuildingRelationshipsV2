@@ -1,0 +1,24 @@
+newmtl RedMetal
+map_Kd D:/Unity/Building Relationships/Assets/GitIgnore/Textures/Buildings/BrushedMetalC_S.jpg
+bump D:/Unity/Building Relationships/Assets/GitIgnore/Textures/Buildings/GreyTiles_N.jpg
+Kd 1 0.240566 0.240566
+d 1
+
+newmtl BrownWood
+map_Kd D:/Unity/Building Relationships/Assets/GitIgnore/Textures/Buildings/BrownWood_S.jpg
+bump D:/Unity/Building Relationships/Assets/GitIgnore/Textures/Buildings/BrownWood_N.jpg
+Kd 1 1 1
+d 1
+
+newmtl StoneWall
+map_Kd D:/Unity/Building Relationships/Assets/GitIgnore/Textures/Buildings/GreyTiles_S.jpg
+bump D:/Unity/Building Relationships/Assets/GitIgnore/Textures/Buildings/GreyTiles_N.jpg
+Kd 1 1 1
+d 1
+
+newmtl SandyWood
+map_Kd D:/Unity/Building Relationships/Assets/GitIgnore/Textures/Buildings/SandyWoodB_S.jpg
+bump D:/Unity/Building Relationships/Assets/GitIgnore/Textures/Buildings/SandyWoodB_N.jpg
+Kd 0.7169812 0.7169812 0.7169812
+d 1
+

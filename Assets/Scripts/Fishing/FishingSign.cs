@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Cinemachine;
+using Utilr.SoGameEvents;
 
 public class FishingSign : InteractiblePropject
 {
@@ -21,6 +20,9 @@ public class FishingSign : InteractiblePropject
     public Transform FishingCamera { get; private set; }
     public FishingArea FishingArea { get; private set; }
     public Transform PlayerAnchor { get { return m_playerAnchor; } }
+    
+    [field: SerializeField]
+    public SoGameEvent ActivateCamEvent { get;set; }
 
     public void ResetLookat()
     {

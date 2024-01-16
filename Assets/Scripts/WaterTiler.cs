@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[ExecuteInEditMode]
 public class WaterTiler : MonoBehaviour
 {
     string[] TEXT_NAMES = { "_SurfaceNoise", "_SurfaceDistortion" };
@@ -16,7 +13,7 @@ public class WaterTiler : MonoBehaviour
     void Start()
     {
         var renderer = GetComponent<Renderer>();
-        m_material = renderer.sharedMaterial;
+        m_material = renderer.material;
 
         m_proertyIds = new int[TEXT_NAMES.Length];
         for (int i = 0; i < TEXT_NAMES.Length; i++)
@@ -30,7 +27,7 @@ public class WaterTiler : MonoBehaviour
         Vector3 localScale = transform.localScale;
         Vector2 textScale = new Vector2(localScale.x / m_baseScale.x, localScale.y / m_baseScale.y);
 
-        foreach (int s in m_proertyIds)
-            m_material.SetTextureScale(s, textScale);
+        // foreach (int s in m_proertyIds)
+            // m_material.SetTextureScale(s, textScale);
     }
 }

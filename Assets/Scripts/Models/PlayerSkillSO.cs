@@ -21,7 +21,3 @@ public struct PlayerSkill
     public int level;
 }
 
-public class PlayerSkillSO : ScriptableObject
-{
-    public FishStats[] fishStats;
-}

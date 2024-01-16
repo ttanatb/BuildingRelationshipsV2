@@ -97,15 +97,15 @@
                 float waterDepthDifference01 = saturate(depthDifference / _DepthMaxDistance);
                 waterDepthDifference01 = waterDepthDifference01 < 0.0001 ? 1 : waterDepthDifference01;
                 float4 waterColor = lerp(_DepthGradientShallow, _DepthGradientDeep, waterDepthDifference01);
+                float3 existingNormal = tex2Dproj(_CameraNormalsTexture, UNITY_PROJ_COORD(i.screenPosition));
+                float3 normalDot = saturate(dot(existingNormal, i.viewNormal));
                 float2 distortSample = (tex2D(_SurfaceDistortion, i.distortUV).xy * 2 - 1) * _SurfaceDistortionAmount;
 
 
                 float2 noiseUV = float2((i.noiseUV.x + _Time.y * _SurfaceNoiseScroll.x) + distortSample.x, 
-                                        (i.noiseUV.y + _Time.y * _SurfaceNoiseScroll.y) + + distortSample.y);
+                                        (i.noiseUV.y + _Time.y * _SurfaceNoiseScroll.y) + distortSample.y);
                 float surfaceNoiseSample = tex2D(_SurfaceNoise, noiseUV).r;
 
-                float3 existingNormal = tex2Dproj(_CameraNormalsTexture, UNITY_PROJ_COORD(i.screenPosition));
-                float3 normalDot = saturate(dot(existingNormal, i.viewNormal));
                 float foamDistance = lerp(_FoamMaxDistance, _FoamMinDistance, normalDot);
 
                 float foamDepthDifference01 = saturate(depthDifference / foamDistance);
@@ -114,6 +114,7 @@
                 float surfaceNoise = smoothstep(surfaceNoiseCutoff - SMOOTHSTEP_AA, 
                                                 surfaceNoiseCutoff + SMOOTHSTEP_AA,
                                                 surfaceNoiseSample) * _FoamColor;
+                surfaceNoise = 0;
 
                 float4 lighting = i.diff + float4(i.ambient, 1);
 

@@ -3,6 +3,8 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UI.Structs;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -30,10 +32,8 @@ public class InventorySystem : Singleton<InventorySystem>
     { get { return m_itemDatabase; } }
 
     public List<(CollectibleItem.ItemID, int)> Inventory { get { return m_sortedInventory; } }
-
-    public UnityAction<List<(CollectibleItem.ItemID, int)>> ChangeItemAmtFinishedCb { get; set; }
-
-
+    
+    [SerializeField] private SoUpdateItemEvent m_updateItemEvent = null;
 
     public void ChangeItemAmt(CollectibleItem.ItemID id, int amount)
     {
@@ -79,9 +79,7 @@ public class InventorySystem : Singleton<InventorySystem>
         }
 
         m_inventory[id] = (newAmt, newIndex);
-
-
-        ChangeItemAmtFinishedCb?.Invoke(m_sortedInventory);
+        m_updateItemEvent.Invoke(new UpdateItemStatus(){ id = id, totalCount = newAmt});
     }
 
     private void Awake()

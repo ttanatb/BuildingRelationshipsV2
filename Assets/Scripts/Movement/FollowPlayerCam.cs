@@ -53,8 +53,8 @@ public class FollowPlayerCam : AutonomousAgent
 
     // Binding input
 
-    PlayerInput m_playerInput = null;
-    PlayerControls m_playerControls = null;
+    // PlayerInput m_playerInput = null;
+    // PlayerControls m_playerControls = null;
 
     // DEBUG
 
@@ -66,7 +66,7 @@ public class FollowPlayerCam : AutonomousAgent
 
     private void Awake()
     {
-        m_playerControls = new PlayerControls();
+        // m_playerControls = new PlayerControls();
     }
 
     // Start is called before the first frame update
@@ -84,34 +84,24 @@ public class FollowPlayerCam : AutonomousAgent
         m_targetRotation = transform.rotation;
         nextPos = transform.position;
 
-        m_playerInput = m_playerTransform.GetComponent<PlayerInput>();
-
-        m_playerControls.Player.TriggerLook.started += UpdateRightClick;
-        m_playerControls.Player.TriggerLook.performed += UpdateRightClick;
-        m_playerControls.Player.TriggerLook.canceled += UpdateRightClick;
-        m_playerControls.Player.Look.started += UpdateMovement;
-        m_playerControls.Player.Look.performed += UpdateMovement;
-        m_playerControls.Player.Look.canceled += UpdateMovement;
-    }
-
-    private void OnEnable()
-    {
-        m_playerControls.Enable();
-    }
-
-    private void OnDisable()
-    {
-        m_playerControls.Disable();
+        // m_playerInput = m_playerTransform.GetComponent<PlayerInput>();
+        //
+        // m_playerControls.Player.TriggerLook.started += UpdateRightClick;
+        // m_playerControls.Player.TriggerLook.performed += UpdateRightClick;
+        // m_playerControls.Player.TriggerLook.canceled += UpdateRightClick;
+        // m_playerControls.Player.Look.started += UpdateMovement;
+        // m_playerControls.Player.Look.performed += UpdateMovement;
+        // m_playerControls.Player.Look.canceled += UpdateMovement;
     }
 
     private void OnDestroy()
     {
-        m_playerControls.Player.TriggerLook.started -= UpdateRightClick;
-        m_playerControls.Player.TriggerLook.performed -= UpdateRightClick;
-        m_playerControls.Player.TriggerLook.canceled -= UpdateRightClick;
-        m_playerControls.Player.Look.started -= UpdateMovement;
-        m_playerControls.Player.Look.performed -= UpdateMovement;
-        m_playerControls.Player.Look.canceled -= UpdateMovement;
+        // m_playerControls.Player.TriggerLook.started -= UpdateRightClick;
+        // m_playerControls.Player.TriggerLook.performed -= UpdateRightClick;
+        // m_playerControls.Player.TriggerLook.canceled -= UpdateRightClick;
+        // m_playerControls.Player.Look.started -= UpdateMovement;
+        // m_playerControls.Player.Look.performed -= UpdateMovement;
+        // m_playerControls.Player.Look.canceled -= UpdateMovement;
     }
 
     private void UpdateLookRotation()
@@ -198,21 +188,21 @@ public class FollowPlayerCam : AutonomousAgent
     //    base.LateUpdate();
     //}
 
-    public void UpdateMovement(InputAction.CallbackContext context)
-    {
-        Vector2 input = context.ReadValue<Vector2>();
-        input.x *= m_camera.aspect;
-        //input.y *= Screen.height;
-        m_cameraAngleChange = input;
-    }
-
-    public void UpdateRightClick(InputAction.CallbackContext context)
-    {
-        float input = context.ReadValue<float>();
-        m_isAdjustingLookAngle = input > 0.0f;
-        Cursor.lockState = m_isAdjustingLookAngle ? CursorLockMode.Locked : CursorLockMode.Confined;
-        m_cameraAngleChange = Vector2.zero;
-    }
+    // public void UpdateMovement(InputAction.CallbackContext context)
+    // {
+    //     Vector2 input = context.ReadValue<Vector2>();
+    //     input.x *= m_camera.aspect;
+    //     //input.y *= Screen.height;
+    //     m_cameraAngleChange = input;
+    // }
+    //
+    // public void UpdateRightClick(InputAction.CallbackContext context)
+    // {
+    //     float input = context.ReadValue<float>();
+    //     m_isAdjustingLookAngle = input > 0.0f;
+    //     Cursor.lockState = m_isAdjustingLookAngle ? CursorLockMode.Locked : CursorLockMode.Confined;
+    //     m_cameraAngleChange = Vector2.zero;
+    // }
 
 
     private void OnDrawGizmos()

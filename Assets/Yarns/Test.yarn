@@ -1,0 +1,43 @@
+﻿title: TreasureChest9_Introduction
+tags: 
+colorID: 0
+position: 2725,-482
+---
+<<declare $TreasureChest9_Introduction = false>>
+<<declare $treasureChestCount = 0>>
+<<if $TreasureChest9_Introduction is true>>
+Chest: Glib glib glub glub.
+Chest: Press 'shift' to dash!
+<<else>>
+Chest: Glub glub glub I am a fish.
+Chest: Don't believe me?
+Chest: Here's you can tell by my body's exterior... It's a fish's...
+Chest: bark? wall? shell? clothing? coat?
+Chest: I don't know... on a scale of 1 - 5 how close do you think I am?
+Chest: Actually, I don't care, just have this shoe.
+<<unlockSkill EventManager JumpCount 1>>
+<<addItem EventManager WeirdShoe 1>>
+<<set $TreasureChest9_Introduction to true>>
+<<set $treasureChestCount to $treasureChestCount + 1>>
+<<endif>>
+===
+title: TreasureChest3_Introduction
+tags: 
+colorID: 0
+position: 2739,-1235
+---
+<<declare $TreasureChest3_Introduction = false>>
+<<if $TreasureChest3_Introduction is true>>
+Chest: Tee-hee~
+Chest: Tee-hee2~
+<<else>>
+Chest: Ya-ha-ha!
+Chest: You found me!
+Chest: Have these socks.
+Chest: It makes you jump higher!
+<<unlockSkill EventManager JumpDist 1>>
+<<addItem EventManager WeirdSocks 1>>
+<<set $TreasureChest3_Introduction to true>>
+<<set $treasureChestCount to $treasureChestCount + 1>>
+<<endif>>
+===

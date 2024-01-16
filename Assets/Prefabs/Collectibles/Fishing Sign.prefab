@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0.4817667, y: 0.23125337, z: -0.13347645, w: 0.8346298}
   m_LocalPosition: {x: -474.8808, y: -43.61078, z: 10.499939}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1905453080}
   m_RootOrder: 0
@@ -97,6 +98,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0.77174574, z: -0, w: 0.63593125}
   m_LocalPosition: {x: 1.5, y: 0, z: -1.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2469219869228629642}
   m_RootOrder: 4
@@ -127,6 +129,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2469219869228629642}
   m_RootOrder: 2
@@ -155,9 +158,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1905453079}
-  m_LocalRotation: {x: 0.26107135, y: -0.58394134, z: 0.20584849, w: 0.74059486}
+  m_LocalRotation: {x: 0.26107132, y: -0.58394134, z: 0.20584847, w: 0.74059486}
   m_LocalPosition: {x: 7.543889, y: 14.098001, z: -8.4386635}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 303645087}
   m_Father: {fileID: 2469219869228629642}
@@ -189,7 +193,10 @@ MonoBehaviour:
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    ModeOverride: 0
     LensShift: {x: 0, y: 0}
+    GateFit: 2
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -225,6 +232,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0.3631324, z: -0, w: 0.93173754}
   m_LocalPosition: {x: -20.804321, y: -9.372001, z: -1.6380255}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2469219869228629642}
   m_RootOrder: 3
@@ -244,6 +252,7 @@ MonoBehaviour:
   m_fishPrefabs:
   - {fileID: 9090116438159904483, guid: ee6ffe7a2f0c49441a1caf9cf1c6673e, type: 3}
   m_spawnRadius: 14.16
+  m_maxWanderRadius: 5
   m_terrainCollider: {fileID: 0}
   m_fishingReticle: {fileID: 0}
   m_fishes: []
@@ -282,6 +291,7 @@ Transform:
   m_LocalRotation: {x: -0, y: 0.3631324, z: -0, w: 0.93173754}
   m_LocalPosition: {x: 16.426025, y: 9.372001, z: -12.872009}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6019952390574562519}
   - {fileID: 1905453080}
@@ -324,7 +334,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4411157842631943304}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f318ca09c82210c479054b1da5676540, type: 3}
   m_Name: 
@@ -333,7 +343,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   m_camera: {fileID: 0}
-  m_targetPrioirty: 15
+  m_activateFishCamEvent: {fileID: 0}
+  m_activatePlayerCamEvent: {fileID: 11400000, guid: 654b2ceacc3982b43a7e8bf15160aba5,
+    type: 2}
 --- !u!114 &8530278671372277554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,6 +362,7 @@ MonoBehaviour:
   m_interactText: fish
   m_interactible: 1
   m_playerAnchor: {fileID: 717288505}
+  <ActivateCamEvent>k__BackingField: {fileID: 0}
 --- !u!1 &4424936434189947510
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,6 +391,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 1, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6019952390574562519}
   m_RootOrder: 1
@@ -401,10 +415,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -429,6 +445,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &5094665040619344534
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,6 +474,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -0.049999647, y: 1, z: 0.00001334399}
   m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6019952390574562519}
   m_RootOrder: 0
@@ -480,10 +498,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -509,6 +529,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &7854381891664240600
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,6 +556,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5618295991779706924}
   - {fileID: 3901059088521562316}
@@ -570,6 +592,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.044443406, y: 0.7229996, z: -0.016021017}
   m_LocalScale: {x: 1, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6019952390574562519}
   m_RootOrder: 2
@@ -593,10 +616,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -623,3 +648,4 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
