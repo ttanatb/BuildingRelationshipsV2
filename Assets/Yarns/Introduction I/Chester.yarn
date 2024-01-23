@@ -1,6 +1,7 @@
 title: Chester_Intro
 tags:
 ---
+<<setCurrentActorId YarnEventManager "chester_intro">>
 Chester: Howdy-doo there!
 How are you doin'?
     -> I'm <roll>rootin' tootin'</roll>!
@@ -18,10 +19,11 @@ Chester: How does that sound?
 title: Chester_Intro_Loop
 tags:
 ---
+<<setCurrentActorId YarnEventManager "chester_intro">>
 <<declare $Chester_Intro_Loop_BachPad = false>>
     -> Consider it a yee-haw!
         Chester: Well, <roll>yeeeee-haw</roll> indeed!!
-        <<fireEvent YarnEventManager "item_jump">>
+        <<obtainItem YarnEventManager "Weird Shoe" 1>>
         Keep your windows peeled for my cohort, they look just like me!
     -> But are you a Bach-Pad? <<if $Chester_Intro_Loop_BachPad is false>>
         Chester: I'm flattered but...
@@ -32,17 +34,19 @@ tags:
         <<jump Chester_Intro_Loop_Intro>>
     -> Maybe later?
         Chester: Alrighty, but take this gift anyways.
-        <<fireEvent YarnEventManager "item_jump">>
+        <<obtainItem YarnEventManager "Weird Shoe" 1>>
         And do keep an open attic and an open window for my cohort!
 ===
 title: Chester_Intro_Loop_Intro
 tags:
 ---
+<<setCurrentActorId YarnEventManager "chester_intro">>
 Chester: How about that <roll>rootin' tootin'</roll> favor?
 <<jump Chester_Intro_Loop>>
 ===
 title: Chester_Intro_Gifted_Loop
 tags:
 ---
+<<setCurrentActorId YarnEventManager "chester_intro">>
 Chester: My cohort has a bunch more <roll>lootin' gootin'</roll> treasures.
 ===

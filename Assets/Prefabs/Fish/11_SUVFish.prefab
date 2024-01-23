@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3515856582575285634}
   - component: {fileID: -3955562265052207842}
   m_Layer: 0
-  m_Name: SUVFish
+  m_Name: 11_SUVFish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 360.95987, y: 6.2671294, z: 197.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2032502572582318701}
   m_Father: {fileID: 0}
@@ -87,7 +88,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856c1a5fe1df8554b8f9f76eaeac0d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_fishDatabase: {fileID: 11400000, guid: 0853716fe39c13d4a86076f9c56237ca, type: 2}
   m_fishID: 11
+  m_fishReelStartEvent: {fileID: 11400000, guid: 8ab7b06f216b9714ebbca6344b9d353e,
+    type: 2}
 --- !u!1001 &1999139941366060422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95,6 +99,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6511280450509217466}
     m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: e84dd5b9cd4daee4fb528e6d3e8bc8a8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e84dd5b9cd4daee4fb528e6d3e8bc8a8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -112,6 +121,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e84dd5b9cd4daee4fb528e6d3e8bc8a8,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e84dd5b9cd4daee4fb528e6d3e8bc8a8,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -124,16 +138,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e84dd5b9cd4daee4fb528e6d3e8bc8a8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: e84dd5b9cd4daee4fb528e6d3e8bc8a8,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e84dd5b9cd4daee4fb528e6d3e8bc8a8,
         type: 3}

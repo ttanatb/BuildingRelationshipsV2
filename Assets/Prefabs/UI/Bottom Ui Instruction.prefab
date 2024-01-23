@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Test Instruction
+  m_text: Making Moves
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 33411a8836654c546a12e42895c5ccac, type: 2}
   m_sharedMaterial: {fileID: 5431751806653189826, guid: 33411a8836654c546a12e42895c5ccac,
@@ -94,14 +94,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40.9
-  m_fontSizeBase: 36
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 3298631201026159085}
   - component: {fileID: 3298631201026159087}
   - component: {fileID: 3298631201026159086}
+  - component: {fileID: 11343463}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -172,7 +173,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 0}
+  m_SizeDelta: {x: 100, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3298631201026159087
 CanvasRenderer:
@@ -212,6 +213,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &11343463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3298631201026159084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7d4cb6209a843a6bd6a87591dcbe52b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_inputIconDb: {fileID: 11400000, guid: 93055340623f1674e8b68def9cf12eae, type: 2}
+  m_inputDeviceEvent: {fileID: 11400000, guid: f77c79f5da40efc4a8e4d90fabab9bd3, type: 2}
+  m_input: {fileID: 2140785848020088644, guid: 6eb01feef10ce7548a596c2cbc1f25d3, type: 3}
+  m_sprites:
+    <MouseKeyboard>k__BackingField: {fileID: 21300000, guid: b02112061dd82914a8f23f2364c25e37,
+      type: 3}
+    <ControllerGeneric>k__BackingField: {fileID: 21300000, guid: 285f73c2f61854945a40fdae4c563431,
+      type: 3}
+    <ControllerPs4>k__BackingField: {fileID: 21300000, guid: 285f73c2f61854945a40fdae4c563431,
+      type: 3}
+    <ControllerPs5>k__BackingField: {fileID: 21300000, guid: 285f73c2f61854945a40fdae4c563431,
+      type: 3}
+    <ControllerXbox>k__BackingField: {fileID: 21300000, guid: 285f73c2f61854945a40fdae4c563431,
+      type: 3}
+    <ControllerNintendo>k__BackingField: {fileID: 21300000, guid: 285f73c2f61854945a40fdae4c563431,
+      type: 3}
 --- !u!1 &3298631201494264852
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,6 +253,7 @@ GameObject:
   - component: {fileID: 3298631201494264854}
   - component: {fileID: 6730157328877461961}
   - component: {fileID: 2314889240107025806}
+  - component: {fileID: 5349931315246402052}
   - component: {fileID: 4825027034402875189}
   m_Layer: 5
   m_Name: Bottom Ui Instruction
@@ -304,7 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f7df392af28cd4281031d71e429daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_gameEvent: {fileID: 11400000, guid: 6d39347a5f91176449a1e792298bdcbc, type: 2}
+  m_gameEvent: {fileID: 11400000, guid: 7fa487b38e4147849abc6456fb39b64f, type: 2}
   m_anim:
     <Duration>k__BackingField: 0.2
     <Curve>k__BackingField:
@@ -333,6 +363,49 @@ MonoBehaviour:
       m_RotationOrder: 4
     <InitialValue>k__BackingField: 0
     <FinalValue>k__BackingField: 1
+  m_isToggle: 0
+--- !u!114 &5349931315246402052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3298631201494264852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f7df392af28cd4281031d71e429daa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_gameEvent: {fileID: 11400000, guid: 7b7113a2da52c734e9afbbcc7f8fb009, type: 2}
+  m_anim:
+    <Duration>k__BackingField: 0.6
+    <Curve>k__BackingField:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    <InitialValue>k__BackingField: 1
+    <FinalValue>k__BackingField: 0
+  m_isToggle: 0
 --- !u!114 &4825027034402875189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,7 +418,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552c3bdf5f982c242b6837d9eb65bb90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_actionReference: {fileID: 1532053803390470934, guid: 6eb01feef10ce7548a596c2cbc1f25d3,
+  m_actionReference: {fileID: 2140785848020088644, guid: 6eb01feef10ce7548a596c2cbc1f25d3,
     type: 3}
   m_performCount: 5
-  m_eventToTrigger: {fileID: 11400000, guid: 7b7113a2da52c734e9afbbcc7f8fb009, type: 2}
+  m_eventToStartCounting: {fileID: 11400000, guid: 7fa487b38e4147849abc6456fb39b64f,
+    type: 2}
+  m_eventToTrigger:
+  - {fileID: 11400000, guid: 7b7113a2da52c734e9afbbcc7f8fb009, type: 2}

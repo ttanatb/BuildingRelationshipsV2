@@ -3,7 +3,7 @@ using Utilr.SoGameEvents;
 
 namespace Dialogue.SO
 {
-    [CreateAssetMenu(fileName = "PositionPlayerEvent", menuName = "br/PositionPlayerEvent", order = 1)]
+    [CreateAssetMenu(fileName = "PositionPlayerEvent", menuName = "br/Dialogue/PositionPlayerEvent", order = 1)]
     public class PositionPlayerEvent : SoCustomEvent<Transform>
     {
         

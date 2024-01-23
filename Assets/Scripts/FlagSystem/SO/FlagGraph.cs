@@ -27,6 +27,21 @@ namespace FlagSystem.SO
         private readonly List<FlagNode> m_currentNodes = new List<FlagNode>();
         private readonly List<FlagNode> m_nextNodes = new List<FlagNode>();
 
+        public void LoadCompletionStatus(FlagGraphUpdateStatus completion)
+        {
+            m_completedNodes = completion.CompletedNodes;
+            foreach (var node in m_completedNodes)
+                m_flagCompletionEvent.Invoke(node);
+            
+            m_currentNodes.Clear();
+            foreach (var node in completion.CurrentNodes)
+                m_currentNodes.Add(node);
+            
+            m_nextNodes.Clear();
+            foreach (var node in completion.NextNodes)
+                m_nextNodes.Add(node);
+        }
+
         public void OnFlagCompleted(FlagNode node)
         {
             if (m_unconnectedNodes.Contains(node))

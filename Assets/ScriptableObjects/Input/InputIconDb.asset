@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c66c0e37eda4082a0723591fff2db98, type: 3}
+  m_Name: InputIconDb
+  m_EditorClassIdentifier: 
+  <Database>k__BackingField:
+    m_keys:
+    - <Keyboard>/e
+    - <Keyboard>/leftShift
+    - <Keyboard>/space
+    - <Gamepad>/rightStick
+    - <Gamepad>/leftStick
+    m_values:
+    - {fileID: 21300000, guid: 0ba436465e5026c429c5d71685a51bb7, type: 3}
+    - {fileID: 21300000, guid: 13eec02ef3c03fb479112382c2ae773e, type: 3}
+    - {fileID: 21300000, guid: 424f083fb4667d9429eb20faf42d549e, type: 3}
+    - {fileID: 21300000, guid: bee9ae5724e3b2d4d9d378ff3e839c13, type: 3}
+    - {fileID: 21300000, guid: 285f73c2f61854945a40fdae4c563431, type: 3}
+  <ControllerDb>k__BackingField:
+    m_keys:
+    - <Gamepad>/buttonSouth
+    - <Gamepad>/buttonEast
+    - <Gamepad>/buttonWest
+    - <Gamepad>/leftTrigger
+    - <Gamepad>/leftShoulder
+    - <Gamepad>/rightTrigger
+    - <Gamepad>/rightShoulder
+    - <Gamepad>/start
+    - <Gamepad>/buttonNorth
+    m_values:
+    - <MouseKeyboard>k__BackingField: {fileID: 0}
+      <ControllerGeneric>k__BackingField: {fileID: 21300000, guid: cd4d307fce1fcc645b2bbaed3c0d3501,
+        type: 3}
+      <ControllerPs4>k__BackingField: {fileID: 21300000, guid: bcc197877e13a204490cabbe105f572b,
+        type: 3}
+      <ControllerPs5>k__BackingField: {fileID: 21300000, guid: bcc197877e13a204490cabbe105f572b,
+        type: 3}
+      <ControllerXbox>k__BackingField: {fileID: 21300000, guid: 4a5a3fa7b1ab75d4cbadc8afe66d5d4b,
+        type: 3}
+      <ControllerNintendo>k__BackingField: {fileID: 21300000, guid: cd605c6695eb80c4c954624f1aa0fcff,
+        type: 3}
+    - <MouseKeyboard>k__BackingField: {fileID: 0}
+      <ControllerGeneric>k__BackingField: {fileID: 21300000, guid: 028ba77153620cb438ab4d94dd4f757c,
+        type: 3}
+      <ControllerPs4>k__BackingField: {fileID: 21300000, guid: 70ab2af89369f514098f15f45ba84c4e,
+        type: 3}
+      <ControllerPs5>k__BackingField: {fileID: 21300000, guid: 70ab2af89369f514098f15f45ba84c4e,
+        type: 3}
+      <ControllerXbox>k__BackingField: {fileID: 21300000, guid: b01535e168e7165489a351dd0eeb7dca,
+        type: 3}
+      <ControllerNintendo>k__BackingField: {fileID: 21300000, guid: f579b95a77005af4cb3784285ea096d4,
+        type: 3}
+    - <MouseKeyboard>k__BackingField: {fileID: 0}
+      <ControllerGeneric>k__BackingField: {fileID: 21300000, guid: 26ee72fbfc5c5cf4aa8d24c0909c73af,
+        type: 3}
+      <ControllerPs4>k__BackingField: {fileID: 21300000, guid: 0fd209b84256dd746a244c0bac7bda71,
+        type: 3}
+      <ControllerPs5>k__BackingField: {fileID: 21300000, guid: 0fd209b84256dd746a244c0bac7bda71,
+        type: 3}
+      <ControllerXbox>k__BackingField: {fileID: 21300000, guid: 4dd613b7f2e7be749aec2584f80b706a,
+        type: 3}
+      <ControllerNintendo>k__BackingField: {fileID: 21300000, guid: 470a8fbbc2317a74cb4fef350dfc0be5,
+        type: 3}
+    - <MouseKeyboard>k__BackingField: {fileID: 0}
+      <ControllerGeneric>k__BackingField: {fileID: 21300000, guid: bc4807c0e75f1a0489aaa29c5da33f46,
+        type: 3}
+      <ControllerPs4>k__BackingField: {fileID: 21300000, guid: b612f412c81874742b9e56caa9da2c5d,
+        type: 3}
+      <ControllerPs5>k__BackingField: {fileID: 21300000, guid: b612f412c81874742b9e56caa9da2c5d,
+        type: 3}
+      <ControllerXbox>k__BackingField: {fileID: 21300000, guid: b446d0adfd11abc4e8d88d89a1a690ac,
+        type: 3}
+      <ControllerNintendo>k__BackingField: {fileID: 21300000, guid: 1a89924a5ec5bfc4b807aeddbffd36d7,
+        type: 3}
+    - <MouseKeyboard>k__BackingField: {fileID: 0}
+      <ControllerGeneric>k__BackingField: {fileID: 21300000, guid: eb4f0317ef3481a4baff967782da84b2,
+        type: 3}
+      <ControllerPs4>k__BackingField: {fileID: 21300000, guid: b4ec8c389f969bb49b9b7ccd9f6a7bdb,
+        type: 3}
+      <ControllerPs5>k__BackingField: {fileID: 21300000, guid: b4ec8c389f969bb49b9b7ccd9f6a7bdb,
+        type: 3}
+      <ControllerXbox>k__BackingField: {fileID: 21300000, guid: cd4df538f4e73c44e95ea9699a517455,
+        type: 3}
+      <ControllerNintendo>k__BackingField: {fileID: 21300000, guid: fe95bdf2ec0b561468684dabb1f672ff,
+        type: 3}
+    - <MouseKeyboard>k__BackingField: {fileID: 0}
+      <ControllerGeneric>k__BackingField: {fileID: 21300000, guid: a6b99ba9e5c11004f80a65338484346b,
+        type: 3}
+      <ControllerPs4>k__BackingField: {fileID: 21300000, guid: be46b237646e1ee4f9b3d6358fd11b85,
+        type: 3}
+      <ControllerPs5>k__BackingField: {fileID: 21300000, guid: be46b237646e1ee4f9b3d6358fd11b85,
+        type: 3}
+      <ControllerXbox>k__BackingField: {fileID: 21300000, guid: b2ebe6f11b125b046bd985285b09d1e6,
+        type: 3}
+      <ControllerNintendo>k__BackingField: {fileID: 21300000, guid: 23094de918c45094489f9495553dab63,
+        type: 3}
+    - <MouseKeyboard>k__BackingField: {fileID: 0}
+      <ControllerGeneric>k__BackingField: {fileID: 21300000, guid: e8014932708e71f4296d5d2117054277,
+        type: 3}
+      <ControllerPs4>k__BackingField: {fileID: 21300000, guid: 70b0f0e60478045418c62cb8d9dc3b1b,
+        type: 3}
+      <ControllerPs5>k__BackingField: {fileID: 21300000, guid: 70b0f0e60478045418c62cb8d9dc3b1b,
+        type: 3}
+      <ControllerXbox>k__BackingField: {fileID: 21300000, guid: 7087c63f398d38b498cd111b70937122,
+        type: 3}
+      <ControllerNintendo>k__BackingField: {fileID: 21300000, guid: 519534d2441132749bd2e4ec14b8c686,
+        type: 3}
+    - <MouseKeyboard>k__BackingField: {fileID: 0}
+      <ControllerGeneric>k__BackingField: {fileID: 21300000, guid: 612d5ba54524b284687a19d17551ef31,
+        type: 3}
+      <ControllerPs4>k__BackingField: {fileID: 21300000, guid: 0176e8adcc788f249bd16f1d553ccea5,
+        type: 3}
+      <ControllerPs5>k__BackingField: {fileID: 21300000, guid: ae76175816477a94f92445112205cf41,
+        type: 3}
+      <ControllerXbox>k__BackingField: {fileID: 21300000, guid: 773fbeab02f674e4380927233c4d2800,
+        type: 3}
+      <ControllerNintendo>k__BackingField: {fileID: 21300000, guid: 73ec99056ef981a449c22ed4bd667b84,
+        type: 3}
+    - <MouseKeyboard>k__BackingField: {fileID: 0}
+      <ControllerGeneric>k__BackingField: {fileID: 21300000, guid: ba271563aab27c94784e9a55dfca75b3,
+        type: 3}
+      <ControllerPs4>k__BackingField: {fileID: 21300000, guid: 26793069ccf23044ba8001fb11816bec,
+        type: 3}
+      <ControllerPs5>k__BackingField: {fileID: 21300000, guid: 26793069ccf23044ba8001fb11816bec,
+        type: 3}
+      <ControllerXbox>k__BackingField: {fileID: 21300000, guid: 95ab79aed50748143acd23bc9d7fbd15,
+        type: 3}
+      <ControllerNintendo>k__BackingField: {fileID: 21300000, guid: ec692fa1de69eb049835cd92a48e052c,
+        type: 3}
+  <CompositeDb>k__BackingField:
+    m_keys:
+    - <Paths>k__BackingField:
+      - <Keyboard>/w
+      - <Keyboard>/s
+      - <Keyboard>/a
+      - <Keyboard>/d
+    m_values:
+    - {fileID: 21300000, guid: b02112061dd82914a8f23f2364c25e37, type: 3}

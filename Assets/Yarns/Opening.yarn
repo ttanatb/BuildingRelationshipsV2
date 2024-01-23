@@ -14,6 +14,7 @@ tags:
 title: Introduction_Cutscene
 tags:
 ---
+<<setCurrentActorId YarnEventManager "mint">>
 <<fireEvent YarnEventManager "text_align_center_left">>
 ???: Hey!
 
@@ -30,6 +31,7 @@ C'mon, I'm waiting.
 title: Introduction_Mint
 tags:
 ---
+<<setCurrentActorId YarnEventManager "mint">>
 <<declare $Introduction_Mint_Loop_Bach_Pad = false>>
 <<fireEvent YarnEventManager "cam_intro_mint_full">>
 <<fireEvent YarnEventManager "text_align_top_left">>
@@ -96,6 +98,7 @@ In fact, I think there's one waiting by the beach.
 title: Introduction_Mint_Loop
 tags:
 ---
+<<setCurrentActorId YarnEventManager "mint">>
 <<fireEvent YarnEventManager "cam_intro_mint_full">>
 <<fireEvent YarnEventManager "text_align_top_left">>
 Mint: Now, do you have any questions for me?

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65406d692a7a405dbe322a770593c995, type: 3}
+  m_Name: OnDialogueStart_GroupEvent
+  m_EditorClassIdentifier: 
+  m_invokeOnStart: 0
+  <GameEvents>k__BackingField:
+  - {fileID: 11400000, guid: 32f56f68d96e767458993d8960c1171d, type: 2}
+  - {fileID: 11400000, guid: 7b7113a2da52c734e9afbbcc7f8fb009, type: 2}

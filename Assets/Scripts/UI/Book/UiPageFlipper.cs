@@ -16,6 +16,7 @@ public class UiPageFlipper : MonoBehaviour
     [SerializeField] private float m_flipShowContentDelay = 0.0f;
 
     [SerializeField] private InputActionReference m_action = null;
+    [SerializeField] private PlayOneShotRandomAudioClipEvent m_pageFlipAudio = null;
 
     private bool m_isCurrentlyFlipping = false;    
     // TODO: separate SwitchContentSide -- hide with less delay, show with more delay
@@ -47,6 +48,7 @@ public class UiPageFlipper : MonoBehaviour
 
         StartCoroutine(ReEnableInputAfter(delay));
         m_leftPageIndex++;
+        m_pageFlipAudio.Invoke();
     }
 
     [Button]
@@ -76,6 +78,7 @@ public class UiPageFlipper : MonoBehaviour
         
         StartCoroutine(ReEnableInputAfter(delay));
         m_leftPageIndex--;
+        m_pageFlipAudio.Invoke();
     }
 
     private IEnumerator ReEnableInputAfter(float duration)

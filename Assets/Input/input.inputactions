@@ -368,6 +368,17 @@
                 },
                 {
                     "name": "",
+                    "id": "d6236a2c-6278-435c-8092-314268c478ba",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "f54d1d71-39d4-4755-89ae-5daf23bcd001",
                     "path": "<Keyboard>/f",
                     "interactions": "",
@@ -931,6 +942,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "01611bca-41cf-4185-b3cc-b14be02ad1e9",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Confirm",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -1539,6 +1561,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "GiveAllSkills",
+                    "type": "Button",
+                    "id": "fae4ce01-8a96-4b41-8847-bce4f3205b70",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1572,6 +1603,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "ToggleDebugPanel",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "79d4e93e-2822-4f02-8935-9c31e3d1982e",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GiveAllSkills",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "5185c12c-b2cf-4587-9e55-5adefdb578be",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GiveAllSkills",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "416cc66c-587d-4da4-a960-7c98d09afe34",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GiveAllSkills",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

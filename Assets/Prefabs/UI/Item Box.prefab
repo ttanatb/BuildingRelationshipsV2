@@ -309,8 +309,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_config: {fileID: 11400000, guid: bb85c0d87bd7a0a4f88a00cb67ee6794, type: 2}
   m_id: 16
-  m_updateItemEvent: {fileID: 11400000, guid: 93f6a9498c1060b4b94e05349ff569a5, type: 2}
-  m_itemDb: {fileID: 11400000, guid: 0586998b78f0e894bbddbc2be5c1a984, type: 2}
+  m_updatedInventoryEvent: {fileID: 11400000, guid: 5e8ca02e1e8833244a06c630497f1af4,
+    type: 2}
+  m_itemDb: {fileID: 11400000, guid: ab37aa97169534f4b888742b76d3a551, type: 2}
   m_nameText: {fileID: 8833680844868868079}
   m_amountText: {fileID: 585630404715579385}
   m_fishSprite: {fileID: 2613593358807454422}

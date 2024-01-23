@@ -1,10 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using Inventory.Structs;
 using NaughtyAttributes;
 using TMPro;
 using UI;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Rendering;
 
 public class UiPageContent : MonoBehaviour
@@ -21,8 +22,9 @@ public class UiPageContent : MonoBehaviour
     [AnimatorParam("m_animator")] [SerializeField]
     private int m_turnLeftTrigger = 1;
 
-    [SerializeField] private CollectibleItem.ItemID[] m_itemIds = null;
-    [SerializeField] private UiFishPanel[] m_fishPanels = null;
+    // Used as helper to initialize fish list
+    [SerializeField] private ItemData.ItemID[] m_fishIds = null;
+    [SerializeField] private BookFishPanel[] m_fishPanels = null;
 
     [SerializeField] private SortingGroup m_leftSide = null;
     [SerializeField] private SortingGroup m_rightSide = null;
@@ -59,15 +61,16 @@ public class UiPageContent : MonoBehaviour
 
     private void Start()
     {
+        Assert.AreEqual(m_fishIds.Length, m_fishPanels.Length);
         for (int i = 0; i < m_fishPanels.Length; i++)
         {
-            if (i >= m_itemIds.Length)
+            if (i >= m_fishIds.Length)
             {
                 m_fishPanels[i].gameObject.SetActive(false);
                 continue;
             }
 
-            m_fishPanels[i].Id = m_itemIds[i];
+            m_fishPanels[i].Id = m_fishIds[i];
         }
         
         if (m_startLeft)

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Text;
 using Input.SO;
+using Input.Structs;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine.Serialization;
 using Utilr.Attributes;
+using Utilr.Utility;
 
 namespace Input
 {
@@ -20,13 +23,26 @@ namespace Input
 
         [SerializeField] private InputActionReference m_startingInputMap = null;
 
+        [IncludeAllAssetsWithType]
+        [SerializeField] private TriggerGamepadRumbleEvent[] m_triggerGamepadRumbleEvents = null;
+        [SerializeField] private SetCurrentInputDeviceEvent m_currentInputDeviceEvent = null;
+        private SetCurrentInputDeviceData.DeviceType m_previousDeviceClass = SetCurrentInputDeviceData.DeviceType.Invalid;
+
         private void Start()
         {
             SwitchCurrentActionMap(m_startingInputMap);
+            InputSystem.onAnyButtonPress.Call(OnAnyButtonPress);
+            InputSystem.onDeviceChange += OnDeviceChange;
+            
 
             foreach (var evt in m_switchInputActionMapEvents)
             {
                 evt.Event.AddListener(SwitchCurrentActionMap);
+            }
+            
+            foreach (var evt in m_triggerGamepadRumbleEvents)
+            {
+                evt.Event.AddListener(OnTriggerGamepadRumble);
             }
 
             foreach (var reference in m_alwaysActive)
@@ -43,8 +59,52 @@ namespace Input
             {
                 evt.Event.RemoveListener(SwitchCurrentActionMap);
             }
+            
+            foreach (var evt in m_triggerGamepadRumbleEvents)
+            {
+                evt.Event.RemoveListener(OnTriggerGamepadRumble);
+            }
         }
         
+        private void OnTriggerGamepadRumble(TriggerGamepadRumbleData data)
+        {
+            var currGamepad = Gamepad.current;
+            if (currGamepad == null) return;
+            
+            currGamepad.ResetHaptics();
+            currGamepad.SetMotorSpeeds(data.LeftMotorSpeed, data.RightMotorSpeed);
+            currGamepad.ResumeHaptics();
+            StartCoroutine(Helper.ExecuteAfter(() => {
+                currGamepad.PauseHaptics();
+            }, data.Duration));
+        }
+        
+        private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+        {
+            if (change is not (InputDeviceChange.Added or InputDeviceChange.Enabled or InputDeviceChange.Reconnected))
+                return;
+            
+            OnDeviceActivity(device.GetType());
+        }
+        private void OnAnyButtonPress(InputControl inputControl)
+        {
+            OnDeviceActivity(inputControl.device.GetType());
+        }
+
+        private void OnDeviceActivity(Type deviceType)
+        {
+            var currentDeviceType = SetCurrentInputDeviceData.FromType(deviceType);
+
+            if (currentDeviceType == m_previousDeviceClass)
+                return;
+
+            m_currentInputDeviceEvent.Invoke(new SetCurrentInputDeviceData()
+            {
+                Type = currentDeviceType,
+            });
+
+            m_previousDeviceClass = currentDeviceType;
+        }
 
         private void SwitchCurrentActionMap(InputActionReference input)
         {

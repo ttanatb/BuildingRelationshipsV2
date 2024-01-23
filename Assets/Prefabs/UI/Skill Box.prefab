@@ -390,6 +390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f29d81f7eee4b8e8cb0d93223829bc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_setSkillLevelEvent: {fileID: 11400000, guid: 3635d792babb7314d9b9235de17bdadb,
+    type: 2}
   m_playerSkill: 0
   m_levelText: {fileID: 6173089242427192070}
 --- !u!1 &7810207706066679951

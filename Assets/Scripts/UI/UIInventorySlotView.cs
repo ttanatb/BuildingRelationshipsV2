@@ -41,19 +41,19 @@ public class UIInventorySlotView : MonoBehaviour, ISelectHandler, IDeselectHandl
 
     private bool m_isCurrentlySelected = false;
 
-    public CollectibleItem Collectible
-    {
-        set
-        {
-            m_quantityText.text = "";
-
-            m_image.sprite = value.sprite;
-            m_nameText.text = value.displayName;
-            m_descText.text = value.description;
-            LayoutRebuilder.ForceRebuildLayoutImmediate(m_bubblePanelRect);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(m_namePanelRect);
-        }
-    }
+    // public CollectibleItem Collectible
+    // {
+    //     set
+    //     {
+    //         m_quantityText.text = "";
+    //
+    //         m_image.sprite = value.Sprite;
+    //         m_nameText.text = value.DisplayName;
+    //         m_descText.text = value.Description;
+    //         LayoutRebuilder.ForceRebuildLayoutImmediate(m_bubblePanelRect);
+    //         LayoutRebuilder.ForceRebuildLayoutImmediate(m_namePanelRect);
+    //     }
+    // }
 
     public int Amount
     {

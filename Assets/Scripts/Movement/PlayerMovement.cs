@@ -6,124 +6,76 @@ using UnityEngine.InputSystem;
 using Cinemachine;
 using Dialogue.SO;
 using Dialogue.Struct;
+using Inventory.SO;
+using Inventory.Structs;
+using Skills.SO;
+using Skills.Structs;
+using UnityEngine.Serialization;
 using Utilr.Attributes;
 using Random = UnityEngine.Random;
 
 public class PlayerMovement : AutonomousAgent
 {
-    [SerializeField]
-    Transform m_cameraTransform = null;
-
-    [SerializeField]
-    TrailRenderer[] m_trailRenderers = null;
-
-    [SerializeField]
-    Vector2 m_accToApplyFromInput = new Vector2(0.5f, 2.0f);
-
+    [SerializeField] private Transform m_cameraTransform = null;
+    [SerializeField] private TrailRenderer[] m_trailRenderers = null;
+    [SerializeField] private Vector2 m_accToApplyFromInput = new Vector2(0.5f, 2.0f);
     [SerializeField] private float m_multiplierSpeedImpulse = 100.0f;
+    [SerializeField] private float m_currForwardPushForce = 0.0f;
+    [SerializeField] private float m_currRightPushForce = 0.0f;
+    [SerializeField] private float m_dashSpeedIncrement = 50.0f;
+    [SerializeField] private float m_dashDuration = 2.0f;
+    private float m_dashTimer = 0.0f;
 
-    [SerializeField]
-    float m_currForwardPushForce = 0.0f;
-
-    [SerializeField]
-    float m_currRightPushForce = 0.0f;
-
-    [SerializeField]
-    float m_dashSpeedIncrement = 50.0f;
-
-    [SerializeField]
-    float m_dashDuration = 2.0f;
-    float m_dashTimer = 0.0f;
-
-    [SerializeField]
-    float m_jumpSpeed = 50.0f;
+    [SerializeField] private float m_jumpSpeed = 50.0f;
 
     [SerializeField] private float m_jumpRollModifier = 10.0f;
     [SerializeField] private float m_jumpSpinRate = 0.20f;
     [SerializeField] private float m_jumpSpinModifier = 500.0f;
 
     [SerializeField] private PlayJumpSoundEvent m_playJumpSoundEvent = null;
+    [SerializeField] private PlayOneShotRandomAudioClipEvent m_dashAudioEvent = null;
 
-    [SerializeField]
-    float m_noRollJumpSpeed = 50.0f;
-
+    [SerializeField] private float m_noRollJumpSpeed = 50.0f;
     [SerializeField] private InputActionReference m_dashInput = null;
     [SerializeField] private InputActionReference m_jumpInput = null;
     [SerializeField] private InputActionReference m_freezePosInput = null;
     [SerializeField] private InputActionReference m_moveInput = null;
 
-    [SerializeField]
-    CinemachineVirtualCamera m_cinematicCam = null;
+    [SerializeField] private CinemachineVirtualCamera m_cinematicCam = null;
 
-    Vector3 m_totalMovementForce = Vector3.zero;
+    [SerializeField] private SetSkillLevelEvent m_setSkillLevelEvent = null;
 
-    [SerializeField]
-    int m_jumpCount = 0;
-    int m_baseJumpCount = 0;
 
-    float m_dashCooldownTimer = 0;
-    float m_baseDashTimer = 0;
-    float m_jumpModifier = 0;
+    private Vector3 m_totalMovementForce = Vector3.zero;
 
-    EventManager m_eventManager = null;
+    [SerializeField] private int m_jumpCount = 0;
+    private int m_baseJumpCount = 0;
 
-    static readonly int[] JUMP_COUNT = { 0, 1, 2, 3, int.MaxValue };
-    static readonly float[] JUMP_DIST_MODIFIER = { 0.7f, 1.0f, 1.3f };
-    static readonly float[] DASH_TIMER = { float.PositiveInfinity, 2.0f, 1.0f, 0.0f };
-    static readonly RigidbodyConstraints[] CONSTRAINTS = {
-        // RigidbodyConstraints.FreezeRotationZ,
+    private float m_dashCooldownTimer = 0;
+    private float m_baseDashTimer = 0;
+    private float m_jumpModifier = 0;
+
+    private static readonly int[] JUMP_COUNT = { 0, 1, 2, 3, int.MaxValue };
+    private static readonly float[] JUMP_DIST_MODIFIER = { 0.7f, 1.0f, 1.3f };
+    private static readonly float[] DASH_TIMER = { float.PositiveInfinity, 2.0f, 1.0f, 0.0f };
+    private static readonly RigidbodyConstraints[] CONSTRAINTS = {
         RigidbodyConstraints.None,
         RigidbodyConstraints.None,
     };
 
-    int m_currJumpIndex = 0;
-    int m_currJumpDistIndex = 0;
-    int m_currDashTimerIndex = 0;
-    int m_currConstraintIndex = 0;
+    private int m_currJumpIndex = 0;
+    private int m_currJumpDistIndex = 0;
+    private int m_currDashTimerIndex = 0;
+    private int m_currConstraintIndex = 0;
 
-    [SerializeField]
-    RigidbodyConstraints m_baseConstraints = RigidbodyConstraints.FreezeRotationZ;
+    [SerializeField] private RigidbodyConstraints m_baseConstraints = RigidbodyConstraints.FreezeRotationZ;
 
-    [SerializeField]
-    LayerMask m_jumpRegainLayerMask = 1;
+    [SerializeField] private LayerMask m_jumpRegainLayerMask = 1;
     
     [IncludeAllAssetsWithType]
     [SerializeField] private StartDialogueEvent[] m_startDialogueEvents = null;
     [SerializeField] private StopDialogueEvent m_stopDialogueEvent = null;
-
-
-    private void UpdateSkillLevel(PlayerSkill skill)
-    {
-        switch (skill.type)
-        {
-            case PlayerSkill.Type.JumpCount:
-                m_currJumpIndex += skill.level;
-                m_currJumpIndex = Mathf.Min(JUMP_COUNT.Length - 1, m_currJumpIndex);
-                m_baseJumpCount = JUMP_COUNT[m_currJumpIndex];
-                m_jumpCount = m_baseJumpCount;
-                break;
-            case PlayerSkill.Type.Roll:
-                m_currConstraintIndex += skill.level;
-                m_currConstraintIndex = Mathf.Min(CONSTRAINTS.Length - 1, m_currConstraintIndex);
-                m_baseConstraints = CONSTRAINTS[m_currConstraintIndex];
-                break;
-
-            case PlayerSkill.Type.JumpDist:
-                m_currJumpDistIndex += skill.level;
-                m_currJumpDistIndex = Mathf.Min(JUMP_DIST_MODIFIER.Length - 1, m_currJumpDistIndex);
-                m_jumpModifier = JUMP_DIST_MODIFIER[m_currJumpDistIndex];
-                break;
-            case PlayerSkill.Type.Dash:
-                m_currDashTimerIndex += skill.level;
-                m_currDashTimerIndex = Mathf.Min(DASH_TIMER.Length - 1, m_currDashTimerIndex);
-                m_baseDashTimer = DASH_TIMER[m_currDashTimerIndex];
-                m_dashCooldownTimer = m_baseDashTimer;
-                break;
-        }
-    }
-
-
-
+    
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -138,11 +90,9 @@ public class PlayerMovement : AutonomousAgent
         m_dashCooldownTimer = m_baseDashTimer;
         m_jumpCount = m_baseJumpCount;
 
-        m_eventManager = EventManager.Instance;
 
         if (m_cameraTransform == null)
             m_cameraTransform = Camera.main.transform;
-
 
         m_dashInput.action.performed += Dash;
         m_jumpInput.action.performed += Jump;
@@ -151,7 +101,7 @@ public class PlayerMovement : AutonomousAgent
         m_moveInput.action.performed += Move;
         m_moveInput.action.canceled += Move;
         
-        m_eventManager.AddSkillUnlockedListener(UpdateSkillLevel);
+        m_setSkillLevelEvent.Event.AddListener(UpdateSkillLevel);
         
         foreach (var e in m_startDialogueEvents)
         {
@@ -174,10 +124,50 @@ public class PlayerMovement : AutonomousAgent
             e.Event.RemoveListener(StopMovement);
         }
         m_stopDialogueEvent.Event.RemoveListener(EnableMovement);
+        
+        m_setSkillLevelEvent.Event.RemoveListener(UpdateSkillLevel);
+    }
+
+    private void UpdateSkillLevel(SkillTypeAndLevel skill)
+    {
+        switch (skill.SkillType)
+        {
+            case PlayerSkill.SkillType.JumpCount:
+                m_currJumpIndex += skill.Level;
+                m_currJumpIndex = Mathf.Min(JUMP_COUNT.Length - 1, m_currJumpIndex);
+                m_baseJumpCount = JUMP_COUNT[m_currJumpIndex];
+                m_jumpCount = m_baseJumpCount;
+                break;
+            case PlayerSkill.SkillType.Roll:
+                m_currConstraintIndex += skill.Level;
+                m_currConstraintIndex = Mathf.Min(CONSTRAINTS.Length - 1, m_currConstraintIndex);
+                m_baseConstraints = CONSTRAINTS[m_currConstraintIndex];
+                break;
+
+            case PlayerSkill.SkillType.JumpDist:
+                m_currJumpDistIndex += skill.Level;
+                m_currJumpDistIndex = Mathf.Min(JUMP_DIST_MODIFIER.Length - 1, m_currJumpDistIndex);
+                m_jumpModifier = JUMP_DIST_MODIFIER[m_currJumpDistIndex];
+                break;
+            case PlayerSkill.SkillType.Dash:
+                m_currDashTimerIndex += skill.Level;
+                m_currDashTimerIndex = Mathf.Min(DASH_TIMER.Length - 1, m_currDashTimerIndex);
+                m_baseDashTimer = DASH_TIMER[m_currDashTimerIndex];
+                m_dashCooldownTimer = m_baseDashTimer;
+                break;
+            case PlayerSkill.SkillType.Invalid:
+                break;
+            case PlayerSkill.SkillType.Fish:
+                break;
+            case PlayerSkill.SkillType.Count:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         m_dashCooldownTimer -= Time.deltaTime;
         
@@ -242,10 +232,12 @@ public class PlayerMovement : AutonomousAgent
     {
         if (m_dashCooldownTimer > 0.0f) return;
 
-        Vector3 dir = m_totalMovementForce.normalized;
+        var dir = m_totalMovementForce.normalized;
         m_rigidbody.velocity = dir * (m_dashSpeedIncrement + m_maxSpeed);
         m_dashTimer = 0.0f;
         m_dashCooldownTimer = m_baseDashTimer;
+        
+        m_dashAudioEvent.Invoke();
     }
 
     public void Jump(InputAction.CallbackContext context)

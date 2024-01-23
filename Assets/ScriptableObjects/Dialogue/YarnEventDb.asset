@@ -41,7 +41,6 @@ MonoBehaviour:
     - cam_transition_cut
     - cam_transition_fast
     - cam_transition_slow
-    - item_jump
     - show_movement_tutorial
     - text_align_bot_center
     - text_align_bot_left
@@ -74,8 +73,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: c14b7cd176ea6084db90430dae12454d, type: 2}
     - {fileID: 11400000, guid: c486641eb167f5d40bf2697dd9d2ed59, type: 2}
     - {fileID: 11400000, guid: 8560285ac3f52e04ba5e13b9723cdf7c, type: 2}
-    - {fileID: 0}
-    - {fileID: 11400000, guid: 5eecf0d9a2ac1b94391920ad3bcaca21, type: 2}
+    - {fileID: 11400000, guid: 7fa487b38e4147849abc6456fb39b64f, type: 2}
     - {fileID: 11400000, guid: b5e6fb8844d22bd4b903cac217504220, type: 2}
     - {fileID: 11400000, guid: eade6902c78b1074897b0fdc1faee5cf, type: 2}
     - {fileID: 11400000, guid: aed0af959dc219241b0ccb4cda15eaff, type: 2}

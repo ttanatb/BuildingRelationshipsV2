@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Dialogue.Struct
 {
+    /// <summary>
+    /// ????
+    /// </summary>
     [System.Serializable]
     public struct ActorData
     {
@@ -13,13 +16,14 @@ namespace Dialogue.Struct
         [field: SerializeField]
         public Transform Anchor { get; set; }
         
-        [field: SerializeField]
-        public ActorAnimationEvent AnimationEvent { get; set; }
+        // [field: SerializeField]
+        // public ActorAnimationEvent AnimationEvent { get; set; }
 
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append($"{ID}: Anchor ({Anchor}), AnimEvent ({AnimationEvent})");
+            sb.Append($"{ID}: Anchor ({Anchor}");
+            // AnimEvent ({AnimationEvent})");
             return sb.ToString();
         }
     }

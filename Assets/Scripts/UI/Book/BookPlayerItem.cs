@@ -1,8 +1,12 @@
 ﻿using System.Linq;
+using Inventory.SerializedDict;
+using Inventory.SO;
+using Inventory.Structs;
 using NaughtyAttributes;
 using TMPro;
 using UI.Structs;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UI
 {
@@ -10,12 +14,12 @@ namespace UI
     {
         [Expandable] [SerializeField] private UiFishConfig m_config = null;
 
-        [SerializeField] private CollectibleItem.ItemID m_id = CollectibleItem.ItemID.Invalid;
-        private CollectibleItem m_item;
+        [SerializeField] private ItemData.ItemID m_id = ItemData.ItemID.Invalid;
+        private ItemData m_item = new ItemData();
         
-        [SerializeField] private SoUpdateItemEvent m_updateItemEvent = null;
+        [SerializeField] private InventoryUpdatedEvent m_updatedInventoryEvent  = null;
 
-        [Expandable] [SerializeField] private CollectibleSO m_itemDb = null;
+        [Expandable] [SerializeField] private ItemDatabase m_itemDb = null;
 
         [SerializeField] private TextMeshPro m_nameText = null;
         [SerializeField] private TextMeshPro m_amountText = null;
@@ -24,7 +28,7 @@ namespace UI
         [SerializeField] private SpriteRenderer[] m_bgBoxes = null;
         [SerializeField] private bool m_hideAmt = false;
         
-        public CollectibleItem.ItemID Id {
+        public ItemData.ItemID Id {
             get => m_id;
             set
             {
@@ -35,16 +39,19 @@ namespace UI
         
         private void Start()
         {
-            m_updateItemEvent.Event.AddListener(OnUpdateUi);
+            m_updatedInventoryEvent.Event.AddListener(OnUpdateUi);
             InitializeFromId();
-        
         }
 
         private void InitializeFromId()
         {
-            m_item = m_itemDb.items.First(item => item.id == Id);
+            m_item = m_itemDb.Dict.First(pair => pair.Value.Id == Id).Value;
+            m_fishSprite.sprite = m_item.Sprite;
+            HideItem();
+        }
 
-            m_fishSprite.sprite = m_item.sprite;
+        private void HideItem()
+        {
             m_fishSprite.color = m_config.HiddenFishSpriteColor;
             foreach (var box in m_mainBoxes)
                 box.color = m_config.HiddenMainBoxColor;
@@ -56,16 +63,18 @@ namespace UI
             m_nameText.text = "";
         }
 
-        private void OnUpdateUi(UpdateItemStatus item)
+        private void OnUpdateUi(ItemIdToItemCountDict countDict)
         {
-            if (item.id != Id) return;
+            if (!countDict.TryGetValue(Id, out var item) || item.Count == 0)
+            {
+                // Item hasn't been obtained yet, keep it hidden.
+                HideItem();
+                return;
+            }
         
             if (!m_hideAmt)
-                m_amountText.text = $"x{item.totalCount}";
+                m_amountText.text = $"x{item.Count}";
 
-            if (item.totalCount <= 0)
-                return;
-        
             m_fishSprite.color = m_config.AvailableColor;
             foreach (var box in m_mainBoxes)
                 box.color = m_config.AvailableColor;
@@ -73,7 +82,7 @@ namespace UI
             foreach (var box in m_bgBoxes)
                 box.color = m_config.AvailableColor;
         
-            m_nameText.text = m_item.displayName;
+            m_nameText.text = m_item.DisplayName;
         }
         
         public override void SetVisible(bool isVisible)

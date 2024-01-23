@@ -910,7 +910,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_config: {fileID: 11400000, guid: bb85c0d87bd7a0a4f88a00cb67ee6794, type: 2}
   m_id: 2
-  m_itemDb: {fileID: 11400000, guid: 0586998b78f0e894bbddbc2be5c1a984, type: 2}
+  m_itemDb: {fileID: 11400000, guid: ab37aa97169534f4b888742b76d3a551, type: 2}
   m_nameText: {fileID: 8720669007077189835}
   m_descText: {fileID: 8720669007100551118}
   m_amountText: {fileID: 2771894037953177910}
@@ -922,7 +922,8 @@ MonoBehaviour:
   - {fileID: 8720669008696217566}
   m_mainBox: {fileID: 8720669007856144799}
   m_bgBox: {fileID: 8720669008619343433}
-  m_updateItemEvent: {fileID: 11400000, guid: 93f6a9498c1060b4b94e05349ff569a5, type: 2}
+  m_updatedInventoryEvent: {fileID: 11400000, guid: 5e8ca02e1e8833244a06c630497f1af4,
+    type: 2}
 --- !u!1 &8720669008608283471
 GameObject:
   m_ObjectHideFlags: 0

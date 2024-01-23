@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e59a3adbf0cd47dfa3e02db0f2325d9b, type: 3}
+  m_Name: Audio_Dash
+  m_EditorClassIdentifier: 
+  m_invokeOnStart: 0
+  <Data>k__BackingField:
+    <Clip>k__BackingField:
+    - {fileID: 8300000, guid: 211f8c7c7854ae54cba280fac0b95858, type: 3}
+    - {fileID: 8300000, guid: fbed08b288e45bd4486b41c840a7af32, type: 3}
+    - {fileID: 8300000, guid: 45869163dccd07f4c867d02ed6d4b95f, type: 3}
+    - {fileID: 8300000, guid: 03bab53cc5a909a4d9f204110e8f48bc, type: 3}
+    - {fileID: 8300000, guid: 2f77d38ad86d1994ea1eec4a4f605866, type: 3}
+    - {fileID: 8300000, guid: 4ea8e24c540ca1844b37bdd895211913, type: 3}
+    - {fileID: 8300000, guid: 4d537000fe5931941a752dfaa4b3bdd1, type: 3}
+    <Volume>k__BackingField: {x: 0.2, y: 0.25}
+    <Pitch>k__BackingField: {x: 0.95, y: 1.05}

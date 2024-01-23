@@ -1,17 +1,17 @@
-﻿using UnityEngine;
+﻿using Sound.Structs;
+using UnityEngine;
 
 namespace Sound.SO
 {
-    [CreateAssetMenu(fileName = "AudioConfig", menuName = "br/AudioConfig", order = 1)]
+    [CreateAssetMenu(fileName = "AudioConfig", menuName = "br/Audio/AudioConfig", order = 1)]
     public class AudioConfig : ScriptableObject
     {
         [field: SerializeField]
-        public float MasterVolume { get; set; } = 1.0f;
-
-        [field: SerializeField]
-        public float BgmVolume { get; set; } = 1.0f;
-
-        [field: SerializeField]
-        public float SfxVolume { get; set; } = 1.0f;
+        public AudioSettingsData Data { get; set; } = new AudioSettingsData()
+        {
+            MasterVolume = 1.0f,
+            BgmVolume = 1.0f,
+            SfxVolume = 1.0f,
+        };
     }
 }

@@ -1,30 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Fishing.SO;
+using Fishing.Structs;
+using Inventory.Structs;
+using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Fish : MonoBehaviour
 {
-    FishDatabaseManager m_fishDatabase = null;
-    EventManager m_eventManager = null;
+    [Expandable] [SerializeField] private FishDatabase m_fishDatabase = null;
+    private NavmeshWanderer m_navmeshWanderer = null;
 
-    NavmeshWanderer m_navmeshWanderer = null;
+    [FormerlySerializedAs("m_fishIDNew")] 
+    [SerializeField] private ItemData.ItemID m_fishID = ItemData.ItemID.Invalid;
 
-    [SerializeField]
-    CollectibleItem.ItemID m_fishID = CollectibleItem.ItemID.Invalid;
-
-    private FishStats m_fishStats = new FishStats();
+    [SerializeField] private FishReelStartEvent m_fishReelStartEvent = null;
+    private FishData m_fishData = new FishData();
 
     private void Start()
     {
-        m_fishDatabase = FishDatabaseManager.Instance;
-        m_eventManager = EventManager.Instance;
-        m_fishStats = m_fishDatabase.GetStatsFor(m_fishID);
+        m_fishData = m_fishDatabase.Dict[m_fishID];
         m_navmeshWanderer = GetComponent<NavmeshWanderer>();
     }
 
     public void TriggerFishEvent()
     {
-        m_eventManager.TriggerFishReelStartEvent(m_fishStats, this);
+        m_fishReelStartEvent.Invoke(new FishReelStartData()
+        {
+            FishData = m_fishData,
+            Fish = this,
+        });
     }
 
     public void FishingFailedReeling()
@@ -32,8 +36,4 @@ public class Fish : MonoBehaviour
         m_navmeshWanderer.SetStopped(false);
     }
 
-    private void Update()
-    {
-
-    }
 }

@@ -227,8 +227,8 @@ WindZone:
   m_Enabled: 1
   m_Mode: 0
   m_Radius: 20
-  m_WindMain: 1
-  m_WindTurbulence: 1
+  m_WindMain: 0.5
+  m_WindTurbulence: 0.3
   m_WindPulseMagnitude: 0.5
   m_WindPulseFrequency: 0.01
 --- !u!4 &18963167 stripped
@@ -671,6 +671,7 @@ GameObject:
   - component: {fileID: 268124850}
   - component: {fileID: 268124849}
   - component: {fileID: 268124848}
+  - component: {fileID: 268124853}
   m_Layer: 0
   m_Name: Test CutsceneTrigger
   m_TagString: Untagged
@@ -766,12 +767,28 @@ Transform:
   m_GameObject: {fileID: 268124847}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1156.99, y: 44.28, z: 151.85}
-  m_LocalScale: {x: 8.816548, y: 21.313, z: 31.452488}
+  m_LocalScale: {x: 10.53, y: 21.313, z: 67.52}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &268124853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268124847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609476b2455e4267b51945369b7fa913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_enableTriggerEvent: {fileID: 11400000, guid: 417483d332703f2488991c96aacdd704,
+    type: 2}
+  m_disableTriggerEvent: {fileID: 11400000, guid: f54a722723c8aa241920245d5a32b8a3,
+    type: 2}
 --- !u!4 &287510899 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 940d55d4117386f4f9398ea3ff52d4cd,
@@ -1351,7 +1368,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 651714742}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

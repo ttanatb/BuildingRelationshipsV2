@@ -1,6 +1,7 @@
 ﻿title: Doktor_Intro
 tags:
 ---
+<<setCurrentActorId YarnEventManager "doktor">>
 <<declare $Doktor_Intro_Pleasing = false>>
 <<fireEvent YarnEventManager "cam_transition_cut">>
 <<fireEvent YarnEventManager "cam_doktor_intro">>
@@ -59,6 +60,7 @@ I'll also include your name in the research paper... <small>maybe.</small>
 title: Doktor_Intro_Loop
 tags:
 ---
+<<setCurrentActorId YarnEventManager "doktor">>
 <<declare $Doktor_Intro_Loop_Good_Building = false>>
 <<fireEvent YarnEventManager "cam_doktor_closeup">>
 Doktor: Any questions?

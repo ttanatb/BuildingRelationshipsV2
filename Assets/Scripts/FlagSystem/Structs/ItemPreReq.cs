@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Inventory.Structs;
+using UnityEngine;
 
 namespace FlagSystem.Structs
 {
@@ -9,7 +10,7 @@ namespace FlagSystem.Structs
     public struct ItemPreReq
     {
         [field: SerializeField]
-        public CollectibleItem.ItemID ItemID { get; set; }
+        public ItemData.ItemID ItemID { get; set; }
         
         [field: SerializeField]
         public int Amount { get; set; }

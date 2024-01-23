@@ -1,26 +1,30 @@
-﻿using System;
+﻿using Skills.SO;
+using Skills.Structs;
 using TMPro;
 using UnityEngine;
-using Utilr.SoGameEvents;
 
 namespace UI
 {
     public class BookPlayerSkill : BookContent
     {
-        [SerializeField] private PlayerSkill.Type m_playerSkill = PlayerSkill.Type.kInvalid;
+        [SerializeField] private SetSkillLevelEvent m_setSkillLevelEvent = null;
+        [SerializeField] private PlayerSkill.SkillType m_playerSkill = PlayerSkill.SkillType.Invalid;
         [SerializeField] private TextMeshPro m_levelText = null;
 
         private void Start()
         {
-            var eventManager = EventManager.Instance;
-            eventManager.AddSkillUnlockedListener(UpdateSkillLevel);
+            m_setSkillLevelEvent.Event.AddListener(UpdateSkillLevel);
         }
-        
-        private void UpdateSkillLevel(PlayerSkill skill)
-        {
-            if (skill.type != m_playerSkill) return;
 
-            m_levelText.text = $"Lv {skill.level}";
+        private void OnDestroy()
+        {
+            m_setSkillLevelEvent.Event.RemoveListener(UpdateSkillLevel);
+        }
+
+        private void UpdateSkillLevel(SkillTypeAndLevel data)
+        {
+            if (data.SkillType != m_playerSkill) return;
+            m_levelText.text = $"Lv {data.Level}";
         }
 
         public override void SetVisible(bool isVisible)

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 075a4ace8defcf0479258177975a382d, type: 3}
+  m_Script: {fileID: 11500000, guid: 886cf14f7302422bb4335b540ad86a6b, type: 3}
   m_Name: ShowMovementTutorial
   m_EditorClassIdentifier: 
   m_invokeOnStart: 0

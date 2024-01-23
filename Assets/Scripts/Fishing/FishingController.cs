@@ -1,46 +1,60 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Fishing.SO;
+using Fishing.Structs;
 using GameEvents;
 using GameEvents.Fishing;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
+using NaughtyAttributes;
+using UnityEngine.Assertions;
+using Random = UnityEngine.Random;
 
 public class FishingController : Singleton<FishingController>
 {
-    const float STARTING_COMPLETION_RATIO = 0.35f;
-    const float START_DECAY_THRESHOLD = 0.10f;
+    [SerializeField] [Expandable]
+    private FishingConfig m_config = null;
 
     [SerializeField] private SoSetUiActiveStateEvent m_fishingUiActiveEvent = null;
     [SerializeField] private SoUpdateFishingCompletionRatioEvent m_updateFishingCompletionRatioEvent = null;
+    [SerializeField] private FishReelEndEvent m_fishReelEndEvent = null;
 
-    FishStats m_currFishStats = new FishStats();
-    Fish m_currFish = null;
+    private FishData m_currFishData = new FishData();
+    private Fish m_currFish = null;
 
-    Vector2 m_fishIconPos = Vector2.zero;
-    Vector2 m_fishingIndicatorPos = Vector2.zero;
+    private Vector2 m_fishIconPos = Vector2.zero;
+    private Vector2 m_fishingIndicatorPos = Vector2.zero;
 
-    Vector2 m_fishingIndicatorVel = Vector2.zero;
+    private Vector2 m_fishingIndicatorVel = Vector2.zero;
 
-    [SerializeField]
-    float m_indicatorSpeed = 1.0f;
+    private float m_completionRatio = 0.5f;
+    private float m_fishJumpTimer = 0.0f;
+    private bool m_isActive = false;
+    private bool m_shouldDecay = false;
 
-    float m_completionRatio = 0.5f;
-    float m_fishJumpTimer = 0.0f;
-    bool m_isActive = false;
-    bool m_shouldDecay = false;
+    private UIManager m_uiManager = null;
+    private UIFishingController m_ui = null;
 
-    UIManager m_uiManager = null;
-    UIFishingController m_ui = null;
-    EventManager m_eventManager = null;
-
-    public void StartFishing(FishStats stats, Fish fish)
+    // Use this for initialization
+    private void Start()
     {
-        m_currFishStats = stats;
+        m_uiManager = UIManager.Instance;
+        m_ui = m_uiManager.FishingControllerUI;
+        m_fishingUiActiveEvent.Invoke(false);
+        
+        Assert.IsNotNull(m_fishReelEndEvent);
+    }
+
+    private void OnDestroy()
+    {
+        
+    }
+    
+    public void StartFishing(FishData stats, Fish fish)
+    {
+        m_currFishData = stats;
         m_currFish = fish;
         m_fishingUiActiveEvent.Invoke(true);
 
         m_ui.FishIconLerpRate = stats.FishLerpRate;
-        m_completionRatio = STARTING_COMPLETION_RATIO;
+        m_completionRatio = m_config.FishUiStartingCompletionRatio;
         m_isActive = true;
         m_fishJumpTimer = 0.0f;
         m_fishingIndicatorVel = Vector2.zero;
@@ -51,55 +65,54 @@ public class FishingController : Singleton<FishingController>
         m_fishingIndicatorPos = Vector2.zero;
     }
 
-    // Use this for initialization
-    void Start()
+
+    public void AdjustPosVertical(float vel)
     {
-        m_uiManager = UIManager.Instance;
-        m_ui = m_uiManager.FishingControllerUI;
-        m_fishingUiActiveEvent.Invoke(false);
-        m_eventManager = EventManager.Instance;
+        m_fishingIndicatorVel.y = (vel * m_config.FishUiIndicatorSpeed);
     }
 
-    public void AdjustPosVert(float vel)
+    public void AdjustPosHorizontal(float vel)
     {
-        m_fishingIndicatorVel.y = (vel * m_indicatorSpeed);
-    }
-
-    public void AdjustPosHori(float vel)
-    {
-        m_fishingIndicatorVel.x = (vel * m_indicatorSpeed);
+        m_fishingIndicatorVel.x = (vel * m_config.FishUiIndicatorSpeed);
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!m_isActive) return;
 
         if (m_ui.IsFishInBounds())
         {
-            m_completionRatio += m_currFishStats.CompletionRate * Time.deltaTime;
-            if (m_completionRatio > STARTING_COMPLETION_RATIO + START_DECAY_THRESHOLD)
+            m_completionRatio += m_currFishData.CompletionRate * Time.deltaTime;
+            if (m_completionRatio > 
+                m_config.FishUiStartingCompletionRatio + m_config.FishUiStartDecayThreshold)
                 m_shouldDecay = true;
         }
         else if (m_shouldDecay)
-            m_completionRatio -= m_currFishStats.DecayRate * Time.deltaTime;
+            m_completionRatio -= m_currFishData.DecayRate * Time.deltaTime;
         m_updateFishingCompletionRatioEvent.Invoke(m_completionRatio);
 
         if (m_completionRatio <= 0)
         {
-            m_eventManager.TriggerFishReelEndedEvent(false, m_currFishStats.id, m_currFish);
+            m_fishReelEndEvent.Invoke(new FishReelEndData()
+            {
+                Success = false, Id = m_currFishData.Id, Fish = m_currFish,
+            });
             m_fishingUiActiveEvent.Invoke(false);
             m_currFish.FishingFailedReeling();
             m_isActive = false;
         }
-        else if (m_completionRatio >= 1)
+        else if (m_completionRatio >= 1 - float.Epsilon)
         {
             m_isActive = false;
             m_fishingUiActiveEvent.Invoke(false);
-            m_eventManager.TriggerFishReelEndedEvent(true, m_currFishStats.id, m_currFish);
+            m_fishReelEndEvent.Invoke(new FishReelEndData()
+            {
+                Success = true, Id = m_currFishData.Id, Fish = m_currFish,
+            });
         }
 
-        if (m_fishJumpTimer > m_currFishStats.JumpIntervalSec)
+        if (m_fishJumpTimer > m_currFishData.JumpIntervalSec)
         {
             FishJump();
         }
@@ -110,20 +123,20 @@ public class FishingController : Singleton<FishingController>
 
         m_fishingIndicatorPos += m_fishingIndicatorVel * Time.deltaTime;
         m_fishingIndicatorPos.x = Mathf.Clamp(m_fishingIndicatorPos.x,
-            m_currFishStats.MinBounds.x, m_currFishStats.MaxBounds.x);
+            m_currFishData.MinBounds.x, m_currFishData.MaxBounds.x);
         m_fishingIndicatorPos.y = Mathf.Clamp(m_fishingIndicatorPos.y,
-            m_currFishStats.MinBounds.y, m_currFishStats.MaxBounds.y);
+            m_currFishData.MinBounds.y, m_currFishData.MaxBounds.y);
 
         m_ui.SetFishingIndicatorPos(m_fishingIndicatorPos);
     }
 
-    void FishJump()
+    private void FishJump()
     {
-        Vector2 offset = new Vector2(
-            Random.Range(m_currFishStats.MinJumpDistance.x,
-                         m_currFishStats.MaxJumpDistance.x),
-            Random.Range(m_currFishStats.MinJumpDistance.y,
-                 m_currFishStats.MaxJumpDistance.y));
+        var offset = new Vector2(
+            Random.Range(m_currFishData.MinJumpDistance.x,
+                         m_currFishData.MaxJumpDistance.x),
+            Random.Range(m_currFishData.MinJumpDistance.y,
+                 m_currFishData.MaxJumpDistance.y));
         if (Random.value < 0.5) offset.x = -offset.x;
         if (Random.value < 0.5) offset.y = -offset.y;
 
@@ -154,13 +167,13 @@ public class FishingController : Singleton<FishingController>
         }*/
 
         m_fishIconPos.x = Mathf.Clamp(m_fishIconPos.x,
-                                      m_currFishStats.MinBounds.x,
-                                      m_currFishStats.MaxBounds.x);
+                                      m_currFishData.MinBounds.x,
+                                      m_currFishData.MaxBounds.x);
 
 
         m_fishIconPos.y = Mathf.Clamp(m_fishIconPos.y,
-                                      m_currFishStats.MinBounds.y,
-                                      m_currFishStats.MaxBounds.y);
+                                      m_currFishData.MinBounds.y,
+                                      m_currFishData.MaxBounds.y);
 
         m_ui.SetFishIconPos(m_fishIconPos);
         m_fishJumpTimer = 0.0f;

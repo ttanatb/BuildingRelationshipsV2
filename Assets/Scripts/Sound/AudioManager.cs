@@ -1,9 +1,13 @@
 using System.Collections;
 using NaughtyAttributes;
+using Settings.SO;
+using Settings.Structs;
 using Sound.SO;
 using Sound.Struct;
 using UnityEngine;
+using Util;
 using Utilr;
+using Utilr.Attributes;
 
 public class AudioManager : MonoBehaviour
 {
@@ -11,7 +15,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private int m_audioPoolCount = 32;
     [SerializeField] private GameObject m_audioSourcePrefab = null;
 
-    [SerializeField] private PlayOneShotAudioEvent m_playOneShotAudioEvent = null; 
+    [SerializeField] private PlayOneShotAudioEvent m_playOneShotAudioEvent = null;
+    [SerializeField] [IncludeAllAssetsWithType]
+    private PlayOneShotRandomAudioClipEvent[] m_playOneShotRandomAudioClipEvents = null;
+    [SerializeField] private SettingsUpdateEvent m_settingsUpdateEvent = null;
     
     private ObjectPool<AudioSource> m_audioPool = null;
 
@@ -24,11 +31,33 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         m_playOneShotAudioEvent.Event.AddListener(OnOneShotAudio);
+        m_settingsUpdateEvent.Event.AddListener(OnSettingsUpdated);
+        foreach (var e in m_playOneShotRandomAudioClipEvents)
+            e.Event.AddListener(OnOneShotRandomClip);
     }
+
 
     private void OnDestroy()
     {
         m_playOneShotAudioEvent.Event.RemoveListener(OnOneShotAudio);
+        m_settingsUpdateEvent.Event.RemoveListener(OnSettingsUpdated);
+        foreach (var e in m_playOneShotRandomAudioClipEvents)
+            e.Event.RemoveListener(OnOneShotRandomClip);
+    }
+    
+    private void OnSettingsUpdated(SettingsData data)
+    {
+        m_audioConfig.Data = data.AudioSettingsData;
+    }
+    
+    private void OnOneShotRandomClip(OneShotRandomAudioClipData data)
+    {
+        OnOneShotAudio(new OneShotAudioData()
+        {
+            Clip = data.Clip[Random.Range(0, data.Clip.Length)],
+            Pitch = data.Pitch.RandomInRange(),
+            Volume = data.Volume.RandomInRange(),
+        });
     }
 
     private void OnOneShotAudio(OneShotAudioData data)
@@ -37,7 +66,7 @@ public class AudioManager : MonoBehaviour
         audioSrc.enabled = true;
         audioSrc.clip = data.Clip;
         audioSrc.loop = false;
-        audioSrc.volume = data.Volume * m_audioConfig.SfxVolume * m_audioConfig.MasterVolume;
+        audioSrc.volume = data.Volume * m_audioConfig.Data.SfxVolume * m_audioConfig.Data.MasterVolume;
         audioSrc.pitch = data.Pitch;
         audioSrc.Play();
 

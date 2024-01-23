@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f10a4d321ae1442db041bccb75d4345b, type: 3}
+  m_Name: ItemDatabase
+  m_EditorClassIdentifier: 
+  <Dict>k__BackingField:
+    m_keys: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000
+    m_values:
+    - <Id>k__BackingField: 1
+      <DisplayName>k__BackingField: TestTato
+      <DisplayNamePlural>k__BackingField: TestTatos
+      <Description>k__BackingField: How did you get this? It's a test item! No wait,
+        this was intentional -- you've discovered a secret!!
+      <Sprite>k__BackingField: {fileID: 0}
+    - <Id>k__BackingField: 2
+      <DisplayName>k__BackingField: Flamia Rowania
+      <DisplayNamePlural>k__BackingField: Flamia Rowanias
+      <Description>k__BackingField: I'm not really sure who came up with this name?
+        And why is it covered in flames? It feels like an inside joke that I just
+        don't get...
+      <Sprite>k__BackingField: {fileID: 21300000, guid: 62163795e8849ec4e87f933d7e7cc7ed,
+        type: 3}
+    - <Id>k__BackingField: 3
+      <DisplayName>k__BackingField: Barrelcuda
+      <DisplayNamePlural>k__BackingField: Barrelcudas
+      <Description>k__BackingField: Discovered by Prof Des Pierre, this fish uniquely
+        hunts down other barrelcudas. This phenomenon is known as cannonballism.
+      <Sprite>k__BackingField: {fileID: 21300000, guid: d4a6ae9b37b990c4e846dd94fbe240f4,
+        type: 3}
+    - <Id>k__BackingField: 4
+      <DisplayName>k__BackingField: Clown Fish
+      <DisplayNamePlural>k__BackingField: Clown Fish
+      <Description>k__BackingField: It's so tiny, but I'm not really sure why it's
+        funny? If someone could explain the joke to me, that'd be such a nice jester.
+      <Sprite>k__BackingField: {fileID: 21300000, guid: 1e8f48975892fb445947bd366e6f0fec,
+        type: 3}
+    - <Id>k__BackingField: 5
+      <DisplayName>k__BackingField: Farm-raised Fish
+      <DisplayNamePlural>k__BackingField: Farm-raised Fish
+      <Description>k__BackingField: There's a theory that ancient civilizations used
+        to raise these fish for ingestion? Just the thought of ingesting fish makes
+        me shudder...
+      <Sprite>k__BackingField: {fileID: 21300000, guid: 16e46e616d436f74e882aa1a6647291d,
+        type: 3}
+    - <Id>k__BackingField: 6
+      <DisplayName>k__BackingField: Bottom Feeder
+      <DisplayNamePlural>k__BackingField: Bottom Feeders
+      <Description>k__BackingField: It cleans the bottom of our oceans which is filled
+        to the brim with trash.
+      <Sprite>k__BackingField: {fileID: 21300000, guid: a4009176b85012a4f813f1b8afa40c2e,
+        type: 3}
+    - <Id>k__BackingField: 7
+      <DisplayName>k__BackingField: Nurse Shark
+      <DisplayNamePlural>k__BackingField: Nurse Sharks
+      <Description>k__BackingField: Some say this fish got it's name from its caring
+        nature. Others will tell you that a shark is not a fish.
+      <Sprite>k__BackingField: {fileID: 21300000, guid: 17c0c91cb784d5b44bfa0cbd8993127f,
+        type: 3}
+    - <Id>k__BackingField: 8
+      <DisplayName>k__BackingField: Fire Goby
+      <DisplayNamePlural>k__BackingField: Fire Gobies
+      <Description>k__BackingField: I have mad respect for this fish.
+      <Sprite>k__BackingField: {fileID: 21300000, guid: 4e68104a09730fc4d9f362e2cda895a6,
+        type: 3}
+    - <Id>k__BackingField: 9
+      <DisplayName>k__BackingField: Cabezon
+      <DisplayNamePlural>k__BackingField: Cabezons
+      <Description>k__BackingField: Hey, I'm walking here! Did I do that right? I
+        honestly don't know where it's from, but people keeping saying it like it's
+        funny, so I thought I'd try.
+      <Sprite>k__BackingField: {fileID: 21300000, guid: 4875d15aedbbd9344899800aac8c07a0,
+        type: 3}
+    - <Id>k__BackingField: 10
+      <DisplayName>k__BackingField: Boxfish
+      <DisplayNamePlural>k__BackingField: Boxfish
+      <Description>k__BackingField: It's unique swimming style makes use of its rigid
+        shape, making it surprisingly aerodynamic! You could say that it's thinking
+        outside of its angled shape.
+      <Sprite>k__BackingField: {fileID: 21300000, guid: 1328a85a6b90f9c43a6720a72d7bb4d5,
+        type: 3}
+    - <Id>k__BackingField: 11
+      <DisplayName>k__BackingField: Sea Bass
+      <DisplayNamePlural>k__BackingField: Sea Bass
+      <Description>k__BackingField: Something, something, something... at least a
+        C+? I don't quite remember the joke.
+      <Sprite>k__BackingField: {fileID: 21300000, guid: 5c803d1384a871c42919cc1017baa01f,
+        type: 3}
+    - <Id>k__BackingField: 12
+      <DisplayName>k__BackingField: Common Carp
+      <DisplayNamePlural>k__BackingField: Common Carps
+      <Description>k__BackingField: It's just such an incredibly common and sadly
+        average... Why would anyone want this?
+      <Sprite>k__BackingField: {fileID: 21300000, guid: 7d216fa9b868e42428ee56e4c50cbdd7,
+        type: 3}
+    - <Id>k__BackingField: 13
+      <DisplayName>k__BackingField: Weird Shoe
+      <DisplayNamePlural>k__BackingField: Weird Shoes
+      <Description>k__BackingField: Huh? What am I supposed to do with this -- put
+        it on my roof? Somehow holding it gives me the ability to jump...
+      <Sprite>k__BackingField: {fileID: 21300000, guid: 0ed8bb89239ff59408f050b81c97e2c3,
+        type: 3}
+    - <Id>k__BackingField: 14
+      <DisplayName>k__BackingField: Fishing Rod
+      <DisplayNamePlural>k__BackingField: Fishing Rod
+      <Description>k__BackingField: Well, now you can fish to your heart's content.
+      <Sprite>k__BackingField: {fileID: 21300000, guid: 7ba695bbf0d414f469973f5756ef8292,
+        type: 3}
+    - <Id>k__BackingField: 15
+      <DisplayName>k__BackingField: Special Ticket
+      <DisplayNamePlural>k__BackingField: Special Tickets
+      <Description>k__BackingField: A special ticket only accepted by the most special
+        being.
+      <Sprite>k__BackingField: {fileID: 21300000, guid: 774d92445bd90c94abe66283a0825c51,
+        type: 3}
+    - <Id>k__BackingField: 16
+      <DisplayName>k__BackingField: Curious Feather
+      <DisplayNamePlural>k__BackingField: Curious Feathers
+      <Description>k__BackingField: 'Holding it just makes you feel lighter! '
+      <Sprite>k__BackingField: {fileID: 21300000, guid: 77589ae82cb223e4fa52d04f4e2f51cb,
+        type: 3}
+    - <Id>k__BackingField: 17
+      <DisplayName>k__BackingField: Weird Sock
+      <DisplayNamePlural>k__BackingField: Weird Socks
+      <Description>k__BackingField: Am I supposed to put this on my door handle?
+        No, no, no that doesn't seem right...
+      <Sprite>k__BackingField: {fileID: 21300000, guid: af7e2ec4181f2624293b00b67468b4fe,
+        type: 3}

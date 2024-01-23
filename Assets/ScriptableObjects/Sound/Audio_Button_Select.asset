@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e59a3adbf0cd47dfa3e02db0f2325d9b, type: 3}
+  m_Name: Audio_Button_Select
+  m_EditorClassIdentifier: 
+  m_invokeOnStart: 0
+  <Data>k__BackingField:
+    <Clip>k__BackingField:
+    - {fileID: 8300000, guid: f3625edcb2697a443a15e9865ead50d3, type: 3}
+    <Volume>k__BackingField: {x: 0.3, y: 0.35}
+    <Pitch>k__BackingField: {x: 0.95, y: 1.05}

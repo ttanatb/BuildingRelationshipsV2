@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b23596692a426cb290d69e51b58558, type: 3}
+  m_Name: ObtainItemEvent
+  m_EditorClassIdentifier: 
+  m_invokeOnStart: 0
+  <Data>k__BackingField:
+    <Id>k__BackingField: 13
+    <Count>k__BackingField: 10

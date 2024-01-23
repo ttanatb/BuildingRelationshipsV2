@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Dialogue.SO;
 using Dialogue.Struct;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Utilr.Attributes;
 
@@ -16,8 +17,9 @@ public struct StringInstructionPanelPair
 
 public class UIManager : Singleton<UIManager>
 {
+    [FormerlySerializedAs("m_speechBubble")]
     [SerializeField]
-    private UISpeechBubble m_speechBubble = null;
+    private UiDialogueSpeechBubble m_dialogueSpeechBubble = null;
 
     [SerializeField]
     private UIInteractText m_interactText = null;
