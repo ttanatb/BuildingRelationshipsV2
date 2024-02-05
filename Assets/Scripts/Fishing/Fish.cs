@@ -16,8 +16,13 @@ public class Fish : MonoBehaviour
     [SerializeField] private FishReelStartEvent m_fishReelStartEvent = null;
     private FishData m_fishData = new FishData();
 
+    private FishAnimator m_fishAnimator = null;
+
+    public FishAnimator FishAnimator => m_fishAnimator;
+
     private void Start()
     {
+        TryGetComponent(out m_fishAnimator);
         m_fishData = m_fishDatabase.Dict[m_fishID];
         m_navmeshWanderer = GetComponent<NavmeshWanderer>();
     }

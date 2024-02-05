@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Inventory.Structs;
 using UnityEngine;
+using Utilr.Structs;
 
 namespace Fishing.Structs
 {
@@ -33,8 +34,13 @@ namespace Fishing.Structs
 
         [field: SerializeField]
         public Vector2 MaxBounds { get; set; }
-
-
+        
+        [field: SerializeField]
+        public Vector2 FishIconSize { get; set; }
+        
+        [field: SerializeField]
+        public Vector2 IndicatorSize { get; set; }
+        
         public override string ToString()
         {
             var sb = new StringBuilder();

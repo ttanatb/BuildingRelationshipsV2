@@ -7,6 +7,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Util.Localization.Structs;
 using Utilr.Utility;
 
 public class UiItemCollectedPopup : MonoBehaviour
@@ -29,6 +30,10 @@ public class UiItemCollectedPopup : MonoBehaviour
     [SerializeField] private PlayOneShotRandomAudioClipEvent m_obtainAudio = null;
 
     [SerializeField] private AnimationClip m_hideClip = null;
+    [SerializeField] private LocalizedText m_text = new LocalizedText()
+    {
+        Key = "verb_acquired_item"
+    };
 
     private RectTransform m_rectTransform = null;
 
@@ -47,7 +52,7 @@ public class UiItemCollectedPopup : MonoBehaviour
         }
 
         m_itemImage.sprite = item.Sprite;
-        m_itemCollectedText.text = $"Got {item.DisplayName}";
+        m_itemCollectedText.text = string.Format(m_text.GetText(), item.DisplayName);
 
         m_animator.SetTrigger(m_showAnimParam);
         m_obtainAudio.Invoke();

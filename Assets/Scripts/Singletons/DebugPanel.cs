@@ -13,8 +13,9 @@ public class DebugPanel : Singleton<DebugPanel>
     [SerializeField] private TextMeshProUGUI m_text = null;
     [SerializeField] private InputActionReference m_toggleDebugPanelInput = null;
     
-    private StringBuilder m_stringBuilder = new StringBuilder();
-    private List<MonoBehaviour> m_components = new List<MonoBehaviour>();
+    private readonly StringBuilder m_stringBuilder = new StringBuilder();
+    private readonly List<MonoBehaviour> m_components = new List<MonoBehaviour>();
+    private bool m_active = false;
 
     private void Start()
     {
@@ -29,6 +30,7 @@ public class DebugPanel : Singleton<DebugPanel>
     private void TogglePanelDisplay(InputAction.CallbackContext ctx)
     {
         m_canvasGroup.alpha = m_canvasGroup.alpha < 0.1f ? 1.0f : 0.0f;
+        m_active = m_canvasGroup.alpha > float.Epsilon;
     }
 
     public void Display(MonoBehaviour component)
@@ -37,8 +39,10 @@ public class DebugPanel : Singleton<DebugPanel>
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        if (!m_active) return;
+        
         m_stringBuilder.Clear();
         foreach (var component in m_components)
         {

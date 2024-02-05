@@ -1,79 +1,121 @@
-﻿title: Doktor_Intro
+﻿title: Doktor_Cam_Refs
+tags:
+---
+<<fireEvent YarnEventManager "cam_doktor_close_up">>
+<<fireEvent YarnEventManager "cam_doktor_close_up_alt">>
+<<fireEvent YarnEventManager "cam_doktor_close_up_extreme">>
+<<fireEvent YarnEventManager "cam_doktor_close_up_extreme_low">>
+<<fireEvent YarnEventManager "cam_doktor_full">>
+<<fireEvent YarnEventManager "cam_doktor_full_far">>
+<<fireEvent YarnEventManager "cam_doktor_over_shoulder">>
+<<fireEvent YarnEventManager "position_player_doktor">>
+===
+title: Doktor_Intro
 tags:
 ---
 <<setCurrentActorId YarnEventManager "doktor">>
 <<declare $Doktor_Intro_Pleasing = false>>
+<<fireEvent YarnEventManager "position_player_doktor">>
 <<fireEvent YarnEventManager "cam_transition_cut">>
-<<fireEvent YarnEventManager "cam_doktor_intro">>
+<<fireEvent YarnEventManager "cam_doktor_close_up">>
 Doktor: Hey, how are you?
+<<fireEvent YarnEventManager "cam_doktor_over_shoulder">>
     -> Pretty good, how about you?
-        Doktor: That's good.
-    -> Pretty bad, actually
-        Doktor: Oh, okay.
-<<fireEvent YarnEventManager "cam_doktor_intro_alt">>
+    -> Pretty bad, actually.
+        <<fireEvent YarnEventManager "cam_doktor_close_up">>
+        Doktor: Huh, that's too bad then.
+<<fireEvent YarnEventManager "cam_doktor_close_up">>
 I'm doing okay.
-<<fireEvent YarnEventManager "cam_doktor_intro_full">>
+<<fireEvent YarnEventManager "cam_doktor_full">>
 Kinda stuck here.
-    -> Oh, <small>okay then</small>
-        ...
+<<fireEvent YarnEventManager "cam_doktor_over_shoulder">>
+    -> Oh... <small><cspace=-0.1em>okay then.</cspace></small>
+        <<fireEvent YarnEventManager "cam_doktor_close_up_alt">>
+        Yeah.
     -> How'd you get stuck?
+        <<fireEvent YarnEventManager "cam_doktor_close_up">>
         That's confidential, actually.
-Doktor: Listen, I have a request for you.
-    -> Are you one of the Bach-Pads?
+<<fireEvent YarnEventManager "cam_doktor_close_up">>
+Doktor: Look.
+Doktor: I have a request for you.
+<<fireEvent YarnEventManager "cam_doktor_over_shoulder">>
+    -> Are you one of the <red>Bach-Pads</red>?
+        <<fireEvent YarnEventManager "cam_doktor_close_up_extreme">>
+        <<fireEvent YarnEventManager "cam_transition_fast">>
         Doktor: I am.
+        <<fireEvent YarnEventManager "cam_doktor_close_up">>
         But you're not my type.
+        <<fireEvent YarnEventManager "cam_player_full_left">>
+        You're less of an adjoining structure.
         <<fireEvent YarnEventManager "cam_player_close_up_left">>
-        I see you as less of an adjoining structure...
-        And more of a... research assistant!
-    -> Sure thing, I love pleasing others
+        And more of a <red>research assistant</red>.
+    -> Sure thing, I love pleasing others.
+        <<fireEvent YarnEventManager "cam_doktor_close_up_front">>
+        Doktor: Wow, <small><cspace=-0.1em>uh...</cspace></small>
         <<fireEvent YarnEventManager "cam_transition_slow">>
-        <<fireEvent YarnEventManager "cam_doktor_closeup_extreme">>
-        Doktor: Wow, <small>uh...</small>
+        <<fireEvent YarnEventManager "cam_doktor_close_up_extreme">>
         Thanks for sharing, I guess?
         <<fireEvent YarnEventManager "cam_transition_fast">>
-        <<fireEvent YarnEventManager "cam_doktor_closeup">>
-        Listen, I'm looking for a research assistant.
+        <<fireEvent YarnEventManager "cam_doktor_close_up">>
+        Listen, I'm looking for a <red>research assistant</red>.
         <<set $Doktor_Intro_Pleasing = true>>
-    -> No thanks, I'm good
+    -> No thanks, I'm good.
+        <<fireEvent YarnEventManager "cam_doktor_close_up_extreme">>
+        Doktor: Wow, that's rude.
         <<fireEvent YarnEventManager "cam_transition_fast">>
-        <<fireEvent YarnEventManager "cam_doktor_closeup_extreme">>
-        Doktor: Wow, that's kinda rude.
+        <<fireEvent YarnEventManager "cam_doktor_close_up_front">>
         But guess what?
-        <<fireEvent YarnEventManager "cam_doktor_closeup">>
-        I'm even more rude, so I'll tell you anyways.
-        I'm looking for a research assistant.
-<<fireEvent YarnEventManager "cam_doktor_closeup">>
+        <<fireEvent YarnEventManager "cam_doktor_close_up_extreme">>
+        I'm even more rude.
+        So I'll tell you anyways.
+        <<fireEvent YarnEventManager "cam_transition_cut">>
+        <<fireEvent YarnEventManager "cam_doktor_close_up">>
+        I'm looking for a <red>research assistant</red>.
+<<fireEvent YarnEventManager "cam_transition_cut">>
+<<fireEvent YarnEventManager "cam_doktor_full">>
+<<obtainItem YarnEventManager "FishingRod" 1>>
 Doktor: Take this fishing rod.
-<<fireEvent YarnEventManager "cam_player_close_up_left">>
 <<if $Doktor_Intro_Pleasing is true>>
-Be a <seductive>good little building</seductive>, and find all the types of fish for me.
+<<fireEvent YarnEventManager "cam_doktor_close_up_extreme_low">>
+Be a <red>good little building</red>, and catch each type of fish for me.
 <<else>>
-Go out there and find all the types of fish for me.
-<<endif>>>
-And I'll pay you with uh....
-<<fireEvent YarnEventManager "cam_doktor_closeup">>
-This gift card <small>I found on my kitchen countertop</small>
-I'll also include your name in the research paper... <small>maybe.</small>
+<<fireEvent YarnEventManager "cam_doktor_close_up_alt">>
+Go out there and catch each type of fish for me.
+<<endif>>
+<<fireEvent YarnEventManager "cam_transition_fast">>
+<<fireEvent YarnEventManager "cam_doktor_close_up">>
+And I'll pay you with...
+<<fireEvent YarnEventManager "cam_doktor_close_up_alt">>
+This gift card I found on my countertop.
+And also include your name in the research paper... <small><cspace=-0.1em>maybe...</cspace></small>
 <<setActiveNode YarnEventManager "doktor" "Doktor_Intro_Loop">>
+<<fireEvent YarnEventManager "cam_transition_cut">>
 <<jump Doktor_Intro_Loop>>
 ===
 title: Doktor_Intro_Loop
 tags:
 ---
+<<fireEvent YarnEventManager "position_player_doktor">>
 <<setCurrentActorId YarnEventManager "doktor">>
 <<declare $Doktor_Intro_Loop_Good_Building = false>>
-<<fireEvent YarnEventManager "cam_doktor_closeup">>
+<<fireEvent YarnEventManager "cam_transition_cut">>
+<<fireEvent YarnEventManager "cam_doktor_close_up">>
 Doktor: Any questions?
+<<fireEvent YarnEventManager "cam_doktor_over_shoulder">>
     -> Why don't you do it yourself?
+        <<fireEvent YarnEventManager "cam_doktor_full">>
         Doktor: Because I'm stuck in this pond.
         <<jump Doktor_Intro_Loop>>
     -> Where can I find the fish?
+        <<fireEvent YarnEventManager "cam_doktor_close_up">>
         Doktor: Figure that out for yourself.
         <<jump Doktor_Intro_Loop>>
-    -> Can you call me a good building again? <<if $Doktor_Intro_Loop_Good_Building is false and $Doktor_Intro_Pleasing is true>>
+    -> Can you call me a <red>good building</red> again? <<if $Doktor_Intro_Loop_Good_Building is false and $Doktor_Intro_Pleasing is true>>
         <<set $Doktor_Intro_Loop_Good_Building = true>>
+        <<fireEvent YarnEventManager "cam_doktor_close_up_extreme_low">>
         Doktor: No.
         <<jump Doktor_Intro_Loop>>
-    -> I'm good
+    -> I'm good.
+<<fireEvent YarnEventManager "cam_doktor_close_up_alt">>
 Doktor: Go on now, building.
 ===

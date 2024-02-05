@@ -1,5 +1,7 @@
 ﻿using Dialogue.SO;
+using Dialogue.Struct;
 using UnityEngine;
+using Utilr.Structs;
 using Utilr.Utility;
 
 namespace Movement
@@ -31,15 +33,43 @@ namespace Movement
             }
         }
         
-        private void OnPositionPlayer(Transform target)
+        private void OnPositionPlayer(PositionPlayerData data)
         {
-            m_playerMovement.StopMovement();
+            StopAllCoroutines();
             var thisTransform = transform;
-            thisTransform.position = target.position;
-            thisTransform.rotation = target.rotation;
+            var lerpAnimData = new LerpAnimData<(Vector3 Position, Quaternion Rotation)>()
+            {
+                Curve = AnimationCurve.EaseInOut(0, 0, 1, 1),
+                Duration = data.Duration,
+                FinalValue = (data.Transform.position, data.Transform.rotation),
+                InitialValue = (thisTransform.position, thisTransform.rotation)
+            };
+            
+            m_playerMovement.StopMovement();
 
-            StartCoroutine(Helper.ExecuteNextFrame(() => {
-                m_playerMovement.SetFrozen(false);
+            if (data.Duration < float.Epsilon)
+            {
+                thisTransform.position = data.Transform.position;
+                thisTransform.rotation = data.Transform.rotation;
+                StartCoroutine(Helper.ExecuteNextFrame(() => {
+                    m_playerMovement.SetFrozen(false);
+                }));
+                return;
+            }
+            
+            StartCoroutine(
+                Helper.LerpOverTime(lerpAnimData, (initial, final, factor) =>
+                    (
+                        Vector3.Lerp(initial.Position, final.Position, factor), 
+                        Quaternion.Lerp(initial.Rotation, final.Rotation, factor)
+                    ), 
+                    result => {
+                thisTransform.position = result.Position;
+                thisTransform.rotation = result.Rotation;
+            }, () => {
+                StartCoroutine(Helper.ExecuteNextFrame(() => {
+                    m_playerMovement.SetFrozen(false);
+                }));
             }));
         }
     }

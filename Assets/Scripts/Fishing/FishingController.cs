@@ -42,11 +42,6 @@ public class FishingController : Singleton<FishingController>
         Assert.IsNotNull(m_fishReelEndEvent);
     }
 
-    private void OnDestroy()
-    {
-        
-    }
-    
     public void StartFishing(FishData stats, Fish fish)
     {
         m_currFishData = stats;
@@ -63,6 +58,9 @@ public class FishingController : Singleton<FishingController>
         m_fishIconPos = new Vector2(0, 0.8f);
         m_ui.HardSetPos(m_fishIconPos);
         m_fishingIndicatorPos = Vector2.zero;
+        
+        m_ui.SetFishIconSize(m_currFishData.FishIconSize);
+        m_ui.SetIndicatorSize(m_currFishData.IndicatorSize);
     }
 
 
@@ -76,12 +74,20 @@ public class FishingController : Singleton<FishingController>
         m_fishingIndicatorVel.x = (vel * m_config.FishUiIndicatorSpeed);
     }
 
+    private bool IsFishInIndicator()
+    {
+        var iconRect = new Rect(m_fishIconPos * m_config.BarSize, m_currFishData.FishIconSize);
+        var indicatorRect = new Rect(m_fishingIndicatorPos * m_config.BarSize, m_currFishData.IndicatorSize);
+
+        return iconRect.Overlaps(indicatorRect);
+    }
+
     // Update is called once per frame
     private void Update()
     {
         if (!m_isActive) return;
 
-        if (m_ui.IsFishInBounds())
+        if (IsFishInIndicator())
         {
             m_completionRatio += m_currFishData.CompletionRate * Time.deltaTime;
             if (m_completionRatio > 
@@ -175,7 +181,7 @@ public class FishingController : Singleton<FishingController>
                                       m_currFishData.MinBounds.y,
                                       m_currFishData.MaxBounds.y);
 
-        m_ui.SetFishIconPos(m_fishIconPos);
+        m_ui.StartFishIconLerp(m_fishIconPos);
         m_fishJumpTimer = 0.0f;
     }
 }

@@ -19,7 +19,8 @@ public class PlayerMovement : AutonomousAgent
     [SerializeField] private Transform m_cameraTransform = null;
     [SerializeField] private TrailRenderer[] m_trailRenderers = null;
     [SerializeField] private Vector2 m_accToApplyFromInput = new Vector2(0.5f, 2.0f);
-    [SerializeField] private float m_multiplierSpeedImpulse = 100.0f;
+    [SerializeField] private float m_multiplierSpeedImpulse = 500.0f;
+    [SerializeField] private float m_multiplierSpeedJumpImpulse = 100.0f;
     [SerializeField] private float m_currForwardPushForce = 0.0f;
     [SerializeField] private float m_currRightPushForce = 0.0f;
     [SerializeField] private float m_dashSpeedIncrement = 50.0f;
@@ -72,8 +73,6 @@ public class PlayerMovement : AutonomousAgent
 
     [SerializeField] private LayerMask m_jumpRegainLayerMask = 1;
     
-    [IncludeAllAssetsWithType]
-    [SerializeField] private StartDialogueEvent[] m_startDialogueEvents = null;
     [SerializeField] private StopDialogueEvent m_stopDialogueEvent = null;
     
     // Start is called before the first frame update
@@ -102,11 +101,6 @@ public class PlayerMovement : AutonomousAgent
         m_moveInput.action.canceled += Move;
         
         m_setSkillLevelEvent.Event.AddListener(UpdateSkillLevel);
-        
-        foreach (var e in m_startDialogueEvents)
-        {
-            e.Event.AddListener(StopMovement);
-        }
         m_stopDialogueEvent.Event.AddListener(EnableMovement);
     }
 
@@ -119,12 +113,7 @@ public class PlayerMovement : AutonomousAgent
         m_moveInput.action.performed -= Move;
         m_moveInput.action.canceled -= Move;
 
-        foreach (var e in m_startDialogueEvents)
-        {
-            e.Event.RemoveListener(StopMovement);
-        }
         m_stopDialogueEvent.Event.RemoveListener(EnableMovement);
-        
         m_setSkillLevelEvent.Event.RemoveListener(UpdateSkillLevel);
     }
 
@@ -260,13 +249,13 @@ public class PlayerMovement : AutonomousAgent
         var right = rot * Vector3.right;
         var impulseMovement = right * input.x + forward * input.y;
         
-        m_rigidbody.AddForce(impulseMovement * m_multiplierSpeedImpulse);
+        m_rigidbody.AddForce(impulseMovement * m_multiplierSpeedImpulse + Vector3.up * m_multiplierSpeedJumpImpulse);
     }
     
     private void Move(InputAction.CallbackContext ctx)
     {
         var input = ctx.ReadValue<Vector2>();
-        Debug.Log($"Move input triggered with: {input}, performed {ctx.performed}, canceled {ctx.canceled}");
+        // Debug.Log($"Move input triggered with: {input}, performed {ctx.performed}, canceled {ctx.canceled}");
 
         m_currRightPushForce = input.x * m_accToApplyFromInput.x;
         m_currForwardPushForce = input.y * m_accToApplyFromInput.y;

@@ -1,52 +1,98 @@
-title: Chester_Intro
+title: Chester_1_Refs
 tags:
 ---
-<<setCurrentActorId YarnEventManager "chester_intro">>
+<<fireEvent YarnEventManager "cam_chester_1_meadow_close_up">>
+<<fireEvent YarnEventManager "cam_chester_1_meadow_close_up_alt">>
+<<fireEvent YarnEventManager "cam_chester_1_meadow_close_up_extreme">>
+<<fireEvent YarnEventManager "cam_chester_1_meadow_close_up_extreme_low">>
+<<fireEvent YarnEventManager "cam_chester_1_meadow_full">>
+<<fireEvent YarnEventManager "cam_chester_1_meadow_full_far">>
+<<fireEvent YarnEventManager "cam_chester_1_meadow_over_shoulder">>
+<<fireEvent YarnEventManager "position_player_cam_chester_1_meadow">>
+<<declare $Item_Shoe_Count = 0>>
+===
+title: Chester_1_Intro
+tags:
+---
+<<setCurrentActorId YarnEventManager "chester_1">>
+<<fireEvent YarnEventManager "cam_transition_med">>
+<<fireEvent YarnEventManager "cam_chester_1_meadow_close_up">>
 Chester: Howdy-doo there!
 How are you doin'?
+<<fireEvent YarnEventManager "cam_transition_cut">>
+<<fireEvent YarnEventManager "cam_chester_1_meadow_over_shoulder">>
     -> I'm <roll>rootin' tootin'</roll>!
+        <<fireEvent YarnEventManager "cam_chester_1_meadow_close_up">>
         Chester: I love that for you.
     -> I'm <roll>scootin' bootin'</roll>!
+        <<fireEvent YarnEventManager "cam_chester_1_meadow_close_up">>
         Chester: Darn, that's just too bad.
+<<fireEvent YarnEventManager "cam_chester_1_meadow_close_up_alt">>
 Chester: Look, I'll be honest.
-I need to find the rest of my <roll>hootin' wootin'</roll> cohort.
-In return, I'll give you one of my <roll>lootin' gootin'</roll> treasures.
+I need to find the rest of my <roll>hootin' wootin'</roll> <red>cohort</red>.
+<<fireEvent YarnEventManager "cam_player_full_left">>
+In return, I'll give you one of my <roll>lootin' gootin'</roll> <red>treasures</red>.
+<<fireEvent YarnEventManager "cam_chester_1_meadow_full">>
 Chester: How does that sound?
-<<setActiveNode YarnEventManager "chester" "Chester_Intro_Gifted_Loop">>
-<<jump Chester_Intro_Loop>>
-
+<<setActiveNode YarnEventManager "chester_1" "Chester_1_Intro_Gifted_Loop">>
+<<jump Chester_1_Intro_Loop>>
 ===
-title: Chester_Intro_Loop
+title: Chester_1_Intro_Loop
 tags:
 ---
-<<setCurrentActorId YarnEventManager "chester_intro">>
+<<fireEvent YarnEventManager "cam_transition_cut">>
+<<setCurrentActorId YarnEventManager "chester_1">>
 <<declare $Chester_Intro_Loop_BachPad = false>>
-    -> Consider it a yee-haw!
-        Chester: Well, <roll>yeeeee-haw</roll> indeed!!
-        <<obtainItem YarnEventManager "Weird Shoe" 1>>
-        Keep your windows peeled for my cohort, they look just like me!
-    -> But are you a Bach-Pad? <<if $Chester_Intro_Loop_BachPad is false>>
+<<fireEvent YarnEventManager "cam_chester_1_meadow_over_shoulder">>
+    -> Consider it a <nobr><roll>yee-haw</roll></nobr>!
+        <<fireEvent YarnEventManager "cam_chester_1_meadow_close_up">>  
+        <<obtainItem YarnEventManager "WeirdShoe" 1>>
+        Chester: Well, <roll>yeeeee-haw</roll> indeed!! Take this <red>gift</red>!
+        <<if $Item_Shoe_Count == 0>>
+        It let's you do this thing... think it's called <red>"jumping"</red>?
+        <<set $Item_Shoe_Count = $Item_Shoe_Count + 1>>
+        <<endif>>
+        <<fireEvent YarnEventManager "cam_chester_1_meadow_full">>
+        Anyways, keep your windows peeled for my <red>cohort</red>, they look just like me!
+    -> But are you a <nobr><red>Bach-Pad</red></nobr>? <<if $Chester_Intro_Loop_BachPad is false>>
+        <<fireEvent YarnEventManager "cam_chester_1_meadow_close_up_extreme">>
         Chester: I'm flattered but...
-        I'm in a loving polycule with the rest of my cohort.
+        <<fireEvent YarnEventManager "cam_transition_slow">>
+        <<fireEvent YarnEventManager "cam_chester_1_meadow_close_up">>
+        I'm in a loving polycule with the rest of my <red>cohort</red>.
         Took a lot of schedulin' to get everyone here.
+        <<fireEvent YarnEventManager "cam_transition_cut">>
+        <<fireEvent YarnEventManager "cam_player_close_up_left">>
         Our calendars are too full to fit anyone else.
+        <<fireEvent YarnEventManager "cam_chester_1_meadow_close_up">>
+        In the meantime...
         <<set $Chester_Intro_Loop_BachPad = true>>
-        <<jump Chester_Intro_Loop_Intro>>
+        <<jump Chester_1_Intro_Loop_Intro>>
     -> Maybe later?
-        Chester: Alrighty, but take this gift anyways.
-        <<obtainItem YarnEventManager "Weird Shoe" 1>>
+        <<fireEvent YarnEventManager "cam_chester_1_meadow_close_up">>  
+        <<obtainItem YarnEventManager "WeirdShoe" 1>>
+        Chester: Alrighty, but take this <red>gift</red> anyways.
+        <<if $Item_Shoe_Count == 0>>
+        It let's you do this thing... think it's called <red>"jumping"</red>?
+        <<set $Item_Shoe_Count = $Item_Shoe_Count + 1>>
+        <<endif>>
+        <<fireEvent YarnEventManager "cam_chester_1_meadow_full">>
         And do keep an open attic and an open window for my cohort!
 ===
-title: Chester_Intro_Loop_Intro
+title: Chester_1_Intro_Loop_Intro
 tags:
 ---
-<<setCurrentActorId YarnEventManager "chester_intro">>
+<<fireEvent YarnEventManager "position_player_cam_chester_1_meadow">>
+<<setCurrentActorId YarnEventManager "chester_1">>
+<<fireEvent YarnEventManager "cam_chester_1_meadow_close_up">>  
 Chester: How about that <roll>rootin' tootin'</roll> favor?
-<<jump Chester_Intro_Loop>>
+<<jump Chester_1_Intro_Loop>>
 ===
-title: Chester_Intro_Gifted_Loop
+title: Chester_1_Intro_Gifted_Loop
 tags:
 ---
-<<setCurrentActorId YarnEventManager "chester_intro">>
+<<fireEvent YarnEventManager "position_player_cam_chester_1_meadow">>
+<<setCurrentActorId YarnEventManager "chester_1">>
+<<fireEvent YarnEventManager "cam_chester_1_meadow_close_up">>  
 Chester: My cohort has a bunch more <roll>lootin' gootin'</roll> treasures.
 ===

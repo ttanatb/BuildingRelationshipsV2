@@ -1,51 +1,56 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.AI;
+using Utilr.SoGameEvents;
 
 public class FishingReticle : MonoBehaviour
 {
-    const string ANIM_NAME_TRIGG_CAST_START = "cast";
-    const string ANIM_NAME_TRIGG_CAST_END = "stopCast";
-    const string ANIM_NAME_TRIGG_REEL_START = "reel";
-    const string ANIM_NAME_TRIGG_REEL_END = "stopReel";
+    [SerializeField] private Animator m_animator = null;
+
+    [AnimatorParam("m_animator")] [SerializeField]
+    private int m_animStartCast = 0;
+    
+    [AnimatorParam("m_animator")] [SerializeField]
+    private int m_animStopCast = 0;
+    
+    [AnimatorParam("m_animator")] [SerializeField]
+    private int m_animStartReel = 0;
+
+    [AnimatorParam("m_animator")] [SerializeField]
+    private int m_animStopReel = 0;
+
+    private Camera m_camera = null;
+    private Renderer[] m_renderers = null;
+
+    [SerializeField] private Vector3 m_currVel = Vector3.zero;
+    [SerializeField] private Vector2 m_currInput = Vector3.zero;
+    [SerializeField] private float m_bounceCoefficient = 0.1f;
+    [SerializeField] private float m_frictionCoefficient = 0.2f;
+    [SerializeField] private float m_maxSpeed = 20f;
+
+    [SerializeField] private SoCurrentCamera m_currentCamera = null;
 
 
-    Camera m_camera = null;
-    Renderer[] m_renderers = null;
-
-    [SerializeField]
-    Vector3 m_currVel = Vector3.zero;
-
-    [SerializeField]
-    Vector2 m_currInput = Vector3.zero;
-
-    [SerializeField]
-    Terrain m_terrain = null;
-
-    [SerializeField]
-    float m_stoppingThreshold = 0.001f;
-
-    private Animator m_animator = null;
-
-
-    public void SetAnimTriggReelStart()
+    public void AnimateStartReel()
     {
-        m_animator.SetTrigger(ANIM_NAME_TRIGG_REEL_START);
+        m_animator.SetTrigger(m_animStartReel);
     }
 
-    public void SetAnimTriggReelEnd()
+    public void AnimateStopReel()
     {
-        m_animator.SetTrigger(ANIM_NAME_TRIGG_REEL_END);
+        m_animator.SetTrigger(m_animStopReel);
     }
 
-    public void SetAnimTriggCastStart()
+    public void AnimateStartCast()
     {
-        m_animator.SetTrigger(ANIM_NAME_TRIGG_CAST_START);
+        m_animator.SetTrigger(m_animStartCast);
     }
 
-    public void SetAnimTriggCastEnd()
+    public void AnimateStopCast()
     {
-        m_animator.SetTrigger(ANIM_NAME_TRIGG_CAST_END);
+        m_animator.SetTrigger(m_animStopCast);
     }
 
 
@@ -55,18 +60,28 @@ public class FishingReticle : MonoBehaviour
             r.enabled = isActive;
     }
 
-    public void SetPosition(Vector3 pos)
+    public void SetStartingTransform(Vector3 pos, Vector3 normal)
     {
         m_currVel = Vector3.zero;
-        transform.position = pos;
+        var thisTransform = transform;
+        
+        thisTransform.position = pos;
+        thisTransform.up = normal;
     }
 
-    public void SetVelocityX(float x)
+
+    public void Freeze()
+    {
+        m_currVel = Vector3.zero;
+        m_currInput = Vector2.zero;
+    }
+    
+    public void SetAccX(float x)
     {
         m_currInput.x = x;
     }
 
-    public void SetVelocityY(float y)
+    public void SetAccY(float y)
     {
         m_currInput.y = y;
     }
@@ -77,27 +92,65 @@ public class FishingReticle : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        m_camera = Camera.main;
-        m_terrain = FindObjectOfType<Terrain>();
-        m_animator = GetComponent<Animator>();
+        m_camera = m_currentCamera.Cam;
+    }
+
+    private bool CheckIfOutsideWater(Vector3 newPos, out NavMeshHit hit)
+    {
+        NavMesh.SamplePosition(newPos, out hit, Mathf.Infinity, NavMesh.AllAreas);
+        var posOnNavMesh = hit.position;
+        posOnNavMesh.y = newPos.y;
+
+        return Vector3.Distance(newPos, posOnNavMesh) > float.Epsilon;
     }
 
     // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        Vector3 y = Vector3.ProjectOnPlane(m_camera.transform.forward, Vector3.up) * m_currInput.y;
-        Vector3 x = Vector3.ProjectOnPlane(m_camera.transform.right, Vector3.up) * m_currInput.x;
-
-        m_currVel = y + x;
+        var up = transform.up;
+        var acc = Vector3.ProjectOnPlane(m_camera.transform.forward, up) * m_currInput.y 
+            + Vector3.ProjectOnPlane(m_camera.transform.right, up) * m_currInput.x;
+        acc += -m_currVel * m_frictionCoefficient;
+        
+        m_currVel += acc * Time.fixedDeltaTime;
+        m_currVel = Vector3.ClampMagnitude(m_currVel, m_maxSpeed);
+        
+        var posNextFrame = transform.position + m_currVel * Time.fixedDeltaTime;
+        
         if (m_currVel.sqrMagnitude < Mathf.Epsilon)
             return;
 
-        Vector3 newPos = transform.position + m_currVel * Time.deltaTime;
-        if (m_terrain.SampleHeight(newPos) < transform.position.y)
+        if (CheckIfOutsideWater(posNextFrame, out var hit))
         {
-            transform.position = newPos;
+            posNextFrame = transform.position;
+            m_currVel = -m_currVel * m_bounceCoefficient;
         }
+        else
+        {
+            posNextFrame.x = hit.position.x;
+            posNextFrame.z = hit.position.z;
+        }
+
+        // var newPos = transform.position + m_currVel * Time.fixedDeltaTime;
+        // var posOnNavMesh = hit.position;
+        // posOnNavMesh.y = newPos.y;
+        //
+        // // Check if new position is outside of nav mesh
+        // if (Vector3.Distance(newPos, posOnNavMesh) > float.Epsilon)
+        // {
+        //     // Bounce it back.
+        //     var negativeDir = posOnNavMesh - newPos;
+        //     negativeDir = Vector3.ProjectOnPlane(negativeDir, up);
+        //
+        //     newPos = posOnNavMesh + negativeDir * m_bounceCoefficient;
+        // }
+        // else
+        // {
+        //     newPos = posOnNavMesh;
+        // }
+        
+        transform.position = posNextFrame;
     }
 }

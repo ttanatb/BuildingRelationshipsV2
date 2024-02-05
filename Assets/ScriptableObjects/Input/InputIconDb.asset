@@ -19,12 +19,14 @@ MonoBehaviour:
     - <Keyboard>/space
     - <Gamepad>/rightStick
     - <Gamepad>/leftStick
+    - <Keyboard>/escape
     m_values:
     - {fileID: 21300000, guid: 0ba436465e5026c429c5d71685a51bb7, type: 3}
     - {fileID: 21300000, guid: 13eec02ef3c03fb479112382c2ae773e, type: 3}
     - {fileID: 21300000, guid: 424f083fb4667d9429eb20faf42d549e, type: 3}
     - {fileID: 21300000, guid: bee9ae5724e3b2d4d9d378ff3e839c13, type: 3}
     - {fileID: 21300000, guid: 285f73c2f61854945a40fdae4c563431, type: 3}
+    - {fileID: 21300000, guid: b187cb925c0344547a473e38af7200da, type: 3}
   <ControllerDb>k__BackingField:
     m_keys:
     - <Gamepad>/buttonSouth

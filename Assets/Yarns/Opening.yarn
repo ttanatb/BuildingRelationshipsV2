@@ -18,7 +18,7 @@ tags:
 <<fireEvent YarnEventManager "text_align_center_left">>
 ???: Hey!
 
-<<fireEvent YarnEventManager "cam_transition_slow">>
+<<fireEvent YarnEventManager "cam_transition_med">>
 <<fireEvent YarnEventManager "cam_intro_mint_full">>
 <<blockOnCameraMovement YarnEventManager>>
 Mint: How long are you going to stand around like that?
@@ -33,12 +33,13 @@ tags:
 ---
 <<setCurrentActorId YarnEventManager "mint">>
 <<declare $Introduction_Mint_Loop_Bach_Pad = false>>
-<<fireEvent YarnEventManager "cam_intro_mint_full">>
+<<fireEvent YarnEventManager "cam_transition_med">>
+<<fireEvent YarnEventManager "cam_intro_mint_close_up">>
 <<fireEvent YarnEventManager "text_align_top_left">>
 Mint: Nice moves, <laugh>ha ha!</laugh>
 I know you've always got <swank>swanking</swank> moves!
 <<fireEvent YarnEventManager "cam_transition_cut">>
-<<fireEvent YarnEventManager "cam_intro_mint_close_up">>
+<<fireEvent YarnEventManager "cam_intro_mint_close_up_alt">>
 Now, are you ready for a day of fun and vulnerability?
 <<fireEvent YarnEventManager "cam_intro_mint_over_shoulder">>
     -> I'm always ready for some <swank>swanking</swank>!
@@ -98,6 +99,7 @@ In fact, I think there's one waiting by the beach.
 title: Introduction_Mint_Loop
 tags:
 ---
+<<fireEvent YarnEventManager "position_player_mint_intro">>
 <<setCurrentActorId YarnEventManager "mint">>
 <<fireEvent YarnEventManager "cam_intro_mint_full">>
 <<fireEvent YarnEventManager "text_align_top_left">>
@@ -111,7 +113,7 @@ Mint: Now, do you have any questions for me?
         <<fireEvent YarnEventManager "cam_intro_mint_close_up">>
         That's up to you!
         <<fireEvent YarnEventManager "cam_transition_slow">>
-        <<fireEvent YarnEventManager "cam_doktor_intro_full">>
+        <<fireEvent YarnEventManager "cam_doktor_full">>
         <<fireEvent YarnEventManager "text_align_bot_center">>
         I heard that fishing here can yield... unexpected results?
         <<fireEvent YarnEventManager "cam_intro_mint_full">>
@@ -129,10 +131,14 @@ Mint: Now, do you have any questions for me?
         ... Unless??
         <<fireEvent YarnEventManager "text_align_bot_right">>
         <<fireEvent YarnEventManager "cam_player_close_up_left">>
-        pause (TODO)
+        <<fireEvent YarnEventManager "speech_bubble_hide">>
+        <<wait  2>>
+        <<fireEvent YarnEventManager "speech_bubble_show">>
         <<fireEvent YarnEventManager "text_align_bot_center">>
         <<fireEvent YarnEventManager "cam_intro_mint_close_up_extreme">>
-        pause (TODO)
+        <<fireEvent YarnEventManager "speech_bubble_hide">>
+        <<wait  2>>
+        <<fireEvent YarnEventManager "speech_bubble_show">>
         <<fireEvent YarnEventManager "cam_transition_fast">>
         <<fireEvent YarnEventManager "cam_intro_mint_close_up">>
         Uh.. Anyways...

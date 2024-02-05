@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e59a3adbf0cd47dfa3e02db0f2325d9b, type: 3}
+  m_Name: Audio_Page_Flip
+  m_EditorClassIdentifier: 
+  m_invokeOnStart: 0
+  <Data>k__BackingField:
+    <Clip>k__BackingField:
+    - {fileID: 8300000, guid: f799a51b202f76a47a48951187c6bb9f, type: 3}
+    - {fileID: 8300000, guid: 934829ea051bbea4eb1368aa83c1bb33, type: 3}
+    - {fileID: 8300000, guid: 0ceda1c450d9a7440a55c8a196cbd8d6, type: 3}
+    - {fileID: 8300000, guid: 7ecba18e5553a034e9e998739ff67474, type: 3}
+    - {fileID: 8300000, guid: 9ececec1a5cfd934c8ed5fb0df7ee662, type: 3}
+    - {fileID: 8300000, guid: d513b1d2a9202684e82c4515824b2242, type: 3}
+    <Volume>k__BackingField: {x: 0.3, y: 0.35}
+    <Pitch>k__BackingField: {x: 0.95, y: 1.05}

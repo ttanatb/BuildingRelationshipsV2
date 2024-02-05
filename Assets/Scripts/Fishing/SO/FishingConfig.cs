@@ -13,5 +13,8 @@ namespace Fishing.SO
 
         [field: SerializeField]
         public float FishUiIndicatorSpeed { get; set; } = 1.0f;
+
+        [field: SerializeField]
+        public Vector2 BarSize { get; set; } = new Vector2(50, 250);
     }
 }

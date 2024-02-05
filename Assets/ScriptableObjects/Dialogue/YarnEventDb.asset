@@ -20,11 +20,21 @@ MonoBehaviour:
   - ScriptableObjects/Cutscenes
   <YarnEventNameToGameEventDict>k__BackingField:
     m_keys:
-    - cam_doktor_closeup
-    - cam_doktor_closeup_extreme
-    - cam_doktor_intro
-    - cam_doktor_intro_alt
-    - cam_doktor_intro_full
+    - cam_chester_1_meadow_close_up
+    - cam_chester_1_meadow_close_up_alt
+    - cam_chester_1_meadow_close_up_extreme
+    - cam_chester_1_meadow_close_up_extreme_low
+    - cam_chester_1_meadow_full
+    - cam_chester_1_meadow_full_far
+    - cam_chester_1_meadow_over_shoulder
+    - cam_doktor_close_up
+    - cam_doktor_close_up_alt
+    - cam_doktor_close_up_extreme
+    - cam_doktor_close_up_extreme_low
+    - cam_doktor_close_up_front
+    - cam_doktor_full
+    - cam_doktor_full_far
+    - cam_doktor_over_shoulder
     - cam_intro_beach
     - cam_intro_beach_path
     - cam_intro_forest
@@ -40,8 +50,14 @@ MonoBehaviour:
     - cam_player_full_left
     - cam_transition_cut
     - cam_transition_fast
+    - cam_transition_med
     - cam_transition_slow
+    - position_player_cam_chester_1_meadow
+    - position_player_doktor
+    - position_player_mint_intro
     - show_movement_tutorial
+    - speech_bubble_hide
+    - speech_bubble_show
     - text_align_bot_center
     - text_align_bot_left
     - text_align_bot_right
@@ -52,11 +68,21 @@ MonoBehaviour:
     - text_align_top_left
     - text_align_top_right
     m_values:
-    - {fileID: 11400000, guid: 011cbd17adfd7e345b9e8241129d9b95, type: 2}
-    - {fileID: 11400000, guid: 5b93e3e95eb52bc4a9827b5da8f43dc6, type: 2}
-    - {fileID: 11400000, guid: 4820316f16d33ac47bab61633d40f134, type: 2}
-    - {fileID: 11400000, guid: 64e653133c618b347a566d8b8b992cb4, type: 2}
-    - {fileID: 11400000, guid: b7cfb0a9236666f42ab0a7d85664c987, type: 2}
+    - {fileID: 11400000, guid: 6180be5d18d44dd4099d79b735dc35a9, type: 2}
+    - {fileID: 11400000, guid: 4c7a0a01bd2e4d747a3c0c3e03fb06e3, type: 2}
+    - {fileID: 11400000, guid: 3daf7b6df12181e4b8d7d8ea6a5b9776, type: 2}
+    - {fileID: 11400000, guid: 22da7cfc4d5e010419103e455424691f, type: 2}
+    - {fileID: 11400000, guid: 940816a0bd1f65749b8546b53562156b, type: 2}
+    - {fileID: 11400000, guid: ea61542dbdf9deb4980f3aacdb18b152, type: 2}
+    - {fileID: 11400000, guid: 47666874730aa44448535c656a0a1451, type: 2}
+    - {fileID: 11400000, guid: 303ed9f5da4bb024f922d37f983bd220, type: 2}
+    - {fileID: 11400000, guid: 4bf112fa546dc244d94dda2827786c9d, type: 2}
+    - {fileID: 11400000, guid: 2bba18565c947fd4788ce5a1cbeb5cb6, type: 2}
+    - {fileID: 11400000, guid: c1a119303a675e74297a3058dba3a61c, type: 2}
+    - {fileID: 11400000, guid: 6ff2efbd1ecaf5e49ba46d0384015188, type: 2}
+    - {fileID: 11400000, guid: f70c7e03c49817746afe5be5dfe6952f, type: 2}
+    - {fileID: 11400000, guid: c0a36e09d98276a4db479c7c07a16da6, type: 2}
+    - {fileID: 11400000, guid: 1f86b710d495e8646a1d8bb009adbf1e, type: 2}
     - {fileID: 11400000, guid: 222128aee8fdfbf48a4d021bef63408a, type: 2}
     - {fileID: 11400000, guid: c693a85dc39de544b85207dbb0b6da91, type: 2}
     - {fileID: 11400000, guid: 957db25082aace54c85db6e8af3114e8, type: 2}
@@ -72,8 +98,14 @@ MonoBehaviour:
     - {fileID: 11400000, guid: e35c70fe6a557974691961ebc8adb0a4, type: 2}
     - {fileID: 11400000, guid: c14b7cd176ea6084db90430dae12454d, type: 2}
     - {fileID: 11400000, guid: c486641eb167f5d40bf2697dd9d2ed59, type: 2}
+    - {fileID: 11400000, guid: 52293db4ffae33c43b2a26af4209c38f, type: 2}
     - {fileID: 11400000, guid: 8560285ac3f52e04ba5e13b9723cdf7c, type: 2}
+    - {fileID: 11400000, guid: 17ad2f559c02d954993132ac2dc2103d, type: 2}
+    - {fileID: 11400000, guid: 2fa2701e818633d499c132347902fc4d, type: 2}
+    - {fileID: 11400000, guid: e8541dd194310d04ab41695599d3e452, type: 2}
     - {fileID: 11400000, guid: 7fa487b38e4147849abc6456fb39b64f, type: 2}
+    - {fileID: 11400000, guid: 2d17733d26286dc47a844610367c1305, type: 2}
+    - {fileID: 11400000, guid: f76c7bdc99793064598f2a9282a02a11, type: 2}
     - {fileID: 11400000, guid: b5e6fb8844d22bd4b903cac217504220, type: 2}
     - {fileID: 11400000, guid: eade6902c78b1074897b0fdc1faee5cf, type: 2}
     - {fileID: 11400000, guid: aed0af959dc219241b0ccb4cda15eaff, type: 2}

@@ -15,4 +15,17 @@ MonoBehaviour:
   m_invokeOnStart: 0
   <Event>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 87f007e5915c57d4698ae3cf74ebea0d, type: 2}
+        m_TargetAssemblyTypeName: Utilr.SoGameEvents.SoCustomEvent`1[[Dialogue.Struct.ActorAnimationData,
+          Assembly-CSharp
+        m_MethodName: Invoke
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

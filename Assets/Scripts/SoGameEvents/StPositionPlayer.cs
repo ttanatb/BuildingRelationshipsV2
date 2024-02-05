@@ -9,7 +9,9 @@ namespace GameEvents
 
         private void Start()
         {
-            m_event.Data = transform;
+            var data = m_event.Data;
+            data.Transform = transform;
+            m_event.Data = data;
         }
     }
 }

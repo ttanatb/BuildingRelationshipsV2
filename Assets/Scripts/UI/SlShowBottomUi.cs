@@ -47,8 +47,8 @@ namespace UI
         private void OnHideBottomUi()
         {
             m_animator.ResetTrigger(m_hideTrigger);
+            m_animator.ResetTrigger(m_showTrigger);
             m_animator.SetTrigger(m_hideTrigger);
-            m_onSuccessAudio.Invoke();
         }
         
         private void OnShowBottomUi()

@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44fc4acb2a564b7faaf1337396f07b0d, type: 3}
+  m_Name: LocalizedStringTable_English
+  m_EditorClassIdentifier: 
+  <LanguageCode>k__BackingField: 0
+  <Data>k__BackingField:
+    m_keys:
+    - fish_control_aim
+    - fish_control_cast
+    - fish_control_stop_cast
+    - fish_control_stop_fish
+    - menu_credits
+    - menu_options
+    - menu_quit
+    - menu_start_game
+    - tutorial_movement
+    - tutorial_ui_confirm
+    - tutorial_ui_navigate
+    - verb_acquired_item
+    - verb_fish
+    - verb_interact
+    - verb_talk
+    m_values:
+    - to aim
+    - to cast rod
+    - to cancel
+    - to stop fishing
+    - Credits
+    - Options
+    - Quit
+    - Start Demo
+    - to make moves
+    - confirm
+    - navigate
+    - Got {0}!
+    - fish
+    - interact
+    - talk

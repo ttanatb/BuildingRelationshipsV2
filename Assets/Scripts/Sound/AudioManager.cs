@@ -24,7 +24,6 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log($"{typeof(AudioSource).IsSubclassOf(typeof(MonoBehaviour))}");
         m_audioPool = new ObjectPool<AudioSource>(m_audioSourcePrefab, m_audioPoolCount, transform);
     }
 
@@ -70,7 +69,7 @@ public class AudioManager : MonoBehaviour
         audioSrc.pitch = data.Pitch;
         audioSrc.Play();
 
-        Debug.Log($"Playing audio: {data.Clip} at volume {audioSrc.volume} pool index {index}");
+        // Debug.Log($"Playing audio: {data.Clip} at volume {audioSrc.volume} pool index {index}");
         StartCoroutine(ReleaseToObjPool(data.Clip.length, index));
     }
 

@@ -3,7 +3,13 @@ guid: a32076445d4e22c4d90ef3dd44d68167
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_dialogueBoxAnchor: {instanceID: 0}
+  - m_positionEvent: {fileID: 11400000, guid: bda038e88a1c3174295a4c31836727b9, type: 2}
+  - m_showEvent: {fileID: 11400000, guid: 1141dd46e914e2446b5cedb25cc2985f, type: 2}
+  - m_hideEvent: {fileID: 11400000, guid: bb4bebebd72df7541b9718aa8eae7229, type: 2}
+  - m_playerAnchor: {instanceID: 0}
+  - <ActivateCamEvent>k__BackingField: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

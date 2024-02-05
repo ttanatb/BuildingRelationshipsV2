@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &91900814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 91900815}
+  m_Layer: 9
+  m_Name: Over Shoulder Anchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &91900815
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91900814}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.32, y: 1.93, z: -0.635}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8219875807670937564}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &231983938502071365
 GameObject:
   m_ObjectHideFlags: 0
@@ -3767,10 +3798,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8219875807670937564}
   - component: {fileID: 8219875807670937563}
-  - component: {fileID: 8219875807670937562}
   - component: {fileID: 8219875807670937565}
   - component: {fileID: 8219875807670937566}
-  - component: {fileID: 8219875807670937567}
   m_Layer: 9
   m_Name: Mint NPC
   m_TagString: Untagged
@@ -3785,7 +3814,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8219875807670937561}
-  m_LocalRotation: {x: -0, y: 0.8613429, z: -0, w: -0.5080241}
+  m_LocalRotation: {x: 0, y: 0.8613412, z: -0, w: -0.50802696}
   m_LocalPosition: {x: 285.306, y: 14.17, z: 62.589}
   m_LocalScale: {x: 1.38744, y: 1.38744, z: 1.38744}
   m_ConstrainProportionsScale: 0
@@ -3794,6 +3823,7 @@ Transform:
   - {fileID: 2726966923119297208}
   - {fileID: 8219875808666707352}
   - {fileID: 8219875808951735290}
+  - {fileID: 91900815}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 241.065, z: 0}
@@ -3811,26 +3841,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_dialogueBoxAnchor: {fileID: 8219875808951735290}
   m_interactText: talk
+  m_setActiveNodeEvents:
+  - {fileID: 11400000, guid: a6a4db0255a4a0a4f9566a0c7a423393, type: 2}
+  m_actorAnimEvents: []
+  m_moveActorEvent: {fileID: 11400000, guid: 96872745424111841b626be6d68c9363, type: 2}
+  m_actorId: mint
   m_dialogueNodeName: Bud_Welcome
---- !u!114 &8219875807670937562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8219875807670937561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f318ca09c82210c479054b1da5676540, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_playerLayerMask:
+  m_playerLayer:
     serializedVersion: 2
     m_Bits: 1024
-  m_camera: {fileID: 0}
-  m_activateFishCamEvent: {fileID: 0}
-  m_activatePlayerCamEvent: {fileID: 11400000, guid: 654b2ceacc3982b43a7e8bf15160aba5,
-    type: 2}
+  m_animator: {fileID: 8219875807670937566}
+  m_animTriggerTalkStart: -508005684
+  m_animTriggerTalkEnd: 838250932
+  m_animTriggerInRadius: 1183549598
+  m_animTriggerExitRadius: -978435096
 --- !u!135 &8219875807670937565
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3864,19 +3888,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &8219875807670937567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8219875807670937561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bf58fd26743a6447afab8b96c62063f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: windmillIntro
 --- !u!1 &8219875808110422127
 GameObject:
   m_ObjectHideFlags: 0
@@ -8813,7 +8824,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8219875808951735290}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: InteractAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8859,7 +8870,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8219875809131018737}
-  m_LocalRotation: {x: 0.0058123167, y: -0.9777397, z: 0.20795316, w: 0.02732816}
+  m_LocalRotation: {x: 0.005812312, y: -0.97773975, z: 0.207953, w: 0.027328165}
   m_LocalPosition: {x: 0.6, y: 6.44, z: 12.33}
   m_LocalScale: {x: 0.7207519, y: 0.7207519, z: 0.7207519}
   m_ConstrainProportionsScale: 0

@@ -2,43 +2,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [Serializable]
 public struct FishSpawnCountPair
 {
-    public GameObject Prefab;
-    public int SpawnCount;
+    [field: SerializeField]
+    public GameObject Prefab { get; set; }
+    [field: SerializeField]
+    public int SpawnCount { get; set; }
 }
 
 public class FishingArea : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] m_fishPrefabs = null;
-
     [SerializeField]
     private float m_spawnRadius = 1.0f;
 
     [SerializeField]
     private float m_maxWanderRadius = 5.0f;
 
-    [SerializeField]
-    TerrainCollider m_terrainCollider = null;
-
-    [SerializeField]
-    FishingReticle m_fishingReticle = null;
-
-    [SerializeField]
-    Fish[] m_fishes = null;
-
-    [SerializeField]
-    NavmeshWanderer[] m_wanderers = null;
-
-    [SerializeField]
-    FishSpawnCountPair[] m_fishSpawnTable = null;
+    [SerializeField] private TerrainCollider m_terrainCollider = null;
+    [SerializeField] private FishingReticle m_fishingReticle = null;
+    [SerializeField] private Fish[] m_fishes = null;
+    [SerializeField] private NavmeshWanderer[] m_wanderers = null;
+    [SerializeField] private FishSpawnCountPair[] m_fishSpawnTable = null;
 
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         if (m_terrainCollider == null)
             m_terrainCollider = FindObjectOfType<TerrainCollider>();
@@ -46,23 +37,24 @@ public class FishingArea : MonoBehaviour
         if (m_fishingReticle == null)
             m_fishingReticle = FindObjectOfType<FishingReticle>();
 
-        List<Fish> fishes = new List<Fish>();
-        List<NavmeshWanderer> wanderers = new List<NavmeshWanderer>();
+        var fishes = new List<Fish>();
+        var wanderers = new List<NavmeshWanderer>();
+        var fishingAreaTransform = transform;
         foreach (var pair in m_fishSpawnTable)
         {
             for (int i = 0; i < pair.SpawnCount; i++)
             {
-                Vector3 pos = transform.position + (m_spawnRadius * UnityEngine.Random.insideUnitSphere);
-                pos.y = 0.0f;
+                var position = fishingAreaTransform.position;
+                var fishPos = position + (m_spawnRadius * UnityEngine.Random.insideUnitSphere);
+                NavMesh.SamplePosition(fishPos, out var hit, Mathf.Infinity, NavMesh.AllAreas);
 
-                Vector3 transformPos = transform.position;
-                transformPos.y = 0.0f;
+                fishPos = hit.position;
 
-                var fishObj = Instantiate(pair.Prefab, pos, Quaternion.identity, transform);
+                var fishObj = Instantiate(pair.Prefab, fishPos, Quaternion.identity, fishingAreaTransform);
                 var wanderer = fishObj.GetComponent<NavmeshWanderer>();
                 wanderer.TerrainCollider = m_terrainCollider;
                 wanderer.MaxRadius = m_maxWanderRadius;
-                wanderer.StartPos = transformPos;
+                wanderer.StartPos = fishPos;
                 wanderers.Add(wanderer);
                 fishes.Add(fishObj.GetComponent<Fish>());
             }
@@ -74,21 +66,15 @@ public class FishingArea : MonoBehaviour
 
     public void ActivateFish(bool shouldActivate)
     {
-        foreach (NavmeshWanderer w in m_wanderers)
+        foreach (var w in m_wanderers)
         {
             w.SeekTarget = shouldActivate ? m_fishingReticle : null;
         }
     }
 
-    public void RemoveFish(Fish fish)
+    public static void RemoveFish(Fish fish)
     {
         fish.gameObject.SetActive(false);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     private void OnDrawGizmosSelected()

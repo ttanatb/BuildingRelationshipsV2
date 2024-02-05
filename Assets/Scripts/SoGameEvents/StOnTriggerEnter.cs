@@ -19,6 +19,10 @@ namespace GameEvents
 
             bool containsTrigger = colliders.Any(col => col.isTrigger);
             Assert.IsTrue(containsTrigger);
+
+            TryGetComponent(out Renderer renderer);
+            if (renderer)
+                renderer.enabled = false;
         }
 
         private void OnTriggerEnter(Collider other)

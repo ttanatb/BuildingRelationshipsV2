@@ -25,7 +25,7 @@ namespace UI
         [SerializeField] private PlayOneShotRandomAudioClipEvent m_panelHideUpAudio = null;
 
         private UiDialogueOptionButton[] m_buttons = null;
-        RectTransform m_transform = null;
+        private RectTransform m_transform = null;
 
         [SerializeField] private TMPro.TextMeshProUGUI m_dialogueText = null;
         [SerializeField] private TMPro.TextMeshProUGUI m_nameText = null;
@@ -44,6 +44,11 @@ namespace UI
 
             TryGetComponent(out m_transform);
             m_buttons = GetComponentsInChildren<UiDialogueOptionButton>();
+
+            foreach (var button in m_buttons)
+            {
+                button.SetVisible(false);
+            }
         }
 
         private void OnDestroy()
@@ -86,6 +91,8 @@ namespace UI
             }
             m_dialogueText.text = dialogueLine.TextWithoutCharacterName.Text;
             onDialogueLineFinished?.Invoke();
+            foreach (var button in m_buttons)
+                button.SetVisible(false);
         }
 
         public override void RunOptions(DialogueOption[] dialogueOptions, Action<int> onOptionSelected)

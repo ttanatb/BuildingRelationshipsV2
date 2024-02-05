@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65406d692a7a405dbe322a770593c995, type: 3}
+  m_Name: TriggerCutscene_Intro_Mint
+  m_EditorClassIdentifier: 
+  m_invokeOnStart: 0
+  <GameEvents>k__BackingField:
+  - {fileID: 11400000, guid: e8541dd194310d04ab41695599d3e452, type: 2}
+  - {fileID: 11400000, guid: b6f0f737a8be819469a976b14a025ac3, type: 2}
+  - {fileID: 11400000, guid: f54a722723c8aa241920245d5a32b8a3, type: 2}

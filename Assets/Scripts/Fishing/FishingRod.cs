@@ -1,13 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using NaughtyAttributes;
 using UnityEngine;
 
 public class FishingRod : MonoBehaviour
 {
-    const string ANIM_NAME_TRIGG_CAST_START = "castStart";
-    const string ANIM_NAME_TRIGG_CAST_END = "castStop";
-    const string ANIM_NAME_TRIGG_REEL_START = "reelStart";
-    const string ANIM_NAME_TRIGG_REEL_END = "reelStop";
+    [SerializeField] private Animator m_animator = null;
+
+    [SerializeField] [AnimatorParam("m_animator")]
+    private int m_paramStartCast = 0;
+
+    [SerializeField] [AnimatorParam("m_animator")]
+    private int m_paramStopCast = 0;
+    
+    [SerializeField] [AnimatorParam("m_animator")]
+    private int m_paramStartReel = 0;
+    
+    [SerializeField] [AnimatorParam("m_animator")]
+    private int m_paramStopReel = 0;
+
 
     [SerializeField]
     private FishingReticle m_fishingReticle = null;
@@ -23,29 +32,40 @@ public class FishingRod : MonoBehaviour
 
     private Transform m_reticleTransform = null;
     private LineRenderer m_lineRenderer = null;
-    private Animator m_animator = null;
     Renderer[] m_renderers = null;
 
     public Transform FishingAreaTransform { set { m_fishingArea = value; } }
 
+    private void ResetTriggers()
+    {
+        m_animator.ResetTrigger(m_paramStartCast);
+        m_animator.ResetTrigger(m_paramStopCast);
+        m_animator.ResetTrigger(m_paramStartReel);
+        m_animator.ResetTrigger(m_paramStopReel);
+    }
+
     public void SetAnimTriggCastStart()
     {
-        m_animator.SetTrigger(ANIM_NAME_TRIGG_CAST_START);
+        ResetTriggers();
+        m_animator.SetTrigger(m_paramStartCast);
     }
 
     public void SetAnimTriggCastEnd()
     {
-        m_animator.SetTrigger(ANIM_NAME_TRIGG_CAST_END);
+        ResetTriggers();
+        m_animator.SetTrigger(m_paramStopCast);
     }
 
     public void SetAnimTriggReelStart()
     {
-        m_animator.SetTrigger(ANIM_NAME_TRIGG_REEL_START);
+        ResetTriggers();
+        m_animator.SetTrigger(m_paramStartReel);
     }
 
     public void SetAnimTriggReelEnd()
     {
-        m_animator.SetTrigger(ANIM_NAME_TRIGG_REEL_END);
+        ResetTriggers();
+        m_animator.SetTrigger(m_paramStopReel);
     }
 
     public void SetActive(bool isActive)

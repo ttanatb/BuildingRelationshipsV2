@@ -7055,6 +7055,7 @@ MonoBehaviour:
   - {fileID: 1857004559}
   m_accToApplyFromInput: {x: 80, y: 80}
   m_multiplierSpeedImpulse: 500
+  m_multiplierSpeedJumpImpulse: 100
   m_currForwardPushForce: 0
   m_currRightPushForce: 0
   m_dashSpeedIncrement: 60
@@ -7065,6 +7066,7 @@ MonoBehaviour:
   m_jumpSpinModifier: 5000000
   m_playJumpSoundEvent: {fileID: 11400000, guid: ff2b399d7201a5a40a3c8c65cad87d56,
     type: 2}
+  m_dashAudioEvent: {fileID: 0}
   m_noRollJumpSpeed: 60
   m_dashInput: {fileID: -9027720672783921296, guid: 6eb01feef10ce7548a596c2cbc1f25d3,
     type: 3}
@@ -7075,12 +7077,12 @@ MonoBehaviour:
   m_moveInput: {fileID: 2140785848020088644, guid: 6eb01feef10ce7548a596c2cbc1f25d3,
     type: 3}
   m_cinematicCam: {fileID: 0}
+  m_setSkillLevelEvent: {fileID: 0}
   m_jumpCount: 0
   m_baseConstraints: 0
   m_jumpRegainLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_startDialogueEvents: []
   m_stopDialogueEvent: {fileID: 11400000, guid: 5682d5b7235446b4696b6d703af3c6a1,
     type: 2}
 --- !u!114 &8889872693485550062
@@ -7098,7 +7100,7 @@ MonoBehaviour:
   m_npcLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  m_currTalkableNPC: {fileID: 0}
+  m_currActorNpc: {fileID: 0}
   m_interactInput: {fileID: -7374286740801923010, guid: 6eb01feef10ce7548a596c2cbc1f25d3,
     type: 3}
   m_startDialogueEvent: {fileID: 11400000, guid: 7fa937429ec2ae4419ff5724073d1315,
@@ -7346,6 +7348,7 @@ MonoBehaviour:
     m_Bits: 16
   m_waterMaxDist: 2000
   m_reticleSpeed: 10
+  m_obtainItemEvent: {fileID: 11400000, guid: 94827c1a28be29c49beb8d4e645f7ce2, type: 2}
   m_fishingReticle: {fileID: 0}
   m_fishingRod: {fileID: 0}
   m_playerInteract: {fileID: -7374286740801923010, guid: 6eb01feef10ce7548a596c2cbc1f25d3,
@@ -7358,6 +7361,9 @@ MonoBehaviour:
     type: 3}
   m_switchToFishing: {fileID: 11400000, guid: 0adda262bcb50274c968fc55240046c9, type: 2}
   m_switchToPlayer: {fileID: 11400000, guid: 2309e5305e62f0042a07c494dcabdff0, type: 2}
+  m_fishReelStartEvent: {fileID: 0}
+  m_fishReelEndEvent: {fileID: 0}
+  m_setSkillLevelEvent: {fileID: 0}
 --- !u!114 &121693984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7380,6 +7386,8 @@ MonoBehaviour:
     type: 3}
   m_hideInventory: {fileID: 5161483011720217876, guid: 6eb01feef10ce7548a596c2cbc1f25d3,
     type: 3}
+  m_showInventoryAudio: {fileID: 0}
+  m_hideInventoryAudio: {fileID: 0}
 --- !u!114 &1882722576
 MonoBehaviour:
   m_ObjectHideFlags: 0

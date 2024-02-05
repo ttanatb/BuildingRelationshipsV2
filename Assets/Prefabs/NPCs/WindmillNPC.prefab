@@ -4925,7 +4925,7 @@ GameObject:
   - component: {fileID: 308139414817842899}
   - component: {fileID: 308139414817842898}
   - component: {fileID: 967312593}
-  - component: {fileID: 967312592}
+  - component: {fileID: 8956077877502253516}
   m_Layer: 0
   m_Name: WindmillNPC
   m_TagString: Untagged
@@ -4986,37 +4986,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_dialogueBoxAnchor: {fileID: 497854935}
   m_interactText: talk
-  m_setActiveNodeEvents: []
-  m_actorAnimEvent: {fileID: 0}
-  m_moveActorEvent: {fileID: 0}
-  m_actorId: 
-  m_dialogueNodeName: Windmill_Introduciton
+  m_setActiveNodeEvents:
+  - {fileID: 11400000, guid: a6a4db0255a4a0a4f9566a0c7a423393, type: 2}
+  m_actorAnimEvents:
+  - {fileID: 11400000, guid: 87f007e5915c57d4698ae3cf74ebea0d, type: 2}
+  - {fileID: 11400000, guid: d079b99166c0e3543858a481c0107c2f, type: 2}
+  - {fileID: 11400000, guid: da904e174a188ce41b2ee7deb9811c81, type: 2}
+  m_moveActorEvent: {fileID: 11400000, guid: 96872745424111841b626be6d68c9363, type: 2}
+  m_actorId: millie
+  m_dialogueNodeName: millie_introduction
   m_playerLayer:
     serializedVersion: 2
     m_Bits: 1024
-  m_animator: {fileID: 0}
-  m_animTriggerTalkStart: 1
-  m_animTriggerTalkEnd: 1
-  m_animTriggerInRadius: 1
-  m_animTriggerExitRadius: 1
---- !u!114 &967312592
-MonoBehaviour:
+  m_animator: {fileID: 308139414817842898}
+  m_animTriggerTalkStart: -508005684
+  m_animTriggerTalkEnd: 838250932
+  m_animTriggerInRadius: 1183549598
+  m_animTriggerExitRadius: -978435096
+--- !u!135 &8956077877502253516
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 308139414817842900}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f318ca09c82210c479054b1da5676540, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_playerLayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  m_camera: {fileID: 0}
-  m_activateFishCamEvent: {fileID: 0}
-  m_activatePlayerCamEvent: {fileID: 0}
+  serializedVersion: 2
+  m_Radius: 2.96
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &308139414856348515
 GameObject:
   m_ObjectHideFlags: 0

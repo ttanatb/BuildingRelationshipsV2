@@ -7,6 +7,13 @@
       "dependencies": {},
       "hash": "8a8fa5a9659a6d63f196391c71e06c4286c8acd7"
     },
+    "com.redbluegames.mulligan": {
+      "version": "https://github.com/redbluegames/unity-mulligan-renamer.git?path=/Assets/RedBlueGames/MulliganRenamer",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "2571f2e28250162410b8b6c28f2ffde724391cf1"
+    },
     "com.rlabrecque.steamworks.net": {
       "version": "https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net#20.2.0",
       "depth": 0,
@@ -23,7 +30,7 @@
         "com.unity.render-pipelines.universal": "8.2.0",
         "com.dbrizov.naughtyattributes": "2.0.8"
       },
-      "hash": "dacede9f54b62441d426e6e24a56840e775572f6"
+      "hash": "7e7895106ed9e7f50fbf2af4f450bd2225deef13"
     },
     "com.unity.2d.animation": {
       "version": "7.0.9",

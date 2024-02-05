@@ -4,14 +4,16 @@ using Dialogue.SO;
 using UnityEngine;
 using Dialogue.Struct;
 using NaughtyAttributes;
+using UnityEngine.Serialization;
 using Utilr;
 using Utilr.Attributes;
 
-public class ActorNpc : InteractiblePropject
+public class ActorNpc : InteractablePropject
 {
     [IncludeAllAssetsWithType]
     [SerializeField] private SetActiveNodeEvent[] m_setActiveNodeEvents = null;
-    [SerializeField] private ActorAnimationEvent m_actorAnimEvent = null;
+    [IncludeAllAssetsWithType]
+    [SerializeField] private ActorAnimationEvent[] m_actorAnimEvents = null;
     [SerializeField] private MoveActorEvent m_moveActorEvent = null;
     
     [SerializeField] private string m_actorId = "";
@@ -53,8 +55,11 @@ public class ActorNpc : InteractiblePropject
         {
             evt.Event.AddListener(OnActiveNodeSet);
         }
-        
-        m_actorAnimEvent.Event.AddListener(OnActorAnim);
+
+        foreach (var evt in m_actorAnimEvents)
+        {
+            evt.Event.AddListener(OnActorAnim);
+        }
         m_moveActorEvent.Event.AddListener(OnActorMove);
     }
  
@@ -65,7 +70,11 @@ public class ActorNpc : InteractiblePropject
             evt.Event.RemoveListener(OnActiveNodeSet);
         }
         
-        m_actorAnimEvent.Event.RemoveListener(OnActorAnim);
+        foreach (var evt in m_actorAnimEvents)
+        {
+            evt.Event.RemoveListener(OnActorAnim);
+        }
+        
         m_moveActorEvent.Event.RemoveListener(OnActorMove);
     }
 
@@ -91,7 +100,8 @@ public class ActorNpc : InteractiblePropject
                 m_animator.SetTrigger(m_animTriggerTalkEnd);
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                Debug.LogWarning($"{gameObject} ({data.ActorId}) does not support {data.TriggerName}");
+                break;
         }
     }
     
@@ -110,8 +120,8 @@ public class ActorNpc : InteractiblePropject
         var otherGameObj = other.gameObject;
         if (!m_playerLayer.ContainsLayer(otherGameObj.layer))
             return;
-        
-        m_uimanager.SetCurrInteractAnchor(m_dialogueBoxAnchor, m_interactText);
+
+        SetInteractable(true);
         m_animator.SetTrigger(m_animTriggerInRadius);
     }
 
@@ -122,6 +132,6 @@ public class ActorNpc : InteractiblePropject
             return;
         
         m_animator.SetTrigger(m_animTriggerExitRadius);
-        m_uimanager.SetCurrInteractAnchor(null);
+        SetInteractable(false);
     }
 }

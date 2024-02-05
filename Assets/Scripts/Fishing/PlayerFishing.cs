@@ -2,6 +2,8 @@
 using UnityEngine;
 using Yarn.Unity;
 using System.Collections.Generic;
+using Cam.Events;
+using Dialogue.SO;
 using Fishing.SO;
 using Fishing.Structs;
 using GameEvents;
@@ -11,20 +13,19 @@ using Inventory.Structs;
 using NaughtyAttributes;
 using Skills.SO;
 using Skills.Structs;
+using UI.Events;
 using UnityEditor;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Utilr.SoGameEvents;
+using Utilr.Utility;
 
 public class PlayerFishing : MonoBehaviour
 {
     [SerializeField] private FishingSign m_currFishingSign = null;
     [SerializeField] private LayerMask m_fishingSignLayerMask = 1 << 12;
-    [SerializeField] private LayerMask m_waterLayerMask = 1 << 4;
-    [SerializeField] private float m_waterMaxDist = 20.0f;
     [SerializeField] private float m_reticleSpeed = 10.0f;
     [SerializeField] private ObtainItemEvent m_obtainItemEvent = null;
-
-    private CinemachineVirtualCamera m_fishingCamera = null;
 
     [SerializeField] private FishingReticle m_fishingReticle = null;
     [SerializeField] private FishingRod m_fishingRod = null;
@@ -45,6 +46,19 @@ public class PlayerFishing : MonoBehaviour
     [SerializeField] private FishReelEndEvent m_fishReelEndEvent = null;
 
     [SerializeField] private SetSkillLevelEvent m_setSkillLevelEvent = null;
+
+    [SerializeField] private SoGameEvent m_reticleCloseUp = null;
+    [SerializeField] private SoGameEvent m_playerCamera = null;
+    
+    [SerializeField] private float m_reelStartDelay = 0.7f;
+    [SerializeField] private SetCamTransitionEvent m_fastTransition = null;
+    [SerializeField] private SetCamTransitionEvent m_slowTransition = null;
+    [SerializeField] private SetCamTransitionEvent m_defaultTransition = null;
+
+    [SerializeField] private ActorAnimationEvent m_startPlayerBounce = null;
+    [SerializeField] private ShowBottomUiEvent m_showAimControls = null;
+    [SerializeField] private ShowBottomUiEvent m_showCastedControls = null;
+    [SerializeField] private SoGameEvent m_hideControls = null;
 
     private enum FishingState
     {
@@ -105,25 +119,28 @@ public class PlayerFishing : MonoBehaviour
         m_setSkillLevelEvent.Event.RemoveListener(OnUpdateFishingCapability);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void FishReelStarted(FishReelStartData data)
     {
         if (m_currState != FishingState.Waiting)
             Debug.LogError("Received fish reel started event while in state (" + m_currState + ")");
 
         m_currFishingSign.FishingArea.ActivateFish(false);
-        m_fishingController.StartFishing(data.FishData, data.Fish);
-
-        m_fishingReticle.SetAnimTriggReelStart();
-        m_fishingRod.SetAnimTriggReelStart();
-
-        m_uiManager.ToggleInstructions("");
+        m_fastTransition.Invoke();
+        m_reticleCloseUp.Invoke();
+        m_fishingReticle.Freeze();
+        m_hideControls.Invoke();
         ChangeState(FishingState.Reeling);
+
+        StartCoroutine(Helper.ExecuteAfter(() => {
+            data.Fish.FishAnimator.StartReelingAnim();
+            m_fishingController.StartFishing(data.FishData, data.Fish);
+
+            m_fishingReticle.AnimateStartReel();
+            m_fishingRod.SetAnimTriggReelStart();
+
+            m_slowTransition.Invoke();
+            m_currFishingSign.ReelCamEvent.Invoke();
+        }, m_reelStartDelay));
     }
 
     private void FishReelEnded(FishReelEndData data)
@@ -133,29 +150,37 @@ public class PlayerFishing : MonoBehaviour
 
         if (data.Success)
         {
-            m_currFishingSign.FishingArea.RemoveFish(data.Fish);
+            FishingArea.RemoveFish(data.Fish);
             m_obtainItemEvent.Invoke(new ItemCount(){Id = data.Id, Count = 1});
             m_caughtFish.Add(data.Id);
             Debug.Log("caught " + m_caughtFish.Count + " different fishes");
             m_variableStorage.SetValue("$fishSpeciesCaught", m_caughtFish.Count);
             Debug.Log(m_variableStorage);
         }
+        else
+        {
+            data.Fish.FishAnimator.StopReelingAnim();
+        }
 
-        m_fishingReticle.SetAnimTriggReelEnd();
+        m_fishingReticle.AnimateStopReel();
         m_fishingRod.SetAnimTriggReelEnd();
-        m_uiManager.ToggleInstructions("Aiming");
+        m_defaultTransition.Invoke();
+        m_currFishingSign.AimCamEvent.Invoke();
+        m_startPlayerBounce.Invoke();
+        
+        m_showAimControls.Invoke();
         ChangeState(FishingState.Aiming);
     }
 
-    void AimFishingReticle(InputAction.CallbackContext context)
+    private void AimFishingReticle(InputAction.CallbackContext context)
     {
         var pointerVel = context.ReadValue<Vector2>();
         Debug.Log($"Move input triggered with: {pointerVel}, performed {context.performed}, canceled {context.canceled}");
 
         if (m_currState == FishingState.Aiming)
         {
-            m_fishingReticle.SetVelocityY(pointerVel.y * m_reticleSpeed);
-            m_fishingReticle.SetVelocityX(pointerVel.x * m_reticleSpeed);
+            m_fishingReticle.SetAccY(pointerVel.y * m_reticleSpeed);
+            m_fishingReticle.SetAccX(pointerVel.x * m_reticleSpeed);
         }
         else if (m_currState == FishingState.Reeling)
         {
@@ -164,7 +189,7 @@ public class PlayerFishing : MonoBehaviour
         }
     }
 
-    void SwitchToFishing(InputAction.CallbackContext context)
+    private void SwitchToFishing(InputAction.CallbackContext context)
     {
         if (m_currFishingSign == null) return;
 
@@ -177,22 +202,16 @@ public class PlayerFishing : MonoBehaviour
         m_fishingReticle.SetActive(true);
         m_fishingRod.SetActive(true);
         m_fishingRod.FishingAreaTransform = m_currFishingSign.FishingArea.transform;
-        m_currFishingSign.ActivateCamEvent.Invoke();
-        var fishingCam = m_currFishingSign.FishingCamera;
-        Ray ray = new Ray(fishingCam.position, fishingCam.forward);
-
-        if (Physics.Raycast(ray, out RaycastHit hitinfo, m_waterMaxDist, m_waterLayerMask))
-        {
-            m_fishingReticle.SetPosition(hitinfo.point + Vector3.up * 0.1f);
-        }
-        m_fishingCamera.LookAt = m_fishingReticle.transform;
-
-        m_uiManager.ToggleInstructions("Aiming");
+        
+        m_currFishingSign.AimCamEvent.Invoke();
+        m_currFishingSign.ResetReticlePosition();
+        
+        m_showAimControls.Invoke();
 
         ChangeState(FishingState.Aiming);
     }
 
-    void FishingInteract(InputAction.CallbackContext context)
+    private void FishingInteract(InputAction.CallbackContext context)
     {
 
         switch (m_currState)
@@ -200,17 +219,17 @@ public class PlayerFishing : MonoBehaviour
             // Cast fishing rod.
             case FishingState.Aiming:
                 m_currFishingSign.FishingArea.ActivateFish(true);
-                m_fishingReticle.SetVelocityX(0.0f);
-                m_fishingReticle.SetVelocityY(0.0f);
-                m_fishingReticle.SetAnimTriggCastStart();
+                m_fishingReticle.SetAccX(0.0f);
+                m_fishingReticle.SetAccY(0.0f);
+                m_fishingReticle.AnimateStartCast();
                 m_fishingRod.SetAnimTriggCastStart();
-                m_uiManager.ToggleInstructions("Casted");
+                m_showCastedControls.Invoke();
                 ChangeState(FishingState.Waiting);
                 break;
         }
     }
 
-    void FishingCancel(InputAction.CallbackContext context)
+    private void FishingCancel(InputAction.CallbackContext context)
     {
         switch (m_currState)
         {
@@ -219,23 +238,23 @@ public class PlayerFishing : MonoBehaviour
                 if (m_currFishingSign != null)
                 {
                     m_currFishingSign.SetInteractable(true);
-                    m_currFishingSign.ResetLookat();
                 }
 
                 m_playerMovement.SetFrozen(false);
                 m_fishingReticle.SetActive(false);
                 m_fishingRod.SetActive(false);
                 m_switchToPlayer.Invoke();
+                m_playerCamera.Invoke();
 
-                m_uiManager.ToggleInstructions("");
+                m_hideControls.Invoke();
                 ChangeState(FishingState.NotFishing);
                 break;
             // recast
             case FishingState.Waiting:
                 m_currFishingSign.FishingArea.ActivateFish(false);
-                m_fishingReticle.SetAnimTriggCastEnd();
+                m_fishingReticle.AnimateStopCast();
                 m_fishingRod.SetAnimTriggCastEnd();
-                m_uiManager.ToggleInstructions("Aiming");
+                m_showAimControls.Invoke();
                 ChangeState(FishingState.Aiming);
                 break;
         }
@@ -249,59 +268,57 @@ public class PlayerFishing : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (m_currFishingSkillLevel == 0) return;
-        if (m_fishingSignLayerMask == (m_fishingSignLayerMask | (1 << other.gameObject.layer)))
+        if (m_fishingSignLayerMask != (m_fishingSignLayerMask | (1 << other.gameObject.layer)))
+            return;
+        
+        var sign = other.GetComponent<FishingSign>();
+        if (sign == null)
         {
-            FishingSign sign = other.GetComponent<FishingSign>();
-            if (sign == null)
-            {
-                Debug.LogError("Entered trigger of chracter who is not fishing sign.");
-                return;
-            }
-
-            if (m_currFishingSign != null)
-            {
-                Debug.LogWarning("Overriding current fishing sign to talk to.");
-                m_currFishingSign.SetInteractable(false);
-            }
-
-            // Check NodeExists
-            if (!sign.Interactible)
-            {
-                m_fishingCamera = null;
-                m_currFishingSign = null;
-                return;
-            }
-
-            m_currFishingSign = sign;
-            m_fishingCamera = m_currFishingSign.FishingCamera.GetComponent<CinemachineVirtualCamera>();
-            m_currFishingSign.SetInteractable(true);
+            Debug.LogError("Entered trigger of character who is not fishing sign.");
+            return;
         }
+
+        if (m_currFishingSign != null)
+        {
+            Debug.LogWarning("Overriding current fishing sign to talk to.");
+            m_currFishingSign.SetInteractable(false);
+        }
+
+        // Check NodeExists
+        // if (!sign.Interactable)
+        // {
+        //     m_fishingCamera = null;
+        //     m_currFishingSign = null;
+        //     return;
+        // }
+
+        m_currFishingSign = sign;
+        m_currFishingSign.SetInteractable(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (m_currFishingSkillLevel == 0) return;
-        if (m_fishingSignLayerMask == (m_fishingSignLayerMask | (1 << other.gameObject.layer)))
+        if (m_fishingSignLayerMask != (m_fishingSignLayerMask | (1 << other.gameObject.layer)))
+            return;
+        
+        var sign = other.GetComponent<FishingSign>();
+        if (sign == null)
         {
-            FishingSign sign = other.GetComponent<FishingSign>();
-            if (sign == null)
-            {
-                Debug.LogError("Exited trigger of chracter who is not fish sign.");
-                return;
-            }
-
-            if (m_currFishingSign != sign)
-            {
-                Debug.LogWarning("Exiting fish sign range that you weren't in range of.");
-                sign.SetInteractable(false);
-            }
-
-            if (m_currFishingSign == null)
-                return;
-
-            m_currFishingSign.SetInteractable(false);
-            m_fishingCamera = null;
-            m_currFishingSign = null;
+            Debug.LogError("Exited trigger of character who is not fish sign.");
+            return;
         }
+
+        if (m_currFishingSign != sign)
+        {
+            Debug.LogWarning("Exiting fish sign range that you weren't in range of.");
+            sign.SetInteractable(false);
+        }
+
+        if (m_currFishingSign == null)
+            return;
+
+        m_currFishingSign.SetInteractable(false);
+        m_currFishingSign = null;
     }
 }

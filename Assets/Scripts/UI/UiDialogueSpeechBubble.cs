@@ -8,6 +8,7 @@ using Input.SO;
 using NaughtyAttributes;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using Utilr.SoGameEvents;
 using Utilr.Utility;
 using Yarn.Unity;
 
@@ -21,6 +22,8 @@ public class UiDialogueSpeechBubble : DialogueViewBase
     [SerializeField] private StopDialogueEvent m_stopDialogueEvent = null;
     [SerializeField] private ActorAnimationEvent m_actorAnimationEvent = null;
     [SerializeField] private SetCurrentActorIdEvent m_setCurrentActorIdEvent = null;
+    [SerializeField] private SoGameEvent m_hideSpeechBubble = null;
+    [SerializeField] private SoGameEvent m_showSpeechBubble = null;
     
     [SerializeField] private Animator m_animator = null;
         
@@ -51,8 +54,10 @@ public class UiDialogueSpeechBubble : DialogueViewBase
         m_typewriter.onTextDisappeared.AddListener(OnTypewriterDisappearComplete);
         m_typewriter.onCharacterVisible.AddListener(OnTypewriterType);
         m_typewriter.onTextShowed.AddListener(OnTypewriterComplete);
-        
+
         m_setCurrentActorIdEvent.Event.AddListener(OnSetCurrentActorId);
+        m_hideSpeechBubble.Event.AddListener(OnHideSpeechBubble);
+        m_showSpeechBubble.Event.AddListener(OnShowSpeechBubble);
         
         m_triggerNextDialogueAction.action.performed += TriggerNextDialogue;
     }
@@ -64,6 +69,8 @@ public class UiDialogueSpeechBubble : DialogueViewBase
         m_typewriter.onTextShowed.RemoveListener(OnTypewriterComplete);
         
         m_setCurrentActorIdEvent.Event.RemoveListener(OnSetCurrentActorId);
+        m_hideSpeechBubble.Event.RemoveListener(OnHideSpeechBubble);
+        m_showSpeechBubble.Event.RemoveListener(OnShowSpeechBubble);
 
         m_triggerNextDialogueAction.action.performed -= TriggerNextDialogue;
     }
@@ -95,6 +102,17 @@ public class UiDialogueSpeechBubble : DialogueViewBase
     {
         m_currActorId = id;
     }
+    
+    private void OnHideSpeechBubble()
+    {
+        m_animator.SetTrigger(m_hideAnimTrigger);
+    }
+    
+    private void OnShowSpeechBubble()
+    {
+        m_animator.SetTrigger(m_showAnimTrigger);
+    }
+
 
     public void TriggerNextDialogue(InputAction.CallbackContext context)
     {
@@ -139,7 +157,7 @@ public class UiDialogueSpeechBubble : DialogueViewBase
 
     public override void InterruptLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
     {
-        Debug.Log("Interrupt");
+        // Debug.Log("Interrupt");
         float now = Time.time;
         if (now - m_previousInputTimestamp < m_durBetweenInputs)
             return;

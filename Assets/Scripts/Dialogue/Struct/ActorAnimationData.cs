@@ -15,6 +15,8 @@ namespace Dialogue.Struct
         {
             StartTalk,
             StopTalk,
+            StartBouncing,
+            StopBouncing,
         }
     }
 }
