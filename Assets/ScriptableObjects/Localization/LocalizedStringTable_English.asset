@@ -17,6 +17,7 @@ MonoBehaviour:
     m_keys:
     - fish_control_aim
     - fish_control_cast
+    - fish_control_move
     - fish_control_stop_cast
     - fish_control_stop_fish
     - menu_credits
@@ -30,9 +31,11 @@ MonoBehaviour:
     - verb_fish
     - verb_interact
     - verb_talk
+    - tutorial_jump
     m_values:
     - to aim
     - to cast rod
+    - to move
     - to cancel
     - to stop fishing
     - Credits
@@ -46,3 +49,4 @@ MonoBehaviour:
     - fish
     - interact
     - talk
+    - to jump

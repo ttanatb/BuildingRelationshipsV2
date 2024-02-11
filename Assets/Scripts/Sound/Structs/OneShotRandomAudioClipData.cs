@@ -16,5 +16,8 @@ namespace Sound.Struct
         [field: MinMaxSlider(0f, 2f)]
         [field: SerializeField]
         public Vector2 Pitch { get; set; }
+        
+        [field: SerializeField]
+        public Vector3 Position { get; set; }
     }
 }

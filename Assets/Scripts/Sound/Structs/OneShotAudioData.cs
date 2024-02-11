@@ -13,5 +13,8 @@ namespace Sound.Struct
         
         [field: SerializeField]
         public float Pitch { get; set; }
+        
+        [field: SerializeField]
+        public Vector3 Position { get; set; }
     }
 }

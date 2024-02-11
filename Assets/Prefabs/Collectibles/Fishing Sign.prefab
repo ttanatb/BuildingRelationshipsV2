@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 303645087}
   - component: {fileID: 303645088}
   - component: {fileID: 303645089}
+  - component: {fileID: 2139211604}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -65,13 +66,35 @@ MonoBehaviour:
   m_VerticalDamping: 0.5
   m_ScreenX: 0.5
   m_ScreenY: 0.5
-  m_DeadZoneWidth: 0.487
-  m_DeadZoneHeight: 0.488
+  m_DeadZoneWidth: 0
+  m_DeadZoneHeight: 0
   m_SoftZoneWidth: 0.8
   m_SoftZoneHeight: 0.8
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
+--- !u!114 &2139211604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303645086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BindingMode: 1
+  m_FollowOffset: {x: -2.27, y: 5.31, z: -2.65}
+  m_XDamping: 1
+  m_YDamping: 1
+  m_ZDamping: 1
+  m_AngularDampingMode: 0
+  m_PitchDamping: 0
+  m_YawDamping: 0
+  m_RollDamping: 0
+  m_AngularDamping: 0
 --- !u!1 &717288504
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,8 +182,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1905453079}
-  m_LocalRotation: {x: 0.23049906, y: -0.68540776, z: 0.2445735, w: 0.6459646}
-  m_LocalPosition: {x: 3.22, y: 6.652, z: 2.98}
+  m_LocalRotation: {x: 0.17625314, y: -0.63878495, z: 0.15359762, w: 0.7330051}
+  m_LocalPosition: {x: 3.955204, y: 5.3100014, z: 1.9484832}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -187,7 +210,7 @@ MonoBehaviour:
   m_Priority: 15
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 2147161304}
-  m_Follow: {fileID: 0}
+  m_Follow: {fileID: 717288505}
   m_Lens:
     FieldOfView: 50
     OrthographicSize: 5
@@ -247,7 +270,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2147161302}
   m_LocalRotation: {x: -0, y: -0.3631324, z: -0, w: 0.93173754}
-  m_LocalPosition: {x: -16.34, y: -9.372001, z: 1.82}
+  m_LocalPosition: {x: -16.85, y: -5.41, z: 4.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -274,6 +297,9 @@ MonoBehaviour:
   m_wanderers: []
   m_fishSpawnTable:
   - <Prefab>k__BackingField: {fileID: 9090116438159904483, guid: ee6ffe7a2f0c49441a1caf9cf1c6673e,
+      type: 3}
+    <SpawnCount>k__BackingField: 2
+  - <Prefab>k__BackingField: {fileID: 1468443104501163602, guid: 71fa34c7bcc8e0747be8a22f0e9a6229,
       type: 3}
     <SpawnCount>k__BackingField: 2
 --- !u!1 &1601485314695865505
@@ -340,7 +366,7 @@ MonoBehaviour:
   m_LookaheadIgnoreY: 0
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
-  m_ScreenX: 0.66
+  m_ScreenX: 0.62
   m_ScreenY: 0.3
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
@@ -461,8 +487,10 @@ MonoBehaviour:
     m_Bits: 16
   m_fishingReticle: {fileID: 0}
   m_aimCam: {fileID: 1905453081}
-  <AimCamEvent>k__BackingField: {fileID: 0}
-  <ReelCamEvent>k__BackingField: {fileID: 0}
+  <AimCamEvent>k__BackingField: {fileID: 11400000, guid: 83ce6761eee286448a9aae1e933c42fe,
+    type: 2}
+  <ReelCamEvent>k__BackingField: {fileID: 11400000, guid: fc766cb48ba07ba4b97a0e6ee5d778a0,
+    type: 2}
 --- !u!1 &4424936434189947510
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,6 +788,8 @@ GameObject:
   - component: {fileID: 4543458125584810853}
   - component: {fileID: 1014102169143439595}
   - component: {fileID: 938086259}
+  - component: {fileID: 853790586}
+  - component: {fileID: 853790587}
   m_Layer: 0
   m_Name: CM Over Shoulder Reeling
   m_TagString: Untagged
@@ -774,7 +804,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8712139844179576818}
-  m_LocalRotation: {x: 0.06975009, y: -0.6584325, z: 0.061490603, w: 0.7468739}
+  m_LocalRotation: {x: 0.07126868, y: -0.6395148, z: 0.05972389, w: 0.7631348}
   m_LocalPosition: {x: 1.6726133, y: 1.6800003, z: 6.2922325}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -837,3 +867,88 @@ MonoBehaviour:
   m_eventToFire:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &853790586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8712139844179576818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729aad4491e915a41bda2b8325cf757a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FocusTracksTarget: 0
+  m_FocusTracking: 1
+  m_FocusTarget: {fileID: 0}
+  m_FocusOffset: 0
+  m_Profile: {fileID: 11400000, guid: e6f6bfba540b51243b11cc37d24e634d, type: 2}
+--- !u!114 &853790587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8712139844179576818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e47fa711a1d543b8b627ed1609138339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_config: {fileID: 11400000, guid: 33cd25c9d19256d42a048487defc9e35, type: 2}
+  m_fovCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 45
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 35
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_vignetteCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_defaultSmoothness: 0
+  m_loseProgressSmoothness: 1
+  m_smoothnessDuration: 0.5
+  m_updateFishProgressEvent: {fileID: 11400000, guid: 60ebef505465b1d47bb7c50369697ca3,
+    type: 2}
+  m_startFishReelEvent: {fileID: 11400000, guid: 8ab7b06f216b9714ebbca6344b9d353e,
+    type: 2}

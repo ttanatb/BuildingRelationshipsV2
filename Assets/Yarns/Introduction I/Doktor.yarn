@@ -41,10 +41,11 @@ Doktor: I have a request for you.
 <<fireEvent YarnEventManager "cam_doktor_over_shoulder">>
     -> Are you one of the <red>Bach-Pads</red>?
         <<fireEvent YarnEventManager "cam_doktor_close_up_extreme">>
-        <<fireEvent YarnEventManager "cam_transition_fast">>
         Doktor: I am.
+        <<fireEvent YarnEventManager "cam_transition_fast">>
         <<fireEvent YarnEventManager "cam_doktor_close_up">>
         But you're not my type.
+        <<fireEvent YarnEventManager "cam_transition_cut">>
         <<fireEvent YarnEventManager "cam_player_full_left">>
         You're less of an adjoining structure.
         <<fireEvent YarnEventManager "cam_player_close_up_left">>

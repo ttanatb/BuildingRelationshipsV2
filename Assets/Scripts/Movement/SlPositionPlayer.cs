@@ -1,6 +1,7 @@
 ﻿using Dialogue.SO;
 using Dialogue.Struct;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 using Utilr.Structs;
 using Utilr.Utility;
 
@@ -67,6 +68,8 @@ namespace Movement
                 thisTransform.position = result.Position;
                 thisTransform.rotation = result.Rotation;
             }, () => {
+                thisTransform.position = data.Transform.position;
+                thisTransform.rotation = data.Transform.rotation;
                 StartCoroutine(Helper.ExecuteNextFrame(() => {
                     m_playerMovement.SetFrozen(false);
                 }));

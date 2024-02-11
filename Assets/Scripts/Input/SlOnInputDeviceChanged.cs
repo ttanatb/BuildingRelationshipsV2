@@ -27,11 +27,15 @@ namespace Input
         private Image m_image = null;
         private SpriteRenderer m_spriteRenderer = null;
         
+        // Optional component (to resize UI)
+        private AdjustIconSize m_adjustIconSize = null;
+        
         private void Start()
         {
             m_inputDeviceEvent.Event.AddListener(OnInputDeviceChanged);
             TryGetComponent(out m_image);
             TryGetComponent(out m_spriteRenderer);
+            TryGetComponent(out m_adjustIconSize);
             
             Assert.IsTrue(m_image || m_spriteRenderer, 
                 $"{gameObject}: requires either Image or SpriteRenderer component");
@@ -90,14 +94,17 @@ namespace Input
 
         private void OnInputDeviceChanged(SetCurrentInputDeviceData data)
         {
+            var sprite = GetSpriteFromType(data.Type, m_sprites);
             if (m_image)
             {
-                m_image.sprite = GetSpriteFromType(data.Type, m_sprites);
+                m_image.sprite = sprite;
+                if (m_adjustIconSize)
+                    m_adjustIconSize.ResizeFor(sprite);
             }
 
             if (m_spriteRenderer)
             {
-                m_spriteRenderer.sprite = GetSpriteFromType(data.Type, m_sprites);
+                m_spriteRenderer.sprite = sprite;
             }
         }
 

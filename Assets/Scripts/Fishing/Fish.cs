@@ -13,7 +13,7 @@ public class Fish : MonoBehaviour
     [FormerlySerializedAs("m_fishIDNew")] 
     [SerializeField] private ItemData.ItemID m_fishID = ItemData.ItemID.Invalid;
 
-    [SerializeField] private FishReelStartEvent m_fishReelStartEvent = null;
+    [FormerlySerializedAs("m_fishReelStartEvent")] [SerializeField] private StartFishReelEvent m_startFishReelEvent = null;
     private FishData m_fishData = new FishData();
 
     private FishAnimator m_fishAnimator = null;
@@ -29,7 +29,7 @@ public class Fish : MonoBehaviour
 
     public void TriggerFishEvent()
     {
-        m_fishReelStartEvent.Invoke(new FishReelStartData()
+        m_startFishReelEvent.Invoke(new FishReelStartData()
         {
             FishData = m_fishData,
             Fish = this,

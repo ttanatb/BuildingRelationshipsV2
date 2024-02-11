@@ -46,14 +46,13 @@ namespace UI
 
         private void OnHideBottomUi()
         {
-            m_animator.ResetTrigger(m_hideTrigger);
             m_animator.ResetTrigger(m_showTrigger);
             m_animator.SetTrigger(m_hideTrigger);
         }
         
         private void OnShowBottomUi()
         {
-            m_animator.ResetTrigger(m_showTrigger);
+            m_animator.ResetTrigger(m_hideTrigger);
             m_animator.SetTrigger(m_showTrigger);
         }
     }

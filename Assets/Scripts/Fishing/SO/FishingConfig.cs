@@ -6,7 +6,10 @@ namespace Fishing.SO
     public class FishingConfig : ScriptableObject
     {
         [field: SerializeField]
-        public float FishUiStartingCompletionRatio { get; set; } = 0.35f;
+        public float StartCompletionRatio { get; set; } = 0.35f;
+        
+        [field: SerializeField]
+        public Vector2 StartFishPos { get; set; } = new Vector2(0, 0.8f);
         
         [field: SerializeField]
         public float FishUiStartDecayThreshold { get; set; } = 0.1f;

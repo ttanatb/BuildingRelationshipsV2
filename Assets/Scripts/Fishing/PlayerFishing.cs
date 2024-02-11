@@ -13,6 +13,7 @@ using Inventory.Structs;
 using NaughtyAttributes;
 using Skills.SO;
 using Skills.Structs;
+using Sound.SO;
 using UI.Events;
 using UnityEditor;
 using UnityEngine.InputSystem;
@@ -32,7 +33,6 @@ public class PlayerFishing : MonoBehaviour
 
     private PlayerMovement m_playerMovement = null;
     private FishingController m_fishingController = null;
-    private UIManager m_uiManager = null;
 
     [SerializeField] private InputActionReference m_playerInteract = null;
     [SerializeField] private InputActionReference m_fishingInteract = null;
@@ -42,8 +42,10 @@ public class PlayerFishing : MonoBehaviour
     [SerializeField] private SwitchInputActionMapEvent m_switchToFishing = null;
     [SerializeField] private SwitchInputActionMapEvent m_switchToPlayer = null;
 
-    [SerializeField] private FishReelStartEvent m_fishReelStartEvent = null;
-    [SerializeField] private FishReelEndEvent m_fishReelEndEvent = null;
+    [FormerlySerializedAs("m_fishReelStartEvent")] 
+    [SerializeField] private StartFishReelEvent m_startFishReelEvent = null;
+    [FormerlySerializedAs("m_fishReelEndEvent")] 
+    [SerializeField] private EndFishReelEvent m_endFishReelEvent = null;
 
     [SerializeField] private SetSkillLevelEvent m_setSkillLevelEvent = null;
 
@@ -59,6 +61,12 @@ public class PlayerFishing : MonoBehaviour
     [SerializeField] private ShowBottomUiEvent m_showAimControls = null;
     [SerializeField] private ShowBottomUiEvent m_showCastedControls = null;
     [SerializeField] private SoGameEvent m_hideControls = null;
+
+    [SerializeField] private PlayOneShotRandomAudioClipEvent m_fishReelStartSound = null;
+    [SerializeField] private PlayLoopingAudioEvent m_fishReelLoopSound = null;
+    [SerializeField] private PlayLoopingAudioEvent m_splashLoopLowSound = null;
+    [SerializeField] private PlayLoopingAudioEvent m_splashLoopHighSound = null;
+    [SerializeField] private PlayLoopingAudioEvent m_bgmLoop = null;
 
     private enum FishingState
     {
@@ -85,7 +93,6 @@ public class PlayerFishing : MonoBehaviour
     {
         m_playerMovement = GetComponent<PlayerMovement>();
         m_fishingController = FishingController.Instance;
-        m_uiManager = UIManager.Instance;
         m_caughtFish = new HashSet<ItemData.ItemID>();
         m_variableStorage = FindObjectOfType<InMemoryVariableStorage>();
 
@@ -98,8 +105,8 @@ public class PlayerFishing : MonoBehaviour
         m_fishingReticle.SetActive(false);
         m_fishingRod.SetActive(false);
 
-        m_fishReelStartEvent.Event.AddListener(FishReelStarted);
-        m_fishReelEndEvent.Event.AddListener(FishReelEnded);
+        m_startFishReelEvent.Event.AddListener(FishReelStarted);
+        m_endFishReelEvent.Event.AddListener(FishReelEnded);
         
         m_setSkillLevelEvent.Event.AddListener(OnUpdateFishingCapability);
     }
@@ -113,8 +120,8 @@ public class PlayerFishing : MonoBehaviour
         m_fishingAim.action.performed -= AimFishingReticle;
         m_fishingAim.action.canceled -= AimFishingReticle;
         
-        m_fishReelStartEvent.Event.RemoveListener(FishReelStarted);
-        m_fishReelEndEvent.Event.RemoveListener(FishReelEnded);
+        m_startFishReelEvent.Event.RemoveListener(FishReelStarted);
+        m_endFishReelEvent.Event.RemoveListener(FishReelEnded);
         
         m_setSkillLevelEvent.Event.RemoveListener(OnUpdateFishingCapability);
     }
@@ -129,10 +136,15 @@ public class PlayerFishing : MonoBehaviour
         m_reticleCloseUp.Invoke();
         m_fishingReticle.Freeze();
         m_hideControls.Invoke();
+        m_fishReelStartSound.Invoke();
         ChangeState(FishingState.Reeling);
 
         StartCoroutine(Helper.ExecuteAfter(() => {
             data.Fish.FishAnimator.StartReelingAnim();
+            m_fishReelLoopSound.Invoke();
+            m_splashLoopLowSound.Invoke();
+            m_splashLoopHighSound.Invoke();
+            
             m_fishingController.StartFishing(data.FishData, data.Fish);
 
             m_fishingReticle.AnimateStartReel();
@@ -156,6 +168,7 @@ public class PlayerFishing : MonoBehaviour
             Debug.Log("caught " + m_caughtFish.Count + " different fishes");
             m_variableStorage.SetValue("$fishSpeciesCaught", m_caughtFish.Count);
             Debug.Log(m_variableStorage);
+            m_fishReelStartSound.Invoke();
         }
         else
         {
@@ -167,6 +180,10 @@ public class PlayerFishing : MonoBehaviour
         m_defaultTransition.Invoke();
         m_currFishingSign.AimCamEvent.Invoke();
         m_startPlayerBounce.Invoke();
+        
+        m_fishReelLoopSound.InvokeStop();
+        m_splashLoopLowSound.InvokeStop();
+        m_splashLoopHighSound.InvokeStop();
         
         m_showAimControls.Invoke();
         ChangeState(FishingState.Aiming);
@@ -207,6 +224,7 @@ public class PlayerFishing : MonoBehaviour
         m_currFishingSign.ResetReticlePosition();
         
         m_showAimControls.Invoke();
+        m_bgmLoop.InvokeStop();
 
         ChangeState(FishingState.Aiming);
     }
@@ -247,6 +265,7 @@ public class PlayerFishing : MonoBehaviour
                 m_playerCamera.Invoke();
 
                 m_hideControls.Invoke();
+                m_bgmLoop.Invoke();
                 ChangeState(FishingState.NotFishing);
                 break;
             // recast

@@ -55,6 +55,7 @@ MonoBehaviour:
     - position_player_cam_chester_1_meadow
     - position_player_doktor
     - position_player_mint_intro
+    - show_jump_tutorial
     - show_movement_tutorial
     - speech_bubble_hide
     - speech_bubble_show
@@ -103,6 +104,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 17ad2f559c02d954993132ac2dc2103d, type: 2}
     - {fileID: 11400000, guid: 2fa2701e818633d499c132347902fc4d, type: 2}
     - {fileID: 11400000, guid: e8541dd194310d04ab41695599d3e452, type: 2}
+    - {fileID: 11400000, guid: 1861200a49de24e418f4cd1c2487ef05, type: 2}
     - {fileID: 11400000, guid: 7fa487b38e4147849abc6456fb39b64f, type: 2}
     - {fileID: 11400000, guid: 2d17733d26286dc47a844610367c1305, type: 2}
     - {fileID: 11400000, guid: f76c7bdc99793064598f2a9282a02a11, type: 2}

@@ -16,16 +16,16 @@ MonoBehaviour:
     m_keys: 02000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c000000
     m_values:
     - <Id>k__BackingField: 2
-      <DecayRate>k__BackingField: 0.2
-      <CompletionRate>k__BackingField: 0.1
-      <JumpIntervalSec>k__BackingField: 1
-      <FishLerpRate>k__BackingField: 1
-      <MinJumpDistance>k__BackingField: {x: 0.025, y: 0.1}
-      <MaxJumpDistance>k__BackingField: {x: 0.05, y: 0.15}
+      <DecayRate>k__BackingField: 0.17
+      <CompletionRate>k__BackingField: 0.12
+      <JumpIntervalSec>k__BackingField: 1.25
+      <FishLerpRate>k__BackingField: 3
+      <MinJumpDistance>k__BackingField: {x: 0.15, y: 0.35}
+      <MaxJumpDistance>k__BackingField: {x: 0.2, y: 0.55}
       <MinBounds>k__BackingField: {x: 0, y: 0}
-      <MaxBounds>k__BackingField: {x: 1, y: 2}
-      <FishIconSize>k__BackingField: {x: 50.4, y: 24}
-      <IndicatorSize>k__BackingField: {x: 17.5, y: 40}
+      <MaxBounds>k__BackingField: {x: 1, y: 1.8}
+      <FishIconSize>k__BackingField: {x: 70, y: 35}
+      <IndicatorSize>k__BackingField: {x: 35, y: 80}
     - <Id>k__BackingField: 3
       <DecayRate>k__BackingField: 0.16666667
       <CompletionRate>k__BackingField: 0.125
@@ -35,8 +35,8 @@ MonoBehaviour:
       <MaxJumpDistance>k__BackingField: {x: 0.2, y: 0.25}
       <MinBounds>k__BackingField: {x: 0, y: 0}
       <MaxBounds>k__BackingField: {x: 1, y: 1}
-      <FishIconSize>k__BackingField: {x: 50.4, y: 24}
-      <IndicatorSize>k__BackingField: {x: 17.5, y: 40}
+      <FishIconSize>k__BackingField: {x: 80, y: 40}
+      <IndicatorSize>k__BackingField: {x: 35, y: 80}
     - <Id>k__BackingField: 4
       <DecayRate>k__BackingField: 0.125
       <CompletionRate>k__BackingField: 0.15384616
@@ -46,8 +46,8 @@ MonoBehaviour:
       <MaxJumpDistance>k__BackingField: {x: 0, y: 0.07}
       <MinBounds>k__BackingField: {x: 0, y: 0}
       <MaxBounds>k__BackingField: {x: 0, y: 2}
-      <FishIconSize>k__BackingField: {x: 50.4, y: 24}
-      <IndicatorSize>k__BackingField: {x: 17.5, y: 40}
+      <FishIconSize>k__BackingField: {x: 40, y: 20}
+      <IndicatorSize>k__BackingField: {x: 35, y: 80}
     - <Id>k__BackingField: 5
       <DecayRate>k__BackingField: 0.11111111
       <CompletionRate>k__BackingField: 0.16666667
@@ -57,8 +57,8 @@ MonoBehaviour:
       <MaxJumpDistance>k__BackingField: {x: 0, y: 0.1}
       <MinBounds>k__BackingField: {x: 0, y: 0}
       <MaxBounds>k__BackingField: {x: 0, y: 1}
-      <FishIconSize>k__BackingField: {x: 50.4, y: 24}
-      <IndicatorSize>k__BackingField: {x: 17.5, y: 40}
+      <FishIconSize>k__BackingField: {x: 80, y: 40}
+      <IndicatorSize>k__BackingField: {x: 35, y: 80}
     - <Id>k__BackingField: 6
       <DecayRate>k__BackingField: 0.10526316
       <CompletionRate>k__BackingField: 0.17391305
@@ -68,8 +68,8 @@ MonoBehaviour:
       <MaxJumpDistance>k__BackingField: {x: 0, y: 0.1}
       <MinBounds>k__BackingField: {x: 0, y: 0}
       <MaxBounds>k__BackingField: {x: 0, y: 1}
-      <FishIconSize>k__BackingField: {x: 50.4, y: 24}
-      <IndicatorSize>k__BackingField: {x: 17.5, y: 40}
+      <FishIconSize>k__BackingField: {x: 100, y: 50}
+      <IndicatorSize>k__BackingField: {x: 35, y: 80}
     - <Id>k__BackingField: 7
       <DecayRate>k__BackingField: 0.1
       <CompletionRate>k__BackingField: 0.1
@@ -79,8 +79,8 @@ MonoBehaviour:
       <MaxJumpDistance>k__BackingField: {x: 0, y: 0.8}
       <MinBounds>k__BackingField: {x: 0, y: 0}
       <MaxBounds>k__BackingField: {x: 0, y: 1}
-      <FishIconSize>k__BackingField: {x: 50.4, y: 24}
-      <IndicatorSize>k__BackingField: {x: 17.5, y: 40}
+      <FishIconSize>k__BackingField: {x: 90, y: 45}
+      <IndicatorSize>k__BackingField: {x: 35, y: 80}
     - <Id>k__BackingField: 8
       <DecayRate>k__BackingField: 0.0952381
       <CompletionRate>k__BackingField: 0.22222222
@@ -90,8 +90,8 @@ MonoBehaviour:
       <MaxJumpDistance>k__BackingField: {x: 0, y: 0.5}
       <MinBounds>k__BackingField: {x: 0, y: 0}
       <MaxBounds>k__BackingField: {x: 0, y: 1}
-      <FishIconSize>k__BackingField: {x: 50.4, y: 24}
-      <IndicatorSize>k__BackingField: {x: 17.5, y: 40}
+      <FishIconSize>k__BackingField: {x: 90, y: 45}
+      <IndicatorSize>k__BackingField: {x: 35, y: 80}
     - <Id>k__BackingField: 9
       <DecayRate>k__BackingField: 0.09090909
       <CompletionRate>k__BackingField: 0.2
@@ -101,8 +101,8 @@ MonoBehaviour:
       <MaxJumpDistance>k__BackingField: {x: 0, y: 0.6}
       <MinBounds>k__BackingField: {x: 0, y: 0}
       <MaxBounds>k__BackingField: {x: 0, y: 1}
-      <FishIconSize>k__BackingField: {x: 50.4, y: 24}
-      <IndicatorSize>k__BackingField: {x: 17.5, y: 40}
+      <FishIconSize>k__BackingField: {x: 75, y: 37.5}
+      <IndicatorSize>k__BackingField: {x: 35, y: 80}
     - <Id>k__BackingField: 10
       <DecayRate>k__BackingField: 0.08695652
       <CompletionRate>k__BackingField: 0.22222222
@@ -112,8 +112,8 @@ MonoBehaviour:
       <MaxJumpDistance>k__BackingField: {x: 0, y: 0.4}
       <MinBounds>k__BackingField: {x: 0, y: 0}
       <MaxBounds>k__BackingField: {x: 0, y: 1}
-      <FishIconSize>k__BackingField: {x: 50.4, y: 24}
-      <IndicatorSize>k__BackingField: {x: 17.5, y: 40}
+      <FishIconSize>k__BackingField: {x: 100, y: 50}
+      <IndicatorSize>k__BackingField: {x: 35, y: 80}
     - <Id>k__BackingField: 11
       <DecayRate>k__BackingField: 0.08
       <CompletionRate>k__BackingField: 0.25
@@ -123,8 +123,8 @@ MonoBehaviour:
       <MaxJumpDistance>k__BackingField: {x: 0, y: 0.25}
       <MinBounds>k__BackingField: {x: 0, y: 0}
       <MaxBounds>k__BackingField: {x: 0, y: 1}
-      <FishIconSize>k__BackingField: {x: 50.4, y: 24}
-      <IndicatorSize>k__BackingField: {x: 17.5, y: 40}
+      <FishIconSize>k__BackingField: {x: 90, y: 45}
+      <IndicatorSize>k__BackingField: {x: 35, y: 80}
     - <Id>k__BackingField: 12
       <DecayRate>k__BackingField: 0.06666667
       <CompletionRate>k__BackingField: 0.2857143
@@ -134,5 +134,5 @@ MonoBehaviour:
       <MaxJumpDistance>k__BackingField: {x: 0, y: 0.25}
       <MinBounds>k__BackingField: {x: 0, y: 0}
       <MaxBounds>k__BackingField: {x: 0, y: 1}
-      <FishIconSize>k__BackingField: {x: 50.4, y: 24}
-      <IndicatorSize>k__BackingField: {x: 17.5, y: 40}
+      <FishIconSize>k__BackingField: {x: 80, y: 40}
+      <IndicatorSize>k__BackingField: {x: 35, y: 80}

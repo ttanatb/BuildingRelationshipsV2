@@ -78,6 +78,7 @@ tags:
         <<endif>>
         <<fireEvent YarnEventManager "cam_chester_1_meadow_full">>
         And do keep an open attic and an open window for my cohort!
+<<fireEvent YarnEventManager "show_jump_tutorial">>
 ===
 title: Chester_1_Intro_Loop_Intro
 tags:
