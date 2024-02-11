@@ -1,0 +1,62 @@
+title: Millie_Intro
+tags:
+---
+<<declare $Occupation_Construction = false>>
+<<declare $Millie_Intro_Job_Loop_Fake_Job = false>>
+<<setCurrentActorId YarnEventManager "millie">>
+<<fireEvent YarnEventManager "cam_transition_cut">>
+<<fireEvent YarnEventManager "cam_millie_intro_close_up">>
+???: oh my gosh, <wave>hellooo~</wave>
+you must be the <red>bach-pad</red> i was waiting for
+Millie: i'm Millie!
+and you are?
+    -> Cementha!
+    -> Billding!
+// camera cut to Millie
+<wave>cuuuuutee!</wave> what an original name, <laugh>hehe</laugh>
+// cut to player
+TODO: pause
+// cut to Millie
+oh!
+i love what you've done to your roofing
+very classic, <laugh>hehe</laugh>
+    -> Thanks, I love your brick work! 
+        // camera cut to Millie
+        Millie: awww thanks! look at you trying to flirt
+        that's cute <laugh>hehe</laugh>
+    -> But I didn't do anything to it...
+        // camera cut to Millie
+        Millie: oopsies...
+        must've mistaken it bc of your natural charm <laugh>hehe</laugh>
+so tell me a lil bit about yourself!
+what do you do for work?
+<<jump Millie_Intro_Job_Loop>>
+===
+title: Millie_Intro_Job_Loop
+tags:
+---
+    -> I'm a bit of an <red>Influencer</red>
+        oh wow <laugh>haha</laugh> me too!!
+    -> I work in <red>Sales</red> <<if $Millie_Intro_Job_Loop_Fake_Job is false>>
+        that's not a real job!
+        <<set $Millie_Intro_Job_Loop_Fake_Job = true>>
+        <<jump Millie_Intro_Job_Loop>>
+    -> <red>Construction</red>!
+        oop!
+        what a bombshell to just randomly mention...
+        i mean, i'm not the biggest fan of the <blue>architect</blue> either
+        but wow...
+        to openly go against the <blue>architect's</blue> design?
+        that's real bold of you <laugh>hehe</laugh>
+        <<set $Occupation_Construction = true>>
+Millie: listen, i usually don't date shorter buildings but...
+i really like your vibe
+you have a really... <wave>vacant energy</wave>
+but not in a bad way
+more like a “self-insert protagonist” kinda way
+and i just think that's kinda special
+// TODO: move on from this topic
+//  Set the tone?
+//  Lite version of volley?
+//  Establish personality
+===
